@@ -1,0 +1,104 @@
+/* Список сотрудников */
+
+.staff-content {
+    max-width: 1100px;
+    margin: 80px auto 100px;
+    padding: 0 24px;
+}
+
+.page-title {
+    color: #2c3e50;
+    font-size: 28px;
+    margin-bottom: 24px;
+    text-align: center;
+}
+
+/* Таблица сотрудников */
+.staff-table {
+    background: white;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+}
+
+.staff-header,
+.staff-row {
+    display: grid;
+    grid-template-columns: 2fr 2fr 1.5fr 1.5fr;
+    gap: 20px;
+    padding: 16px 24px;
+    align-items: center;
+}
+
+.staff-header {
+    background: #f8f9fa;
+    font-weight: 600;
+    color: #2c3e50;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.staff-row {
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.staff-row:last-child {
+    border-bottom: none;
+}
+
+.col-name {
+    font-weight: 600;
+    color: #2c3e50;
+    font-size: 17px;
+}
+
+.col-email,
+.col-phone,
+.col-role {
+    color: #34495e;
+    font-size: 16px;
+}
+
+.col-email {
+    word-break: break-all;
+}
+
+.empty-message {
+    text-align: center;
+    color: #7f8c8d;
+    font-size: 18px;
+    margin: 40px 0;
+    font-style: italic;
+}
+
+/* Адаптивность */
+@media (max-width: 900px) {
+    .staff-header,
+    .staff-row {
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+        padding: 14px;
+    }
+    .col-phone,
+    .col-role {
+        display: none;
+    }
+}
+
+@media (max-width: 600px) {
+    .staff-header,
+    .staff-row {
+        grid-template-columns: 1fr;
+        gap: 12px;
+        padding: 12px;
+    }
+    .col-email {
+        display: none;
+    }
+    .staff-row::before {
+        content: attr(data-name);
+        font-weight: bold;
+        display: block;
+        margin-bottom: 4px;
+        color: #2c3e50;
+    }
+}

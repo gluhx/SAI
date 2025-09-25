@@ -1,0 +1,213 @@
+/* Управление задачами (директор) */
+
+.tasks-page {
+    max-width: 1000px;
+    margin: 80px auto 100px;
+    padding: 0 24px;
+}
+
+/* Форма добавления задачи */
+.add-task-card {
+    background: white;
+    border-radius: 16px;
+    padding: 28px;
+    margin-bottom: 40px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+    border-left: 4px solid #e74c3c;
+}
+
+.add-task-card h2 {
+    color: #c0392b;
+    margin-bottom: 20px;
+    font-size: 22px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: #2c3e50;
+}
+
+.form-group input,
+.form-group select {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #dce4ec;
+    border-radius: 10px;
+    font-size: 16px;
+    font-family: inherit;
+}
+
+.btn-primary {
+    background: linear-gradient(to right, #e74c3c, #c0392b);
+    color: white;
+    border: none;
+    padding: 12px 28px;
+    font-size: 17px;
+    font-weight: 600;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.2s;
+}
+
+.btn-primary:hover {
+    background: linear-gradient(to right, #c0392b, #a93226);
+    transform: translateY(-2px);
+}
+
+/* Секция задач */
+.tasks-section {
+    background: white;
+    border-radius: 16px;
+    padding: 28px;
+    margin-bottom: 32px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+}
+
+.tasks-section.completed {
+    border-left: 4px solid #2ecc71;
+}
+
+.tasks-section.completed h2 {
+    color: #27ae60;
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.section-header h2 {
+    color: #2c3e50;
+    font-size: 24px;
+}
+
+.task-count {
+    background: #e74c3c;
+    color: white;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 14px;
+}
+
+.task-count.completed {
+    background: #2ecc71;
+}
+
+/* Таблица задач */
+.tasks-table {
+    overflow-x: auto;
+}
+
+.tasks-header,
+.task-row {
+    display: grid;
+    grid-template-columns: 0.5fr 1.5fr 3fr auto;
+    gap: 16px;
+    padding: 14px 20px;
+    align-items: center;
+}
+
+.tasks-header {
+    background: #fdf7f7;
+    font-weight: 600;
+    color: #c0392b;
+    border-radius: 10px;
+    margin-bottom: 8px;
+}
+
+.tasks-section.completed .tasks-header {
+    background: #f7fdf9;
+    color: #27ae60;
+}
+
+.task-row {
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.task-row:last-child {
+    border-bottom: none;
+}
+
+.task-row.completed {
+    background: #f9fdfa;
+    color: #7f8c8d;
+}
+
+.col-id {
+    font-weight: bold;
+    text-align: center;
+    font-family: 'Courier New', monospace;
+}
+
+.col-user,
+.col-about {
+    font-size: 16px;
+}
+
+.col-about {
+    color: #34495e;
+}
+
+/* Кнопка завершения */
+.col-actions {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.complete-btn {
+    background: #2ecc71;
+    color: white;
+    text-decoration: none;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: background 0.2s;
+}
+
+.complete-btn:hover {
+    background: #27ae60;
+}
+
+.empty-message {
+    text-align: center;
+    color: #7f8c8d;
+    font-style: italic;
+    padding: 20px;
+    font-size: 17px;
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    .tasks-header,
+    .task-row {
+        grid-template-columns: 1fr auto;
+        gap: 12px;
+        padding: 12px;
+    }
+    .col-user,
+    .col-about,
+    .col-actions {
+        display: none;
+    }
+    .task-row::before {
+        content: "#" attr(data-id) " — " attr(data-about);
+        font-weight: bold;
+        display: block;
+        margin-bottom: 4px;
+    }
+    .task-row.completed::before {
+        color: #7f8c8d;
+    }
+}

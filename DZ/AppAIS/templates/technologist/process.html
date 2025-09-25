@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ТП {{ process_data['id'] }}</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/common.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/technologist/process.css') }}">
+</head>
+<body>
+    <!-- Единая шапка -->
+    <header class="main-header">
+        <div class="header-title">Технологический процесс</div>
+        <div class="header-nav">
+            <a href="/" class="nav-btn">Главная</a>
+            {% if role == 'engineer' %}
+                <a href="/all-devices" class="nav-btn">Устройства</a>
+                <a href="/component-lib" class="nav-btn">Компоненты</a>
+                <a href="/engineer-help" class="nav-btn">Помощь</a>
+            {% elif role == 'technologist' %}
+                <a href="/tech-processes" class="nav-btn">Тех. процессы</a>
+                <a href="/tools" class="nav-btn">Оборудование</a>
+                <a href="/technologist-help" class="nav-btn">Помощь</a>
+            {% elif role == 'director' %}
+                <a href="/add-tasks" class="nav-btn">Задачи</a>
+                <a href="/staff" class="nav-btn">Сотрудники</a>
+            {% elif role == 'guest' %}
+                <a href="/all-devices" class="nav-btn">Устройства</a>
+                <a href="/tech-processes" class="nav-btn">Тех. процессы</a>
+            {% endif %}
+        </div>
+        <a href="/user" class="user-avatar"></a>
+    </header>
+
+    <main class="process-page">
+        <!-- Описание процесса -->
+        <section class="process-info-card">
+            <h1>ТП {{ process_data['id'] }}</h1>
+            <p class="process-note">{{ process_data['note'] }}</p>
+        </section>
+
+        <!-- Формы управления (только для технолога/директора) -->
+        {% if role in ['technologist', 'director'] %}
+            <div class="management-sections">
+                <!-- Добавление операции -->
+                <section class="add-operation-card">
+                    <h2>Добавить операцию</h2>
+                    <!-- Шаг 1: выбор группы -->
+                    <form method="post" action="/process/{{ process_data['id'] }}" class="group-form">
+                        <div class="form-group">
+                            <label for="group">Группа операций</label>
+                            <select id="group" name="group" required>
+                                {% for group in group_lib %}
+                                    {% set code = '0' + group[2]|string if group[2] < 10 else group[2]|string %}
+                                    <option value="{{ group[2] }}">{{ group[1] }} ({{ code }}00)</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <button type="submit" class="btn-secondary">Выбрать группу</button>
+                    </form>
+
+                    <!-- Шаг 2: добавление операции -->
+                    <form method="post" action="/operation-add/{{ process_data['id'] }}" class="operation-form">
+                        <div class="form-group">
+                            <label for="operation_about">Описание операции</label>
+                            <input type="text" id="operation_about" name="operation_about" placeholder="Например: Пайка компонентов" required>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="operation_time">Время (сек)</label>
+                                <input type="number" id="operation_time" name="operation_time" min="1" placeholder="60" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="operation_tool">Оборудование</label>
+                                <select id="operation_tool" name="operation_tool" required>
+                                    {% for tool in tools_lib %}
+                                        <option value="{{ tool[0] }}">{{ tool[1] }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="operation_gost">ГОСТ операции</label>
+                            <select id="operation_gost" name="operation_gost" required>
+                                {% for operation in operation_lib %}
+                                    {% set num = '0' + operation[1]|string if operation[1] < 10 else operation[1]|string %}
+                                    <option value="{{ operation[0] }}">({{ group_t }}{{ num }}) {{ operation[2] }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <button type="submit" class="btn-primary">Добавить операцию</button>
+                    </form>
+                </section>
+
+                <!-- Привязка к устройству -->
+                <section class="assign-device-card">
+                    <h2>Привязать к устройству</h2>
+                    <form method="post" action="/tp-to-device/{{ process_data['id'] }}" class="assign-form">
+                        <div class="form-group">
+                            <label for="device_id">Устройство</label>
+                            <select id="device_id" name="device_id" required>
+                                {% for device in device_lib %}
+                                    <option value="{{ device[0] }}">{{ device[1] }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <button type="submit" class="btn-secondary">Привязать</button>
+                    </form>
+                </section>
+            </div>
+        {% endif %}
+
+        <!-- Список операций -->
+        <section class="operations-section">
+            <div class="section-header">
+                <h2>Технологические операции</h2>
+                {% if operations_data %}
+                    <span class="operation-count">Всего: {{ operations_data|length }}</span>
+                {% endif %}
+            </div>
+
+            {% if operations_data %}
+                <div class="operations-table">
+                    <div class="operations-header">
+                        <div class="col-number">#</div>
+                        <div class="col-about">Операция</div>
+                        <div class="col-gost">ГОСТ</div>
+                        <div class="col-tools">Оборудование</div>
+                        <div class="col-time">Время (с)</div>
+                        {% if role in ['technologist', 'director'] %}
+                            <div class="col-actions">Действия</div>
+                        {% endif %}
+                    </div>
+
+                    {% for op in operations_data %}
+                        <div class="operation-row">
+                            <div class="col-number">{{ op['number'] }}</div>
+                            <div class="col-about">{{ op['about'] }}</div>
+                            <div class="col-gost">{{ op['gost_group'] + op['gost_number'] }} ({{ op['gost_name'] }})</div>
+                            <div class="col-tools">{{ op['tools'] }}</div>
+                            <div class="col-time">{{ op['time'] }}</div>
+                            {% if role in ['technologist', 'director'] %}
+                                <div class="col-actions">
+                                    <!-- Удалить -->
+                                    <a href="/operation-delete/{{ op['id'] }}" class="action-btn delete" 
+                                       onclick="return confirm('Удалить операцию?')">🗑️</a>
+                                    <!-- Вверх (не для первой) -->
+                                    {% if not loop.first %}
+                                        <a href="/operation-high/{{ op['id'] }}" class="action-btn move" title="Поднять">↑</a>
+                                    {% endif %}
+                                    <!-- Вниз (не для последней) -->
+                                    {% if not loop.last %}
+                                        <a href="/operation-low/{{ op['id'] }}" class="action-btn move" title="Опустить">↓</a>
+                                    {% endif %}
+                                </div>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <p class="empty-message">Нет операций в этом процессе.</p>
+            {% endif %}
+        </section>
+    </main>
+
+    <!-- Футер с генерацией маршрутной карты -->
+    <footer class="footer footer-with-action">
+        <button onclick="window.location.href='/generate-mcard/{{ process_data['id'] }}'" class="mcard-btn">
+            Сгенерировать маршрутную карту
+        </button>
+    </footer>
+</body>
+</html>

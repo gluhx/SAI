@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ООО "Альбирео"</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/common.css') }}">
+</head>
+<body>
+    <!-- Верхняя панель (шапка) -->
+    <header class="main-header">
+        <div class="header-title">ООО "Альбирео"</div>
+        <div class="header-nav">
+            {% if role == 'engineer' %}
+                <a href="/all-devices" class="nav-btn">Устройства</a>
+                <a href="/component-lib" class="nav-btn">Компоненты</a>
+                <a href="/engineer-help" class="nav-btn">Помощь</a>
+            {% elif role == 'technologist' %}
+                <a href="/tech-processes" class="nav-btn">Тех. процессы</a>
+                <a href="/tools" class="nav-btn">Оборудование</a>
+                <a href="/technologist-help" class="nav-btn">Помощь</a>
+            {% elif role == 'director' %}
+                <a href="/add-tasks" class="nav-btn">Задачи</a>
+                <a href="/staff" class="nav-btn">Сотрудники</a>
+            {% elif role == 'guest' %}
+                <a href="/all-devices" class="nav-btn">Устройства</a>
+                <a href="/tech-processes" class="nav-btn">Тех. процессы</a>
+            {% endif %}
+        </div>
+        <a href="/user" class="user-avatar"></a>
+    </header>
+
+    <!-- Боковое меню (только для десктопа, можно скрыть на мобильных) -->
+    <aside class="sidebar">
+        <nav>
+            <a href="/tech-processes">Тех. процессы</a>
+            <a href="/all-devices">Устройства</a>
+            <a href="/tools">Оборудование</a>
+            <a href="/component-lib">Компоненты</a>
+            <a href="/technologist-help">Помощь технологу</a>
+            <a href="/engineer-help">Помощь инженеру</a>
+        </nav>
+    </aside>
+
+    <!-- Основной контент -->
+    <main class="main-content">
+        {% if role in ['engineer', 'technologist'] and tasks_data %}
+            <div class="tasks-section">
+                <h2>Активные задачи</h2>
+                <div class="tasks-list">
+                    {% for task in tasks_data %}
+                        {% if task[2] == 0 %}
+                            <div class="task-card">
+                                <div class="task-id">#{{ task[0] }}</div>
+                                <div class="task-desc">{{ task[1] }}</div>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        {% endif %}
+    </main>
+
+    <footer class="footer">Хорошего дня!</footer>
+</body>
+</html>

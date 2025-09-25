@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Профиль пользователя</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/common.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/authorization/user.css') }}">
+</head>
+<body>
+    <!-- Шапка — как в main.html -->
+    <header class="main-header">
+        <div class="header-title">Профиль</div>
+        <div class="header-nav">
+            <a href="/" class="nav-btn">Главная</a>
+            {% if user_data['role'] == 'engineer' %}
+                <a href="/all-devices" class="nav-btn">Устройства</a>
+                <a href="/component-lib" class="nav-btn">Компоненты</a>
+                <a href="/engineer-help" class="nav-btn">Помощь</a>
+            {% elif user_data['role'] == 'technologist' %}
+                <a href="/tech-processes" class="nav-btn">Тех. процессы</a>
+                <a href="/tools" class="nav-btn">Оборудование</a>
+                <a href="/technologist-help" class="nav-btn">Помощь</a>
+            {% elif user_data['role'] == 'director' %}
+                <a href="/add-tasks" class="nav-btn">Задачи</a>
+                <a href="/staff" class="nav-btn">Сотрудники</a>
+            {% elif user_data['role'] == 'guest' %}
+                <a href="/all-devices" class="nav-btn">Устройства</a>
+                <a href="/tech-processes" class="nav-btn">Тех. процессы</a>
+            {% endif %}
+        </div>
+        <a href="/user" class="user-avatar"></a>
+    </header>
+
+    <!-- Основной контент -->
+    <main class="profile-content">
+        <div class="profile-card">
+            <h2>Личные данные</h2>
+            <div class="profile-field">
+                <span class="field-label">Имя:</span>
+                <span class="field-value">{{ user_data['name'] }}</span>
+            </div>
+            <div class="profile-field">
+                <span class="field-label">Фамилия:</span>
+                <span class="field-value">{{ user_data['last name'] }}</span>
+            </div>
+            <div class="profile-field">
+                <span class="field-label">Логин:</span>
+                <span class="field-value">{{ user_data['login'] }}</span>
+            </div>
+            <div class="profile-field">
+                <span class="field-label">Должность:</span>
+                <span class="field-value">
+                    {% if user_data['role'] == 'admin' %}
+                        Администратор
+                    {% elif user_data['role'] == 'guest' %}
+                        Гость нашей организации
+                    {% elif user_data['role'] == 'director' %}
+                        Технический директор
+                    {% elif user_data['role'] == 'technologist' %}
+                        Технолог
+                    {% elif user_data['role'] == 'engineer' %}
+                        Инженер-конструктор
+                    {% endif %}
+                </span>
+            </div>
+        </div>
+
+        <div class="profile-card">
+            <h2>Контактные данные</h2>
+            <div class="profile-field">
+                <span class="field-label">Телефон:</span>
+                <span class="field-value">{{ user_data['phone'] }}</span>
+            </div>
+            <div class="profile-field">
+                <span class="field-label">Электронная почта:</span>
+                <span class="field-value">{{ user_data['email'] }}</span>
+            </div>
+            <p class="contact-note">
+                Эти данные помогут другим сотрудникам найти вас. Отвечайте на звонки и чаще проверяйте почту!
+            </p>
+        </div>
+
+        <form method="post" action="/logout" class="logout-form">
+            <button type="submit" class="logout-btn">Выйти из аккаунта</button>
+        </form>
+    </main>
+
+    <footer class="footer">Хорошего дня!</footer>
+</body>
+</html>

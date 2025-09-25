@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Помощь технологу</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/common.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/technologist/tech_help.css') }}">
+</head>
+<body>
+    <!-- Единая шапка -->
+    <header class="main-header">
+        <div class="header-title">Помощь технологу</div>
+        <div class="header-nav">
+            <a href="/" class="nav-btn">Главная</a>
+            {% if role == 'engineer' %}
+                <a href="/all-devices" class="nav-btn">Устройства</a>
+                <a href="/component-lib" class="nav-btn">Компоненты</a>
+                <a href="/engineer-help" class="nav-btn">Помощь</a>
+            {% elif role == 'technologist' %}
+                <a href="/tech-processes" class="nav-btn">Тех. процессы</a>
+                <a href="/tools" class="nav-btn">Оборудование</a>
+                <a href="/technologist-help" class="nav-btn active">Помощь</a>
+            {% elif role == 'director' %}
+                <a href="/add-tasks" class="nav-btn">Задачи</a>
+                <a href="/staff" class="nav-btn">Сотрудники</a>
+            {% elif role == 'guest' %}
+                <a href="/all-devices" class="nav-btn">Устройства</a>
+                <a href="/tech-processes" class="nav-btn">Тех. процессы</a>
+            {% endif %}
+        </div>
+        <a href="/user" class="user-avatar"></a>
+    </header>
+
+    <main class="help-content">
+        <h1 class="page-title">Справочник технологических операций</h1>
+
+        {% if gosts_data %}
+            {% for gost in gosts_data %}
+                <section class="gost-group">
+                    <h2 class="group-title">
+                        {{ gost['group_number'] }}00 — {{ gost['group_name'] }}
+                    </h2>
+
+                    {% if gost['operations'] %}
+                        <div class="operations-table">
+                            <div class="operations-header">
+                                <div class="col-code">Код</div>
+                                <div class="col-name">Наименование операции</div>
+                            </div>
+                            {% for operation in gost['operations'] %}
+                                <div class="operation-row">
+                                    {% set op_num = '0' + operation[0]|string if operation[0] < 10 else operation[0]|string %}
+                                    <div class="col-code">{{ gost['group_number'] }}{{ op_num }}</div>
+                                    <div class="col-name">{{ operation[1] }}</div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <p class="empty-group">Нет операций в этой группе.</p>
+                    {% endif %}
+                </section>
+            {% endfor %}
+        {% else %}
+            <p class="empty-message">Справочник временно недоступен.</p>
+        {% endif %}
+    </main>
+
+    <footer class="footer">Хорошего дня!</footer>
+</body>
+</html>

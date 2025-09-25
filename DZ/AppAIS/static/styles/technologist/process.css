@@ -1,0 +1,287 @@
+/* Страница технологического процесса */
+
+.process-page {
+    max-width: 1200px;
+    margin: 80px auto 120px;
+    padding: 0 24px;
+}
+
+/* Описание процесса */
+.process-info-card {
+    background: white;
+    border-radius: 16px;
+    padding: 28px;
+    margin-bottom: 32px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+    border-left: 4px solid #9b59b6;
+}
+
+.process-info-card h1 {
+    color: #8e44ad;
+    margin-bottom: 16px;
+    font-size: 26px;
+}
+
+.process-note {
+    color: #34495e;
+    font-size: 18px;
+    line-height: 1.6;
+}
+
+/* Управление: две колонки */
+.management-sections {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-bottom: 40px;
+}
+
+.add-operation-card,
+.assign-device-card {
+    background: white;
+    border-radius: 16px;
+    padding: 24px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+}
+
+.add-operation-card {
+    border-left: 4px solid #3498db;
+}
+
+.assign-device-card {
+    border-left: 4px solid #f39c12;
+}
+
+.add-operation-card h2 {
+    color: #2980b9;
+    margin-bottom: 20px;
+}
+
+.assign-device-card h2 {
+    color: #d35400;
+    margin-bottom: 20px;
+}
+
+.form-row {
+    display: flex;
+    gap: 16px;
+}
+
+.form-group {
+    margin-bottom: 16px;
+    flex: 1;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 500;
+    color: #2c3e50;
+    font-size: 15px;
+}
+
+.form-group input,
+.form-group select {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #dce4ec;
+    border-radius: 8px;
+    font-size: 16px;
+    font-family: inherit;
+}
+
+.btn-primary,
+.btn-secondary {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 8px;
+}
+
+.btn-primary {
+    background: linear-gradient(to right, #3498db, #2980b9);
+    color: white;
+}
+
+.btn-secondary {
+    background: linear-gradient(to right, #95a5a6, #7f8c8d);
+    color: white;
+}
+
+/* Список операций */
+.operations-section {
+    background: white;
+    border-radius: 16px;
+    padding: 28px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.section-header h2 {
+    color: #2c3e50;
+    font-size: 24px;
+}
+
+.operation-count {
+    background: #9b59b6;
+    color: white;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 14px;
+}
+
+/* Таблица операций */
+.operations-table {
+    overflow-x: auto;
+}
+
+.operations-header,
+.operation-row {
+    display: grid;
+    grid-template-columns: 0.5fr 2fr 1.5fr 1.5fr 0.8fr auto;
+    gap: 12px;
+    padding: 14px 16px;
+    align-items: center;
+}
+
+.operations-header {
+    background: #f5f5f5;
+    font-weight: 600;
+    color: #8e44ad;
+    border-radius: 10px;
+    margin-bottom: 8px;
+}
+
+.operation-row {
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.operation-row:last-child {
+    border-bottom: none;
+}
+
+.col-number {
+    font-weight: bold;
+    color: #8e44ad;
+    text-align: center;
+}
+
+.col-about,
+.col-gost,
+.col-tools,
+.col-time {
+    color: #34495e;
+    font-size: 15px;
+}
+
+/* Кнопки действий */
+.col-actions {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+}
+
+.action-btn {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 14px;
+    transition: all 0.2s;
+}
+
+.action-btn.delete {
+    color: #e74c3c;
+    border: 1px solid #e74c3c;
+}
+
+.action-btn.delete:hover {
+    background: #e74c3c;
+    color: white;
+}
+
+.action-btn.move {
+    color: #3498db;
+    border: 1px solid #3498db;
+}
+
+.action-btn.move:hover {
+    background: #3498db;
+    color: white;
+}
+
+.empty-message {
+    text-align: center;
+    color: #7f8c8d;
+    font-style: italic;
+    padding: 20px;
+    font-size: 17px;
+}
+
+/* Футер с маршрутной картой */
+.footer-with-action {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 70px;
+    background: linear-gradient(135deg, #8e44ad, #9b59b6);
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 80;
+}
+
+.mcard-btn {
+    background: linear-gradient(to right, #f1c40f, #f39c12);
+    color: #2c3e50;
+    border: none;
+    padding: 10px 24px;
+    font-size: 17px;
+    font-weight: 600;
+    border-radius: 10px;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(241, 196, 15, 0.4);
+    transition: transform 0.2s;
+}
+
+.mcard-btn:hover {
+    transform: translateY(-2px);
+}
+
+/* Адаптивность */
+@media (max-width: 900px) {
+    .management-sections {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .operations-header,
+    .operation-row {
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+        padding: 12px;
+    }
+    .col-gost, .col-tools, .col-time, .col-actions {
+        display: none;
+    }
+    .operation-row::before {
+        content: "#" attr(data-number) " — " attr(data-about);
+        font-weight: bold;
+        display: block;
+        margin-bottom: 4px;
+    }
+}

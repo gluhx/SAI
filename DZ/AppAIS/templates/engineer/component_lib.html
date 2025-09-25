@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Библиотека компонентов</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/common.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/engineer/component_lib.css') }}">
+</head>
+<body>
+    <!-- Единая шапка -->
+    <header class="main-header">
+        <div class="header-title">Библиотека компонентов</div>
+        <div class="header-nav">
+            <a href="/" class="nav-btn">Главная</a>
+            {% if role == 'engineer' %}
+                <a href="/all-devices" class="nav-btn">Устройства</a>
+                <a href="/component-lib" class="nav-btn active">Компоненты</a>
+                <a href="/engineer-help" class="nav-btn">Помощь</a>
+            {% elif role == 'technologist' %}
+                <a href="/tech-processes" class="nav-btn">Тех. процессы</a>
+                <a href="/tools" class="nav-btn">Оборудование</a>
+                <a href="/technologist-help" class="nav-btn">Помощь</a>
+            {% elif role == 'director' %}
+                <a href="/add-tasks" class="nav-btn">Задачи</a>
+                <a href="/staff" class="nav-btn">Сотрудники</a>
+            {% elif role == 'guest' %}
+                <a href="/all-devices" class="nav-btn">Устройства</a>
+                <a href="/tech-processes" class="nav-btn">Тех. процессы</a>
+            {% endif %}
+        </div>
+        <a href="/user" class="user-avatar"></a>
+    </header>
+
+    <main class="lib-content">
+        <!-- Описание библиотеки -->
+        <section class="lib-info">
+            <p>
+                В данной библиотеке хранятся все компоненты, которые использует наша компания при разработке электронных средств.
+            </p>
+        </section>
+
+        <!-- Форма добавления (только для инженера/директора) -->
+        {% if role in ['engineer', 'director'] %}
+            <section class="add-component-card">
+                <h2>Добавить новый компонент</h2>
+                <form method="post" action="/component-lib-add" class="add-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="component_partnumber">Название</label>
+                            <input type="text" id="component_partnumber" name="component_partnumber" placeholder="Например: Резистор 10кОм" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="component_manufacturer">Производитель</label>
+                            <input type="text" id="component_manufacturer" name="component_manufacturer" placeholder="Например: Vishay" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="component_count">Кол-во выводов</label>
+                            <input type="number" id="component_count" name="component_count" min="1" placeholder="2" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Тип монтажа</label>
+                            <div class="radio-group">
+                                <label><input type="radio" name="component_installation" value="SMD" checked> SMD</label>
+                                <label><input type="radio" name="component_installation" value="THT"> THT</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="component_class">Класс компонента</label>
+                        <select id="component_class" name="component_class" required>
+                            <option value="">— Выберите класс —</option>
+                            {% for class in classes %}
+                                <option value="{{ class[0] }}">{{ class[1] }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <button type="submit" class="btn-primary">Добавить в библиотеку</button>
+                </form>
+            </section>
+        {% endif %}
+
+        <!-- Список компонентов -->
+        <section class="components-section">
+            <div class="section-header">
+                <h2>Содержимое библиотеки</h2>
+                {% if components_data %}
+                    <span class="component-count">Всего: {{ components_data|length }}</span>
+                {% endif %}
+            </div>
+
+            {% if components_data %}
+                <div class="components-table">
+                    <div class="components-header">
+                        <div class="col-partnumber">Название</div>
+                        <div class="col-class">Класс</div>
+                        <div class="col-install">Монтаж</div>
+                        <div class="col-manuf">Производитель</div>
+                        <div class="col-pads">Выводы</div>
+                        {% if role in ['engineer', 'director'] %}
+                            <div class="col-actions">Действия</div>
+                        {% endif %}
+                    </div>
+
+                    {% for component in components_data %}
+                        <div class="component-row">
+                            <div class="col-partnumber">{{ component['partnumber'] }}</div>
+                            <div class="col-class">{{ component['class'] }}</div>
+                            <div class="col-install">{{ component['installation'] }}</div>
+                            <div class="col-manuf">{{ component['manufacturer'] }}</div>
+                            <div class="col-pads">{{ component['pad_count'] }}</div>
+                            {% if role in ['engineer', 'director'] %}
+                                <div class="col-actions">
+                                    <a href="/component-lib-delete/{{ component['id'] }}" class="delete-btn" onclick="return confirm('Удалить компонент? Это повлияет на все устройства, где он используется.')">Удалить</a>
+                                </div>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <p class="empty-message">Библиотека пуста.</p>
+            {% endif %}
+        </section>
+    </main>
+
+    <footer class="footer">Хорошего дня!</footer>
+</body>
+</html>

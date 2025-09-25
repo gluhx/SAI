@@ -1,0 +1,133 @@
+/* Список оборудования */
+
+.tools-content {
+    max-width: 900px;
+    margin: 80px auto 100px;
+    padding: 0 24px;
+}
+
+/* Информационная карточка */
+.info-card {
+    background: white;
+    border-radius: 16px;
+    padding: 28px;
+    margin-bottom: 32px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+    border-left: 4px solid #3498db;
+    text-align: center;
+}
+
+.info-card p {
+    color: #2c3e50;
+    font-size: 18px;
+    line-height: 1.6;
+    margin-bottom: 12px;
+}
+
+.admin-note {
+    color: #e67e22;
+    font-style: italic;
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px dashed #eee;
+}
+
+/* Список оборудования */
+.tools-section {
+    background: white;
+    border-radius: 16px;
+    padding: 28px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.section-header h2 {
+    color: #2c3e50;
+    font-size: 24px;
+}
+
+.tool-count {
+    background: #3498db;
+    color: white;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 14px;
+}
+
+/* Таблица оборудования */
+.tools-table {
+    overflow-x: auto;
+}
+
+.tools-header,
+.tool-row {
+    display: grid;
+    grid-template-columns: 0.5fr 3fr;
+    gap: 20px;
+    padding: 14px 20px;
+    align-items: center;
+}
+
+.tools-header {
+    background: #f1f8ff;
+    font-weight: 600;
+    color: #2980b9;
+    border-radius: 10px;
+    margin-bottom: 8px;
+}
+
+.tool-row {
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.tool-row:last-child {
+    border-bottom: none;
+}
+
+.col-number {
+    font-weight: bold;
+    color: #2c3e50;
+    text-align: center;
+    font-family: 'Courier New', monospace;
+}
+
+.col-name {
+    color: #34495e;
+    font-size: 16px;
+}
+
+.empty-message {
+    text-align: center;
+    color: #7f8c8d;
+    font-style: italic;
+    padding: 20px;
+    font-size: 17px;
+}
+
+/* Адаптивность */
+@media (max-width: 600px) {
+    .tools-header,
+    .tool-row {
+        grid-template-columns: 1fr;
+        gap: 10px;
+        padding: 12px;
+    }
+
+    .tools-header {
+        display: none;
+    }
+
+    .tool-row::before {
+        content: "№" attr(data-number) " — " attr(data-name);
+        font-weight: bold;
+        display: block;
+        color: #2c3e50;
+        margin-bottom: 4px;
+    }
+}

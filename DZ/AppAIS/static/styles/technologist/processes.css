@@ -1,0 +1,175 @@
+/* Список технологических процессов */
+
+.processes-content {
+    max-width: 1000px;
+    margin: 80px auto 100px;
+    padding: 0 24px;
+}
+
+.page-title {
+    color: #2c3e50;
+    font-size: 28px;
+    margin-bottom: 24px;
+    text-align: center;
+}
+
+/* Таблица процессов */
+.processes-table {
+    background: white;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+    margin-bottom: 40px;
+}
+
+.processes-header,
+.process-row {
+    display: grid;
+    grid-template-columns: 1fr 3fr auto;
+    gap: 20px;
+    padding: 16px 24px;
+    align-items: center;
+}
+
+.processes-header {
+    background: #f8f9fa;
+    font-weight: 600;
+    color: #8e44ad;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.process-row {
+    border-bottom: 1px solid #f0f0f0;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.process-row:hover {
+    background: #f9f7ff;
+}
+
+.process-row:last-child {
+    border-bottom: none;
+}
+
+.col-id {
+    font-weight: bold;
+    color: #8e44ad;
+    font-family: 'Courier New', monospace;
+    font-size: 17px;
+}
+
+.col-note {
+    color: #34495e;
+    font-size: 16px;
+    line-height: 1.4;
+}
+
+/* Кнопка удаления */
+.col-actions {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.delete-btn {
+    color: #e74c3c;
+    text-decoration: none;
+    padding: 6px 16px;
+    border: 1px solid #e74c3c;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.2s;
+}
+
+.delete-btn:hover {
+    background: #e74c3c;
+    color: white;
+}
+
+.empty-message {
+    text-align: center;
+    color: #7f8c8d;
+    font-size: 18px;
+    margin: 40px 0;
+    font-style: italic;
+}
+
+/* Форма добавления ТП */
+.add-process-card {
+    background: white;
+    border-radius: 16px;
+    padding: 28px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+    border-left: 4px solid #9b59b6;
+}
+
+.add-process-card h2 {
+    color: #8e44ad;
+    margin-bottom: 20px;
+    font-size: 22px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: #2c3e50;
+}
+
+.form-group textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #dce4ec;
+    border-radius: 10px;
+    font-size: 16px;
+    font-family: inherit;
+    resize: vertical;
+    min-height: 80px;
+}
+
+.form-group textarea:focus {
+    outline: none;
+    border-color: #9b59b6;
+}
+
+.btn-primary {
+    background: linear-gradient(to right, #9b59b6, #8e44ad);
+    color: white;
+    border: none;
+    padding: 12px 28px;
+    font-size: 17px;
+    font-weight: 600;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.2s;
+}
+
+.btn-primary:hover {
+    background: linear-gradient(to right, #8e44ad, #7d3c98);
+    transform: translateY(-2px);
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    .processes-header,
+    .process-row {
+        grid-template-columns: 1fr auto;
+        gap: 12px;
+        padding: 14px;
+    }
+    .col-note {
+        display: none;
+    }
+    .col-actions {
+        justify-content: center;
+    }
+    .delete-btn {
+        padding: 6px 12px;
+        font-size: 13px;
+    }
+}

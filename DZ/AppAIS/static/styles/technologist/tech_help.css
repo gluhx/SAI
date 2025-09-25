@@ -1,0 +1,113 @@
+/* Помощь технологу — справочник операций */
+
+.help-content {
+    max-width: 900px;
+    margin: 80px auto 100px;
+    padding: 0 24px;
+}
+
+.page-title {
+    color: #2c3e50;
+    font-size: 28px;
+    text-align: center;
+    margin-bottom: 32px;
+}
+
+/* Группа ГОСТов */
+.gost-group {
+    background: white;
+    border-radius: 16px;
+    padding: 24px;
+    margin-bottom: 32px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+    border-left: 4px solid #9b59b6;
+}
+
+.group-title {
+    color: #8e44ad;
+    font-size: 22px;
+    margin-bottom: 20px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #eee;
+}
+
+/* Таблица операций */
+.operations-table {
+    overflow-x: auto;
+}
+
+.operations-header,
+.operation-row {
+    display: grid;
+    grid-template-columns: 1fr 3fr;
+    gap: 20px;
+    padding: 12px 16px;
+    align-items: center;
+}
+
+.operations-header {
+    background: #f8f9fa;
+    font-weight: 600;
+    color: #8e44ad;
+    border-radius: 8px;
+    margin-bottom: 8px;
+}
+
+.operation-row {
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.operation-row:last-child {
+    border-bottom: none;
+}
+
+.col-code {
+    font-weight: bold;
+    color: #8e44ad;
+    font-family: 'Courier New', monospace;
+    font-size: 16px;
+    text-align: center;
+}
+
+.col-name {
+    color: #34495e;
+    font-size: 16px;
+}
+
+.empty-group {
+    color: #7f8c8d;
+    font-style: italic;
+    text-align: center;
+    padding: 12px 0;
+}
+
+.empty-message {
+    text-align: center;
+    color: #7f8c8d;
+    font-size: 18px;
+    margin: 40px 0;
+    font-style: italic;
+}
+
+/* Адаптивность */
+@media (max-width: 600px) {
+    .operations-header,
+    .operation-row {
+        grid-template-columns: 1fr;
+        gap: 10px;
+        padding: 10px;
+    }
+
+    .operations-header {
+        display: none;
+    }
+
+    .operation-row::before {
+        content: attr(data-code) " — " attr(data-name);
+        font-weight: bold;
+        display: block;
+        color: #8e44ad;
+        margin-bottom: 4px;
+        font-family: 'Courier New', monospace;
+    }
+}

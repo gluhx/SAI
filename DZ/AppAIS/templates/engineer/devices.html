@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Список устройств</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/common.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/engineer/devices.css') }}">
+</head>
+<body>
+    <!-- Шапка — единая для всего приложения -->
+    <header class="main-header">
+        <div class="header-title">Устройства</div>
+        <div class="header-nav">
+            <a href="/" class="nav-btn">Главная</a>
+            {% if role == 'engineer' %}
+                <a href="/all-devices" class="nav-btn active">Устройства</a>
+                <a href="/component-lib" class="nav-btn">Компоненты</a>
+                <a href="/engineer-help" class="nav-btn">Помощь</a>
+            {% elif role == 'technologist' %}
+                <a href="/tech-processes" class="nav-btn">Тех. процессы</a>
+                <a href="/tools" class="nav-btn">Оборудование</a>
+                <a href="/technologist-help" class="nav-btn">Помощь</a>
+            {% elif role == 'director' %}
+                <a href="/add-tasks" class="nav-btn">Задачи</a>
+                <a href="/staff" class="nav-btn">Сотрудники</a>
+            {% elif role == 'guest' %}
+                <a href="/all-devices" class="nav-btn">Устройства</a>
+                <a href="/tech-processes" class="nav-btn">Тех. процессы</a>
+            {% endif %}
+        </div>
+        <a href="/user" class="user-avatar"></a>
+    </header>
+
+    <main class="devices-content">
+        <h1 class="page-title">Список устройств</h1>
+
+        <!-- Таблица устройств -->
+        {% if devices_data %}
+            <div class="devices-table">
+                <div class="devices-header">
+                    <div class="col-name">Имя устройства</div>
+                    <div class="col-desc">Описание</div>
+                    <div class="col-tp">Тех. процесс</div>
+                    <div class="col-count">Элементы</div>
+                    {% if role in ['engineer', 'director'] %}
+                        <div class="col-actions">Действия</div>
+                    {% endif %}
+                </div>
+
+                {% for device in devices_data %}
+                    <div class="device-row" onclick="window.location.href='/device/{{ device['id'] }}'">
+                        <div class="col-name">{{ device['name'] }}</div>
+                        <div class="col-desc">{{ device['about'][:35] + ('...' if device['about']|length > 35 else '') }}</div>
+                        <div class="col-tp">
+                            {% if device['TP'] in [None, '', []] %}
+                                <span class="tp-missing">Не прикреплён</span>
+                            {% else %}
+                                {{ device['TP'] }}
+                            {% endif %}
+                        </div>
+                        <div class="col-count">{{ device['count'] }}</div>
+                        {% if role in ['engineer', 'director'] %}
+                            <div class="col-actions">
+                                <a href="/device/delete/{{ device['id'] }}" class="delete-btn" onclick="event.stopPropagation();">Удалить</a>
+                            </div>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p class="empty-message">Нет устройств в системе.</p>
+        {% endif %}
+
+        <!-- Форма добавления (только для инженера/директора) -->
+        {% if role in ['engineer', 'director'] %}
+            <div class="add-device-card">
+                <h2>Добавить новое устройство</h2>
+                <form method="post" action="/add-device" class="add-device-form">
+                    <div class="form-group">
+                        <label for="device_name">Имя устройства</label>
+                        <input type="text" id="device_name" name="device_name" placeholder="Например: Блок питания А-200" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="device_about">Описание</label>
+                        <textarea id="device_about" name="device_about" placeholder="Краткое описание устройства" rows="3"></textarea>
+                    </div>
+                    <button type="submit" class="btn-primary">Добавить устройство</button>
+                </form>
+            </div>
+        {% endif %}
+    </main>
+
+    <footer class="footer">Хорошего дня!</footer>
+</body>
+</html>

@@ -1,0 +1,107 @@
+/* Профиль пользователя — стили поверх common.css */
+
+.profile-content {
+    max-width: 900px;
+    margin: 80px auto 100px;
+    padding: 0 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+}
+
+.profile-card {
+    background: white;
+    border-radius: 18px;
+    padding: 28px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+    border-left: 4px solid #3498db;
+}
+
+.profile-card h2 {
+    color: #2c3e50;
+    margin-bottom: 20px;
+    font-size: 24px;
+    font-weight: 600;
+}
+
+.profile-field {
+    display: flex;
+    margin-bottom: 16px;
+    align-items: flex-start;
+}
+
+.field-label {
+    font-weight: 600;
+    color: #2c3e50;
+    min-width: 160px;
+    font-size: 17px;
+}
+
+.field-value {
+    color: #34495e;
+    font-size: 17px;
+    flex: 1;
+}
+
+.contact-note {
+    margin-top: 20px;
+    padding-top: 16px;
+    border-top: 1px dashed #e0e0e0;
+    color: #7f8c8d;
+    font-style: italic;
+    text-align: center;
+    font-size: 16px;
+}
+
+/* Кнопка выхода */
+.logout-form {
+    display: flex;
+    justify-content: center;
+}
+
+.logout-btn {
+    background: linear-gradient(to right, #e74c3c, #c0392b);
+    color: white;
+    border: none;
+    padding: 14px 32px;
+    font-size: 18px;
+    font-weight: 600;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.2s;
+    box-shadow: 0 4px 10px rgba(231, 76, 60, 0.3);
+}
+
+.logout-btn:hover {
+    background: linear-gradient(to right, #c0392b, #a93226);
+    transform: translateY(-2px);
+}
+
+.logout-btn:active {
+    transform: translateY(0);
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    .profile-content {
+        margin-top: 70px;
+    }
+
+    .profile-card {
+        padding: 20px;
+    }
+
+    .profile-field {
+        flex-direction: column;
+        gap: 6px;
+    }
+
+    .field-label {
+        min-width: auto;
+    }
+
+    .logout-btn {
+        width: 100%;
+        padding: 14px;
+    }
+}
