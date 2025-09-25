@@ -1,0 +1,259 @@
+
+Table dropped.
+
+
+Table created.
+
+
+Table dropped.
+
+
+Table created.
+
+
+Table dropped.
+
+
+Table created.
+
+
+Table dropped.
+
+
+Table created.
+
+
+Table dropped.
+
+
+Table created.
+
+
+Table dropped.
+
+
+Table created.
+
+
+Table altered.
+
+
+Table altered.
+
+
+Table altered.
+
+
+Table altered.
+
+
+Table altered.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+1 row created.
+
+
+Commit complete.
+
+SQL> @start
+Значение "фиксация платы" соответствует:                                        
+	зашемлением. (@ + y/n)?                                                        
+SQL> @y
+Ok!                                                                             
+----                                                                            
+Choose компоненты с BGA выводами, please:                                       
+	отсутствуют. (@ + y/n)?                                                        
+SQL> @y
+Ok!                                                                             
+----                                                                            
+Choose защита от влаги, please:                                                 
+	нужна. (@ + y/n)?                                                              
+SQL> @y
+Ok!                                                                             
+----                                                                            
+Choose KMO, please:                                                             
+	отсутствуют. (@ + y/n)?                                                        
+SQL> @y
+Ok!                                                                             
+----                                                                            
+Found matching frame!                                                           
+Description:                                                                    
+Подготовительные операции ->
+Нанесение паяльной пасты ->
+Установка КМП ->
+Пайка 
+в печи ->
+Нанесение лака ->
+Сборка корпуса.                                     
+SQL> quit
