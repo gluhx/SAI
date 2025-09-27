@@ -35,11 +35,20 @@ sqlplus admin_user/root1@//localhost:1521/FREE @08-director-filling.sql
 grep . log_temp.txt >> installing_log.txt
 echo '' >> installing_log.txt
 
-sqlplus admin_user/root1@//localhost:1521/FREE @09-communication.sql
+sqlplus admin_user/root1@//localhost:1521/FREE @09-expert.sql
 grep . log_temp.txt >> installing_log.txt
 echo '' >> installing_log.txt
 
-sqlplus SYS/root@//localhost:1521/FREE as SYSDBA @10-create-users.sql
+sqlplus admin_user/root1@//localhost:1521/FREE @10-expert-filling.sql
+grep . log_temp.txt >> installing_log.txt
+echo '' >> installing_log.txt
+
+
+sqlplus admin_user/root1@//localhost:1521/FREE @11-communication.sql
+grep . log_temp.txt >> installing_log.txt
+echo '' >> installing_log.txt
+
+sqlplus SYS/root@//localhost:1521/FREE as SYSDBA @12-create-users.sql
 grep . log_temp.txt >> installing_log.txt
 echo '' >> installing_log.txt
 
