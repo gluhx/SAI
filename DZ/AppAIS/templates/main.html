@@ -30,7 +30,7 @@
         <a href="/user" class="user-avatar"></a>
     </header>
 
-    <!-- Боковое меню (только для десктопа, можно скрыть на мобильных) -->
+    <!-- Боковое меню -->
     <aside class="sidebar">
         <nav>
             <a href="/tech-processes">Тех. процессы</a>
@@ -44,7 +44,47 @@
 
     <!-- Основной контент -->
     <main class="main-content">
-        {% if role in ['engineer', 'technologist'] and tasks_data %}
+        {% if role == 'admin' %}
+            <h2>Ваши задачи</h2>
+            {% if tasks_data %}
+                <div class="tasks-section">
+                    <div class="tasks-list">
+                        {% for task in tasks_data %}
+                            {% if task[2] == 0 %}
+                                <div class="task-card">
+                                    <div class="task-id">#{{ task[0] }}</div>
+                                    <div class="task-desc">{{ task[1] }}</div>
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+            {% else %}
+                <p>У вас нет активных задач.</p>
+            {% endif %}
+
+            <h2>Выберите таблицу для редактирования:</h2>
+            <form method="GET" action="/admin-tables" class="table-select-form">
+                <select name="table" required>
+                    <option value="">— Выберите таблицу —</option>
+                    <option value="AUTH_USERS">AUTH_USERS</option>
+                    <option value="ENG_DEVICE">ENG_DEVICE</option>
+                    <option value="ENG_COMPONENT">ENG_COMPONENT</option>
+                    <option value="ENG_COMPONENT_LIB">ENG_COMPONENT_LIB</option>
+                    <option value="ENG_COMPONENT_CLASS">ENG_COMPONENT_CLASS</option>
+                    <option value="TCHG_PROCESS">TCHG_PROCESS</option>
+                    <option value="TCHG_PROCESS_OPERATION">TCHG_PROCESS_OPERATION</option>
+                    <option value="TCHG_OPERATION_LIST">TCHG_OPERATION_LIST</option>
+                    <option value="TCHG_OPERATION_GROUP">TCHG_OPERATION_GROUP</option>
+                    <option value="TCHG_TOOLS">TCHG_TOOLS</option>
+                    <option value="COM_TP_DEV">COM_TP_DEV</option>
+                    <option value="DIR_TASKS">DIR_TASKS</option>
+                    <option value="ENG_HELP_GOSTS">ENG_HELP_GOSTS</option>
+                </select>
+                <button type="submit" class="btn-primary">Открыть таблицу</button>
+            </form>
+
+        {% elif role in ['engineer', 'technologist'] and tasks_data %}
             <div class="tasks-section">
                 <h2>Активные задачи</h2>
                 <div class="tasks-list">
