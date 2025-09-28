@@ -1,64 +1,47 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Редактирование записи в {{ table_name }} | ООО "Альбирео"</title>
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/common.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/admin/admin_tables.css') }}">
-</head>
-<body>
-    <!-- Единая шапка -->
-    <header class="main-header">
-        <div class="header-title">Администрирование</div>
-        <div class="header-nav">
-            <a href="/" class="nav-btn">Главная</a>
+{% extends "base.html" %}
+{% block title %}Редактирование записи в {{ table_name }} | ООО "Альбирео"{% endblock %}
+{% block page_title %}Администрирование{% endblock %}
+{% block extra_css %}
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/admin/admin_tables.css') }}">
+{% endblock %}
+{% block content %}
+<main class="admin-page">
+    <section class="page-header">
+        <h1>Редактирование записи в таблице: {{ table_name }}</h1>
+        <p class="page-subtitle">Вы администратор, вам доступно изменение данных в таблицах</p>
+    </section>
+    {% if error_message %}
+        <div class="error-message">
+            <strong>Ошибка:</strong> {{ error_message }}
         </div>
-        <a href="/user" class="user-avatar"></a>
-    </header>
-
-    <main class="admin-page">
-        <section class="page-header">
-            <h1>Редактирование записи в таблице: {{ table_name }}</h1>
-            <p class="page-subtitle">Вы администратор, вам доступно изменение данных в таблицах</p>
-        </section>
-
-        {% if error_message %}
-            <div class="error-message">
-                <strong>Ошибка:</strong> {{ error_message }}
-            </div>
-        {% endif %}
-
-        <section class="edit-form-section">
-            <h2>Редактировать запись</h2>
-            <form method="POST" action="/admin/update/{{ table_name }}" class="edit-record-form">
-                <input type="hidden" name="pk" value="{{ pk_value }}">
-                {% for col in columns %}
-                    {% if loop.index0 != pk_index %} <!-- Не редактируем PK -->
-                        <div class="form-group">
-                            <label for="edit_{{ col }}">{{ col }}:</label>
-                            {% if table_name == 'AUTH_USERS' and col == 'USER_ROLE' %}
-                                <select id="edit_{{ col }}" name="{{ col }}" required>
-                                    <option value="">— Выберите роль —</option>
-                                    <option value="admin" {% if row[col] == 'admin' %}selected{% endif %}>admin</option>
-                                    <option value="director" {% if row[col] == 'director' %}selected{% endif %}>director</option>
-                                    <option value="technologist" {% if row[col] == 'technologist' %}selected{% endif %}>technologist</option>
-                                    <option value="engineer" {% if row[col] == 'engineer' %}selected{% endif %}>engineer</option>
-                                </select>
-                            {% else %}
-                                <input type="text" id="edit_{{ col }}" name="{{ col }}" value="{{ row[col] if row[col] is not none else '' }}" required>
-                            {% endif %}
-                        </div>
-                    {% endif %}
-                {% endfor %}
-                <button type="submit" class="btn-primary">Сохранить изменения</button>
-                <a href="/admin-tables?table={{ table_name }}" class="btn-secondary">Отмена</a>
-            </form>
-        </section>
-
-        <a href="/admin-tables?table={{ table_name }}" class="back-link">← К таблице</a>
-    </main>
-
-    <footer class="footer">Хорошего дня!</footer>
-</body>
-</html>
+    {% endif %}
+    <section class="edit-form-section">
+        <h2>Редактировать запись</h2>
+        <form method="POST" action="/admin/update/{{ table_name }}" class="edit-record-form">
+            <input type="hidden" name="pk" value="{{ pk_value }}">
+            {% for col in columns %}
+                {% if loop.index0 != pk_index %}
+                    <div class="form-group">
+                        <label for="edit_{{ col }}">{{ col }}:</label>
+                        {% if table_name == 'AUTH_USERS' and col == 'USER_ROLE' %}
+                            <select id="edit_{{ col }}" name="{{ col }}" required>
+                                <option value="">— Выберите роль —</option>
+                                <option value="admin" {% if row[col] == 'admin' %}selected{% endif %}>admin</option>
+                                <option value="director" {% if row[col] == 'director' %}selected{% endif %}>director</option>
+                                <option value="technologist" {% if row[col] == 'technologist' %}selected{% endif %}>technologist</option>
+                                <option value="engineer" {% if row[col] == 'engineer' %}selected{% endif %}>engineer</option>
+                            </select>
+                        {% else %}
+                            <input type="text" id="edit_{{ col }}" name="{{ col }}" value="{{ row[col] if row[col] is not none else '' }}" required>
+                        {% endif %}
+                    </div>
+                {% endif %}
+            {% endfor %}
+            <button type="submit" class="btn-primary">Сохранить изменения</button>
+            <a href="/admin-tables?table={{ table_name }}" class="btn-secondary">Отмена</a>
+        </form>
+    </section>
+    <a href="/admin-tables?table={{ table_name }}" class="back-link">← К таблице</a>
+</main>
+<footer class="footer">Хорошего дня!</footer>
+{% endblock %}

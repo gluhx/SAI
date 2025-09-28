@@ -1,133 +1,94 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Устройство "{{ device_data['name'] }}"</title>
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/common.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/engineer/device.css') }}">
-</head>
-<body>
-    <!-- Единая шапка -->
-    <header class="main-header">
-        <div class="header-title">Устройство</div>
-        <div class="header-nav">
-            <a href="/" class="nav-btn">Главная</a>
-            {% if role == 'engineer' %}
-                <a href="/all-devices" class="nav-btn">Устройства</a>
-                <a href="/component-lib" class="nav-btn">Компоненты</a>
-                <a href="/engineer-help" class="nav-btn">Помощь</a>
-            {% elif role == 'technologist' %}
-                <a href="/tech-processes" class="nav-btn">Тех. процессы</a>
-                <a href="/tools" class="nav-btn">Оборудование</a>
-                <a href="/technologist-help" class="nav-btn">Помощь</a>
-            {% elif role == 'director' %}
-                <a href="/add-tasks" class="nav-btn">Задачи</a>
-                <a href="/staff" class="nav-btn">Сотрудники</a>
-            {% elif role == 'guest' %}
-                <a href="/all-devices" class="nav-btn">Устройства</a>
-                <a href="/tech-processes" class="nav-btn">Тех. процессы</a>
+{% extends "base.html" %}
+{% block title %}Устройство "{{ device_data['name'] }}"{% endblock %}
+{% block page_title %}Устройство{% endblock %}
+{% block extra_css %}
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/engineer/device.css') }}">
+{% endblock %}
+{% block content %}
+<main class="device-page">
+    <section class="device-info-card">
+        <h1>{{ device_data['name'] }}</h1>
+        <p><strong>Описание:</strong> {{ device_data['about'] }}</p>
+        <p><strong>Компонентов:</strong> {{ device_data['count'] }}</p>
+    </section>
+    <section class="tech-process-card">
+        <h2>Технологический процесс</h2>
+        {% if device_data['TP'] in [None, '', []] %}
+            <p class="tp-missing">Ещё не назначен</p>
+        {% else %}
+            <a href="/process/{{ device_data['TP'] }}" class="qr-link">
+                <img src="{{ qrcode(qr) }}" alt="QR-код технологического процесса" class="qr-code">
+            </a>
+            <p class="tp-name">{{ device_data['TP'] }}</p>
+        {% endif %}
+    </section>
+    {% if role in ['engineer', 'director'] %}
+        <section class="add-component-card">
+            <h2>Добавить компонент</h2>
+            <form method="post" action="/component-add/{{ device_data['id'] }}" class="add-component-form">
+                <div class="form-group">
+                    <label for="component_designator">Позиционное обозначение</label>
+                    <input type="text" id="component_designator" name="component_designator" required>
+                </div>
+                <div class="form-group">
+                    <label for="component_nominal">Номинал</label>
+                    <input type="text" id="component_nominal" name="component_nominal">
+                </div>
+                <div class="form-group">
+                    <label for="component_partnumber">Компонент из библиотеки</label>
+                    <select id="component_partnumber" name="component_partnumber" required>
+                        <option value="">— Выберите компонент —</option>
+                        {% for component in components_lib %}
+                            <option value="{{ component[0] }}">{{ component[1] }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <button type="submit" class="btn-primary">Добавить</button>
+            </form>
+        </section>
+    {% endif %}
+    <section class="components-section">
+        <div class="section-header">
+            <h2>Компоненты устройства</h2>
+            {% if components_data %}
+                <span class="component-count">Всего: {{ components_data|length }}</span>
             {% endif %}
         </div>
-        <a href="/user" class="user-avatar"></a>
-    </header>
-
-    <main class="device-page">
-        <!-- Основная информация об устройстве -->
-        <section class="device-info-card">
-            <h1>{{ device_data['name'] }}</h1>
-            <p><strong>Описание:</strong> {{ device_data['about'] }}</p>
-            <p><strong>Компонентов:</strong> {{ device_data['count'] }}</p>
-        </section>
-
-        <!-- Технологический процесс -->
-        <section class="tech-process-card">
-            <h2>Технологический процесс</h2>
-            {% if device_data['TP'] in [None, '', []] %}
-                <p class="tp-missing">Ещё не назначен</p>
-            {% else %}
-                <a href="/process/{{ device_data['TP'] }}" class="qr-link">
-                    <img src="{{ qrcode(qr) }}" alt="QR-код технологического процесса" class="qr-code">
-                </a>
-                <p class="tp-name">{{ device_data['TP'] }}</p>
-            {% endif %}
-        </section>
-
-        <!-- Добавление компонента (только для инженера/директора) -->
-        {% if role in ['engineer', 'director'] %}
-            <section class="add-component-card">
-                <h2>Добавить компонент</h2>
-                <form method="post" action="/component-add/{{ device_data['id'] }}" class="add-component-form">
-                    <div class="form-group">
-                        <label for="component_designator">Позиционное обозначение</label>
-                        <input type="text" id="component_designator" name="component_designator" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="component_nominal">Номинал</label>
-                        <input type="text" id="component_nominal" name="component_nominal">
-                    </div>
-                    <div class="form-group">
-                        <label for="component_partnumber">Компонент из библиотеки</label>
-                        <select id="component_partnumber" name="component_partnumber" required>
-                            <option value="">— Выберите компонент —</option>
-                            {% for component in components_lib %}
-                                <option value="{{ component[0] }}">{{ component[1] }}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                    <button type="submit" class="btn-primary">Добавить</button>
-                </form>
-            </section>
-        {% endif %}
-
-        <!-- Список компонентов -->
-        <section class="components-section">
-            <div class="section-header">
-                <h2>Компоненты устройства</h2>
-                {% if components_data %}
-                    <span class="component-count">Всего: {{ components_data|length }}</span>
-                {% endif %}
-            </div>
-
-            {% if components_data %}
-                <div class="components-table">
-                    <div class="components-header">
-                        <div class="col-designator">Поз.</div>
-                        <div class="col-partnumber">Название</div>
-                        <div class="col-nominal">Номинал</div>
-                        <div class="col-install">Монтаж</div>
-                        <div class="col-manuf">Производитель</div>
+        {% if components_data %}
+            <div class="components-table">
+                <div class="components-header">
+                    <div class="col-designator">Поз.</div>
+                    <div class="col-partnumber">Название</div>
+                    <div class="col-nominal">Номинал</div>
+                    <div class="col-install">Монтаж</div>
+                    <div class="col-manuf">Производитель</div>
+                    {% if role in ['engineer', 'director'] %}
+                        <div class="col-actions">Действия</div>
+                    {% endif %}
+                </div>
+                {% for component in components_data %}
+                    <div class="component-row">
+                        <div class="col-designator">{{ component['designator'] }}</div>
+                        <div class="col-partnumber">{{ component['partnumber'] }}</div>
+                        <div class="col-nominal">{{ component['nominal'] or '—' }}</div>
+                        <div class="col-install">{{ component['installation'] }}</div>
+                        <div class="col-manuf">{{ component['manufacturer'] }}</div>
                         {% if role in ['engineer', 'director'] %}
-                            <div class="col-actions">Действия</div>
+                            <div class="col-actions">
+                                <a href="/component-delete/{{ component['id'] }}" class="delete-btn">Удалить</a>
+                            </div>
                         {% endif %}
                     </div>
-
-                    {% for component in components_data %}
-                        <div class="component-row">
-                            <div class="col-designator">{{ component['designator'] }}</div>
-                            <div class="col-partnumber">{{ component['partnumber'] }}</div>
-                            <div class="col-nominal">{{ component['nominal'] or '—' }}</div>
-                            <div class="col-install">{{ component['installation'] }}</div>
-                            <div class="col-manuf">{{ component['manufacturer'] }}</div>
-                            {% if role in ['engineer', 'director'] %}
-                                <div class="col-actions">
-                                    <a href="/component-delete/{{ component['id'] }}" class="delete-btn">Удалить</a>
-                                </div>
-                            {% endif %}
-                        </div>
-                    {% endfor %}
-                </div>
-            {% else %}
-                <p class="empty-message">Нет компонентов.</p>
-            {% endif %}
-        </section>
-    </main>
-
-    <!-- Футер с кнопкой генерации ПЭ3 -->
-    <footer class="footer footer-with-action">
-        <button onclick="window.location.href='/generate-pe3-xlsx/{{ device_data['id'] }}'" class="pe3-btn">
-            Сгенерировать ПЭ3
-        </button>
-    </footer>
-</body>
-</html>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p class="empty-message">Нет компонентов.</p>
+        {% endif %}
+    </section>
+</main>
+<footer class="footer footer-with-action">
+    <button onclick="window.location.href='/generate-pe3-xlsx/{{ device_data['id'] }}'" class="pe3-btn">
+        Сгенерировать ПЭ3
+    </button>
+</footer>
+{% endblock %}

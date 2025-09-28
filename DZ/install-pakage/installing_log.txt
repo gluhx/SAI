@@ -29,6 +29,7 @@ Sequence created.
 1 row created.
 1 row created.
 1 row created.
+1 row created.
 Создаём публичные синонимы
 Synonym dropped.
 Synonym created.

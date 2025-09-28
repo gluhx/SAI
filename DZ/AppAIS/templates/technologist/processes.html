@@ -1,88 +1,54 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Список технологических процессов</title>
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/common.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/technologist/processes.css') }}">
-</head>
-<body>
-    <!-- Единая шапка -->
-    <header class="main-header">
-        <div class="header-title">Технологические процессы</div>
-        <div class="header-nav">
-            <a href="/" class="nav-btn">Главная</a>
-            {% if role == 'engineer' %}
-                <a href="/all-devices" class="nav-btn">Устройства</a>
-                <a href="/component-lib" class="nav-btn">Компоненты</a>
-                <a href="/engineer-help" class="nav-btn">Помощь</a>
-            {% elif role == 'technologist' %}
-                <a href="/tech-processes" class="nav-btn active">Тех. процессы</a>
-                <a href="/tools" class="nav-btn">Оборудование</a>
-                <a href="/technologist-help" class="nav-btn">Помощь</a>
-            {% elif role == 'director' %}
-                <a href="/add-tasks" class="nav-btn">Задачи</a>
-                <a href="/staff" class="nav-btn">Сотрудники</a>
-            {% elif role == 'guest' %}
-                <a href="/all-devices" class="nav-btn">Устройства</a>
-                <a href="/tech-processes" class="nav-btn">Тех. процессы</a>
-            {% endif %}
-        </div>
-        <a href="/user" class="user-avatar"></a>
-    </header>
-
-    <main class="processes-content">
-        <h1 class="page-title">Список технологических процессов</h1>
-
-        <!-- Таблица процессов -->
-        {% if processes_data %}
-            <div class="processes-table">
-                <div class="processes-header">
-                    <div class="col-id">Номер ТП</div>
-                    <div class="col-note">Описание</div>
+{% extends "base.html" %}
+{% block title %}Список технологических процессов{% endblock %}
+{% block page_title %}Технологические процессы{% endblock %}
+{% block extra_css %}
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/technologist/processes.css') }}">
+{% endblock %}
+{% block content %}
+<main class="processes-content">
+    <h1 class="page-title">Список технологических процессов</h1>
+    {% if processes_data %}
+        <div class="processes-table">
+            <div class="processes-header">
+                <div class="col-id">Номер ТП</div>
+                <div class="col-note">Описание</div>
+                {% if role in ['technologist', 'director'] %}
+                    <div class="col-actions">Действия</div>
+                {% endif %}
+            </div>
+            {% for process in processes_data %}
+                <div class="process-row" onclick="window.location.href='/process/{{ process['id'] }}'">
+                    <div class="col-id">ТП-{{ process['id'] }}</div>
+                    <div class="col-note">
+                        {{ process['note'][:55] + ('...' if process['note']|length > 55 else '') }}
+                    </div>
                     {% if role in ['technologist', 'director'] %}
-                        <div class="col-actions">Действия</div>
+                        <div class="col-actions">
+                            <a href="/process/delete/{{ process['id'] }}" class="delete-btn" 
+                               onclick="event.stopPropagation(); return confirm('Удалить ТП?')">
+                                Удалить
+                            </a>
+                        </div>
                     {% endif %}
                 </div>
-
-                {% for process in processes_data %}
-                    <div class="process-row" onclick="window.location.href='/process/{{ process['id'] }}'">
-                        <div class="col-id">ТП-{{ process['id'] }}</div>
-                        <div class="col-note">
-                            {{ process['note'][:55] + ('...' if process['note']|length > 55 else '') }}
-                        </div>
-                        {% if role in ['technologist', 'director'] %}
-                            <div class="col-actions">
-                                <a href="/process/delete/{{ process['id'] }}" class="delete-btn" 
-                                   onclick="event.stopPropagation(); return confirm('Удалить ТП?')">
-                                    Удалить
-                                </a>
-                            </div>
-                        {% endif %}
-                    </div>
-                {% endfor %}
-            </div>
-        {% else %}
-            <p class="empty-message">Нет технологических процессов.</p>
-        {% endif %}
-
-        <!-- Форма добавления (только для технолога/директора) -->
-        {% if role in ['technologist', 'director'] %}
-            <div class="add-process-card">
-                <h2>Создать новый технологический процесс</h2>
-                <form method="post" action="/add-process" class="add-process-form">
-                    <div class="form-group">
-                        <label for="process_note">Описание процесса</label>
-                        <textarea id="process_note" name="process_note" rows="3" 
-                                  placeholder="Краткое описание назначения и содержания ТП" required></textarea>
-                    </div>
-                    <button type="submit" class="btn-primary">Добавить ТП</button>
-                </form>
-            </div>
-        {% endif %}
-    </main>
-
-    <footer class="footer">Хорошего дня!</footer>
-</body>
-</html>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p class="empty-message">Нет технологических процессов.</p>
+    {% endif %}
+    {% if role in ['technologist', 'director'] %}
+        <div class="add-process-card">
+            <h2>Создать новый технологический процесс</h2>
+            <form method="post" action="/add-process" class="add-process-form">
+                <div class="form-group">
+                    <label for="process_note">Описание процесса</label>
+                    <textarea id="process_note" name="process_note" rows="3" 
+                              placeholder="Краткое описание назначения и содержания ТП" required></textarea>
+                </div>
+                <button type="submit" class="btn-primary">Добавить ТП</button>
+            </form>
+        </div>
+    {% endif %}
+</main>
+<footer class="footer">Хорошего дня!</footer>
+{% endblock %}

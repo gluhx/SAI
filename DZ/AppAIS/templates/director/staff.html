@@ -1,71 +1,40 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Список сотрудников</title>
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/common.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/director/staff.css') }}">
-</head>
-<body>
-    <!-- Единая шапка -->
-    <header class="main-header">
-        <div class="header-title">Сотрудники</div>
-        <div class="header-nav">
-            <a href="/" class="nav-btn">Главная</a>
-            {% if role == 'engineer' %}
-                <a href="/all-devices" class="nav-btn">Устройства</a>
-                <a href="/component-lib" class="nav-btn">Компоненты</a>
-                <a href="/engineer-help" class="nav-btn">Помощь</a>
-            {% elif role == 'technologist' %}
-                <a href="/tech-processes" class="nav-btn">Тех. процессы</a>
-                <a href="/tools" class="nav-btn">Оборудование</a>
-                <a href="/technologist-help" class="nav-btn">Помощь</a>
-            {% elif role == 'director' %}
-                <a href="/add-tasks" class="nav-btn">Задачи</a>
-                <a href="/staff" class="nav-btn active">Сотрудники</a>
-            {% elif role == 'guest' %}
-                <a href="/all-devices" class="nav-btn">Устройства</a>
-                <a href="/tech-processes" class="nav-btn">Тех. процессы</a>
-            {% endif %}
-        </div>
-        <a href="/user" class="user-avatar"></a>
-    </header>
-
-    <main class="staff-content">
-        <h1 class="page-title">Список сотрудников</h1>
-
-        {% if staff_data %}
-            <div class="staff-table">
-                <div class="staff-header">
-                    <div class="col-name">Сотрудник</div>
-                    <div class="col-email">Эл. почта</div>
-                    <div class="col-phone">Телефон</div>
-                    <div class="col-role">Должность</div>
-                </div>
-
-                {% for person in staff_data %}
-                    <div class="staff-row">
-                        <div class="col-name">{{ person[0] }} {{ person[1] }}</div>
-                        <div class="col-email">{{ person[3] }}</div>
-                        <div class="col-phone">{{ person[2] }}</div>
-                        <div class="col-role">
-                            {% if person[4] == 'admin' %}Администратор
-                            {% elif person[4] == 'guest' %}Гость
-                            {% elif person[4] == 'director' %}Технический директор
-                            {% elif person[4] == 'technologist' %}Технолог
-                            {% elif person[4] == 'engineer' %}Инженер-конструктор
-                            {% else %}{{ person[4] }}
-                            {% endif %}
-                        </div>
-                    </div>
-                {% endfor %}
+{% extends "base.html" %}
+{% block title %}Список сотрудников{% endblock %}
+{% block page_title %}Сотрудники{% endblock %}
+{% block extra_css %}
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/director/staff.css') }}">
+{% endblock %}
+{% block content %}
+<main class="staff-content">
+    <h1 class="page-title">Список сотрудников</h1>
+    {% if staff_data %}
+        <div class="staff-table">
+            <div class="staff-header">
+                <div class="col-name">Сотрудник</div>
+                <div class="col-email">Эл. почта</div>
+                <div class="col-phone">Телефон</div>
+                <div class="col-role">Должность</div>
             </div>
-        {% else %}
-            <p class="empty-message">Сотрудники не найдены.</p>
-        {% endif %}
-    </main>
-
-    <footer class="footer">Хорошего дня!</footer>
-</body>
-</html>
+            {% for person in staff_data %}
+                <div class="staff-row">
+                    <div class="col-name">{{ person[0] }} {{ person[1] }}</div>
+                    <div class="col-email">{{ person[3] }}</div>
+                    <div class="col-phone">{{ person[2] }}</div>
+                    <div class="col-role">
+                        {% if person[4] == 'admin' %}Администратор
+                        {% elif person[4] == 'guest' %}Гость
+                        {% elif person[4] == 'director' %}Технический директор
+                        {% elif person[4] == 'technologist' %}Технолог
+                        {% elif person[4] == 'engineer' %}Инженер-конструктор
+                        {% else %}{{ person[4] }}
+                        {% endif %}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p class="empty-message">Сотрудники не найдены.</p>
+    {% endif %}
+</main>
+<footer class="footer">Хорошего дня!</footer>
+{% endblock %}

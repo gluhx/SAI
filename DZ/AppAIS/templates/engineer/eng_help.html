@@ -1,63 +1,33 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Помощь инженеру</title>
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/common.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/engineer/eng_help.css') }}">
-</head>
-<body>
-    <!-- Единая шапка -->
-    <header class="main-header">
-        <div class="header-title">Помощь инженеру</div>
-        <div class="header-nav">
-            <a href="/" class="nav-btn">Главная</a>
-            {% if role == 'engineer' %}
-                <a href="/all-devices" class="nav-btn">Устройства</a>
-                <a href="/component-lib" class="nav-btn">Компоненты</a>
-                <a href="/engineer-help" class="nav-btn active">Помощь</a>
-            {% elif role == 'technologist' %}
-                <a href="/tech-processes" class="nav-btn">Тех. процессы</a>
-                <a href="/tools" class="nav-btn">Оборудование</a>
-                <a href="/technologist-help" class="nav-btn">Помощь</a>
-            {% elif role == 'director' %}
-                <a href="/add-tasks" class="nav-btn">Задачи</a>
-                <a href="/staff" class="nav-btn">Сотрудники</a>
-            {% elif role == 'guest' %}
-                <a href="/all-devices" class="nav-btn">Устройства</a>
-                <a href="/tech-processes" class="nav-btn">Тех. процессы</a>
-            {% endif %}
-        </div>
-        <a href="/user" class="user-avatar"></a>
-    </header>
-
-    <main class="help-content">
-        <section class="gosts-section">
-            <h1>Стандарты при разработке устройств</h1>
-            <p class="intro-text">
-                При разработке электронных средств вы должны руководствоваться следующими стандартами и ГОСТами.
-            </p>
-
-            {% if gosts_data %}
-                <div class="gosts-table">
-                    <div class="gosts-header">
-                        <div class="col-designator">Обозначение</div>
-                        <div class="col-name">Название стандарта</div>
-                    </div>
-                    {% for gost in gosts_data %}
-                        <div class="gost-row">
-                            <div class="col-designator">{{ gost['designator'] }}</div>
-                            <div class="col-name">{{ gost['name'] }}</div>
-                        </div>
-                    {% endfor %}
+{% extends "base.html" %}
+{% block title %}Помощь инженеру{% endblock %}
+{% block page_title %}Помощь инженеру{% endblock %}
+{% block extra_css %}
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/engineer/eng_help.css') }}">
+{% endblock %}
+{% block content %}
+<main class="help-content">
+    <section class="gosts-section">
+        <h1>Стандарты при разработке устройств</h1>
+        <p class="intro-text">
+            При разработке электронных средств вы должны руководствоваться следующими стандартами и ГОСТами.
+        </p>
+        {% if gosts_data %}
+            <div class="gosts-table">
+                <div class="gosts-header">
+                    <div class="col-designator">Обозначение</div>
+                    <div class="col-name">Название стандарта</div>
                 </div>
-            {% else %}
-                <p class="empty-message">Список стандартов временно недоступен.</p>
-            {% endif %}
-        </section>
-    </main>
-
-    <footer class="footer">Хорошего дня!</footer>
-</body>
-</html>
+                {% for gost in gosts_data %}
+                    <div class="gost-row">
+                        <div class="col-designator">{{ gost['designator'] }}</div>
+                        <div class="col-name">{{ gost['name'] }}</div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p class="empty-message">Список стандартов временно недоступен.</p>
+        {% endif %}
+    </section>
+</main>
+<footer class="footer">Хорошего дня!</footer>
+{% endblock %}

@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+{% block title %}Операции фрейма — Эксперт{% endblock %}
+{% block page_title %}Операции фрейма «{{ frame_name }}»{% endblock %}
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='styles/expert/expert.css') }}">
+{% endblock %}
+{% block content %}
+<main style="margin:20px;">
+    <h2>Операции фрейма "{{ frame_name }}"</h2>
+
+    <!-- Список операций -->
+    {% if operations %}
+        <div class="operations-table" style="margin:20px 0;">
+            <div class="operations-header" style="display:grid; grid-template-columns: 40px 1fr 200px 100px 80px; gap:10px; font-weight:bold; padding:8px; background:#f0f0f0; border-radius:4px;">
+                <div>#</div>
+                <div>Операция</div>
+                <div>Оборудование</div>
+                <div>Время (с)</div>
+                <div>Действия</div>
+            </div>
+            {% for op in operations %}
+                <div class="operation-row" style="display:grid; grid-template-columns: 40px 1fr 200px 100px 80px; gap:10px; padding:8px; border-bottom:1px solid #eee;">
+                    <div>{{ loop.index * 10 }}</div>
+                    <div>{{ op.name }}</div>
+                    <div>{{ op.tool }}</div>
+                    <div>{{ op.duration }}</div>
+                    <div>
+                        <a href="/expert/frame-op/{{ op.id }}/delete" class="btn delete" style="padding:2px 6px; font-size:12px;" onclick="return confirm('Удалить?')">🗑️</a>
+                        {% if not loop.first %}
+                            <a href="/expert/frame-op/{{ op.id }}/up" style="padding:2px 6px; font-size:12px;">↑</a>
+                        {% endif %}
+                        {% if not loop.last %}
+                            <a href="/expert/frame-op/{{ op.id }}/down" style="padding:2px 6px; font-size:12px;">↓</a>
+                        {% endif %}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p>Нет операций.</p>
+    {% endif %}
+
+    <!-- Форма добавления -->
+    <div class="expert-edit-panel" style="margin-top:30px;">
+        <h3>Добавить операцию</h3>
+        <form method="get" action="/expert/frame/{{ frame_id }}/operations" style="margin-bottom:15px;">
+            <select name="group" onchange="this.form.submit()" style="width:100%; padding:6px; margin:4px 0;">
+                {% for g in groups %}
+                    <option value="{{ g[0] }}" {% if selected_group == g[0] %}selected{% endif %}>
+                        {{ g[1] }} ({{ "%02d"|format(g[2]) }}00)
+                    </option>
+                {% endfor %}
+            </select>
+        </form>
+
+        <form method="post" action="/expert/frame/{{ frame_id }}/operation/add">
+            <div class="form-group">
+                <label>Операция</label>
+                <select name="operation_id" required style="width:100%; padding:6px; margin:4px 0;">
+                    <option value="">— Выберите —</option>
+                    {% for op in group_operations %}
+                        <option value="{{ op[0] }}">
+                            ({{ "%02d"|format(selected_group) }}{{ "%02d"|format(op[1]) }}) {{ op[2] }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Оборудование</label>
+                <select name="tool_id" required style="width:100%; padding:6px; margin:4px 0;">
+                    <option value="">— Выберите —</option>
+                    {% for t in tools %}
+                        <option value="{{ t[0] }}">{{ t[1] }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Время (сек)</label>
+                <input type="number" name="duration" min="1" value="60" required style="width:100%; padding:6px; margin:4px 0;">
+            </div>
+            <button type="submit" class="btn">Добавить</button>
+        </form>
+    </div>
+</main>
+{% endblock %}

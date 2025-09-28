@@ -1,7 +1,6 @@
 ###########################################
 ######### Подключение библиотек ###########
 ###########################################
-
 #библиотека работы  c Flask
 from flask import Flask
 from flask import render_template
@@ -9,15 +8,11 @@ from flask import request
 from flask import redirect
 from flask import make_response
 from flask import send_file
-
 #библиотека для работы с Oracle
 import cx_Oracle
-
 ###########################################
 ############# Удобные функции #############
 ###########################################
-
-
 #данные для подключения
 con_db_data = {
   'guest' : {
@@ -49,9 +44,14 @@ con_db_data = {
     'db_password' : "root1",
     'db_host' : "localhost",
     'db_port' : 1521,
+    'db_service_name' : "FREE"},
+  'expert' : {
+    'db_user' : "expert",
+    'db_password' : "expertpass",
+    'db_host' : "localhost",
+    'db_port' : 1521,
     'db_service_name' : "FREE"}
 }
-
 #подключение к БД
 def connect_to_db(role):
   # connection to database
@@ -67,7 +67,6 @@ def connect_to_db(role):
       encoding = "UTF-8"
   )
   return connection
-
 #расчёт границ таблицы
 def table_boundaries(array):
   mas =[]
@@ -77,9 +76,7 @@ def table_boundaries(array):
         mas.append(len(str(j[i])))
       elif len(str(j[i])) > mas[i]:
         mas[i] = len(str(j[i]))
-  
   return mas
-
 #вывод роли пользователя
 def get_role(login):
   con_db = connect_to_db('guest')

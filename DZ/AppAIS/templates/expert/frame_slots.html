@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+{% block title %}Назначение слотов — Эксперт{% endblock %}
+{% block page_title %}Назначение слотов{% endblock %}
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='styles/expert/expert.css') }}">
+{% endblock %}
+{% block content %}
+<main class="slot-assignment-main">
+    <h2>Выберите прототип</h2>
+    <form method="get" action="/expert/frame-slots" class="prototype-select">
+        <select name="frame" onchange="this.form.submit()">
+            <option value="">— Выберите —</option>
+            {% for f in frames %}
+                <option value="{{ f[0] }}" {% if selected_frame == f[0]|string %}selected{% endif %}>{{ f[1] }}</option>
+            {% endfor %}
+        </select>
+    </form>
+
+    {% if frame_data %}
+        <h3>Слоты прототипа "{{ frame_data.name }}"</h3>
+
+        <div class="slot-cards-container">
+            {% for item in frame_data.assigned_slots %}
+                <div class="slot-card">
+                    <div class="slot-name">{{ item.slot_name }}</div>
+                    <div class="value-box">{{ item.value_name }}</div>
+                    <div class="actions">
+                        <a href="/expert/frame-slot/{{ item.frame_value_id }}/delete?frame_id={{ selected_frame }}"
+                           class="btn-delete"
+                           onclick="return confirm('Удалить значение слота?')">
+                            Удалить
+                        </a>
+                    </div>
+                </div>
+            {% else %}
+                <p class="no-slots-message">У прототипа пока нет назначенных слотов.</p>
+            {% endfor %}
+        </div>
+
+        <h3>Добавить новый слот</h3>
+        <div class="add-slot-form-container">
+            <form method="post" action="/expert/frame/{{ selected_frame }}/slot/add">
+                <select name="slot_id" required>
+                    <option value="">— Выберите слот —</option>
+                    {% for sid, sname in all_slots %}
+                        <option value="{{ sid }}">{{ sname }}</option>
+                    {% endfor %}
+                </select>
+                <select name="value_id" required>
+                    <option value="">— Выберите значение —</option>
+                </select>
+                <button type="submit">Добавить</button>
+            </form>
+
+            <!-- JS для подгрузки значений при выборе слота -->
+            <script>
+                document.querySelector('select[name="slot_id"]').addEventListener('change', function() {
+                    const slotId = this.value;
+                    const valueSelect = document.querySelector('select[name="value_id"]');
+                    valueSelect.innerHTML = '<option value="">— Выберите значение —</option>';
+                    if (!slotId) return;
+                    fetch(`/expert/slot/${slotId}/values`)
+                        .then(r => r.json())
+                        .then(values => {
+                            values.forEach(v => {
+                                const opt = document.createElement('option');
+                                opt.value = v.id;
+                                opt.textContent = v.name;
+                                valueSelect.appendChild(opt);
+                            });
+                        });
+                });
+            </script>
+
+            <!-- Кнопка "Операции" -->
+            <div class="operations-link-container">
+                <a href="/expert/frame/{{ selected_frame }}/operations"
+                   class="btn-operations-center">
+                    Операции
+                </a>
+            </div>
+        </div>
+    {% endif %}
+</main>
+{% endblock %}

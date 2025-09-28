@@ -1,78 +1,45 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Список оборудования</title>
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/common.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/technologist/tools.css') }}">
-</head>
-<body>
-    <!-- Единая шапка -->
-    <header class="main-header">
-        <div class="header-title">Оборудование</div>
-        <div class="header-nav">
-            <a href="/" class="nav-btn">Главная</a>
-            {% if role == 'engineer' %}
-                <a href="/all-devices" class="nav-btn">Устройства</a>
-                <a href="/component-lib" class="nav-btn">Компоненты</a>
-                <a href="/engineer-help" class="nav-btn">Помощь</a>
-            {% elif role == 'technologist' %}
-                <a href="/tech-processes" class="nav-btn">Тех. процессы</a>
-                <a href="/tools" class="nav-btn active">Оборудование</a>
-                <a href="/technologist-help" class="nav-btn">Помощь</a>
-            {% elif role == 'director' %}
-                <a href="/add-tasks" class="nav-btn">Задачи</a>
-                <a href="/staff" class="nav-btn">Сотрудники</a>
-            {% elif role == 'guest' %}
-                <a href="/all-devices" class="nav-btn">Устройства</a>
-                <a href="/tech-processes" class="nav-btn">Тех. процессы</a>
+{% extends "base.html" %}
+{% block title %}Список оборудования{% endblock %}
+{% block page_title %}Оборудование{% endblock %}
+{% block extra_css %}
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/technologist/tools.css') }}">
+{% endblock %}
+{% block content %}
+<main class="tools-content">
+    <section class="info-card">
+        <p>
+            Данный список содержит всё оборудование, применяемое нашей компанией на производстве.
+        </p>
+        {% if role in ['technologist', 'director'] %}
+            <p class="admin-note">
+                Для добавления новой единицы оборудования обратитесь к администратору.
+            </p>
+        {% endif %}
+    </section>
+    <section class="tools-section">
+        <div class="section-header">
+            <h2>Список оборудования</h2>
+            {% if tools %}
+                <span class="tool-count">Всего: {{ tools|length }}</span>
             {% endif %}
         </div>
-        <a href="/user" class="user-avatar"></a>
-    </header>
-
-    <main class="tools-content">
-        <!-- Описание -->
-        <section class="info-card">
-            <p>
-                Данный список содержит всё оборудование, применяемое нашей компанией на производстве.
-            </p>
-            {% if role in ['technologist', 'director'] %}
-                <p class="admin-note">
-                    Для добавления новой единицы оборудования обратитесь к администратору.
-                </p>
-            {% endif %}
-        </section>
-
-        <!-- Список оборудования -->
-        <section class="tools-section">
-            <div class="section-header">
-                <h2>Список оборудования</h2>
-                {% if tools %}
-                    <span class="tool-count">Всего: {{ tools|length }}</span>
-                {% endif %}
-            </div>
-
-            {% if tools %}
-                <div class="tools-table">
-                    <div class="tools-header">
-                        <div class="col-number">№</div>
-                        <div class="col-name">Название оборудования</div>
-                    </div>
-                    {% for tool in tools %}
-                        <div class="tool-row">
-                            <div class="col-number">{{ tool[0] }}</div>
-                            <div class="col-name">{{ tool[1] }}</div>
-                        </div>
-                    {% endfor %}
+        {% if tools %}
+            <div class="tools-table">
+                <div class="tools-header">
+                    <div class="col-number">№</div>
+                    <div class="col-name">Название оборудования</div>
                 </div>
-            {% else %}
-                <p class="empty-message">Оборудование не добавлено.</p>
-            {% endif %}
-        </section>
-    </main>
-
-    <footer class="footer">Хорошего дня!</footer>
-</body>
-</html>
+                {% for tool in tools %}
+                    <div class="tool-row">
+                        <div class="col-number">{{ tool[0] }}</div>
+                        <div class="col-name">{{ tool[1] }}</div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p class="empty-message">Оборудование не добавлено.</p>
+        {% endif %}
+    </section>
+</main>
+<footer class="footer">Хорошего дня!</footer>
+{% endblock %}
