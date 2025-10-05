@@ -279,7 +279,6 @@ def delete_frame(frame_id):
     con_db = func.connect_to_db('expert')
     cursor = con_db.cursor()
     try:
-        # Удаляем значения слотов для всех потомков (включая сам frame_id)
         cursor.execute("""
             DELETE FROM EXPERT_FRAME_VALUES
             WHERE Frame_ID IN (
@@ -290,7 +289,6 @@ def delete_frame(frame_id):
             )
         """, root_id=frame_id)
 
-        # Удаляем сами фреймы (включая корневой и всех потомков)
         cursor.execute("""
             DELETE FROM EXPERT_FRAMES
             WHERE Frame_ID IN (
@@ -320,11 +318,16 @@ def frame_slots_page():
     
     frame_data = None
     all_slots = []
-    assigned_slots = []  # <-- слоты с их значениями
-    frame_name = ""      # <-- название фрейма для заголовка
-    
+    assigned_slots = []
+    frame_name = ""
+    operations = []
+    groups = []
+    group_operations = []
+    selected_group = None
+    tools = []
+
     if selected_frame:
-        # Получаем имя фрейма
+        # --- Слоты ---
         cursor = con_db.cursor()
         cursor.execute("SELECT Frame_Name FROM EXPERT_FRAMES WHERE Frame_ID = :1", (selected_frame,))
         row = cursor.fetchone()
@@ -332,10 +335,7 @@ def frame_slots_page():
             frame_name = row[0]
         cursor.close()
 
-        # Получаем все слоты (для формы добавления)
         all_slots = get_all_slots(con_db)
-        
-        # Получаем ID слотов, уже назначенных этому фрейму
         cursor = con_db.cursor()
         cursor.execute("""
             SELECT DISTINCT s.Slot_ID
@@ -346,14 +346,11 @@ def frame_slots_page():
         """, (selected_frame,))
         assigned_slot_ids = {str(row[0]) for row in cursor.fetchall()}
         cursor.close()
-        
-        # Оставляем только неназначенные слоты для добавления
         all_slots = [(sid, sname) for (sid, sname) in all_slots if str(sid) not in assigned_slot_ids]
-        
-        # Получаем полные данные назначенных слотов
+
         cursor = con_db.cursor()
         cursor.execute("""
-            SELECT fv.Frame_Value_ID, s.Slot_Name, sv.Value_Name, s.Slot_ID, sv.Slot_Value_ID
+            SELECT fv.Frame_Value_ID, s.Slot_Name, sv.Value_Name
             FROM EXPERT_FRAME_VALUES fv
             JOIN EXPERT_SLOT_VALUES sv ON fv.Slot_Value_ID = sv.Slot_Value_ID
             JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID
@@ -361,18 +358,44 @@ def frame_slots_page():
             ORDER BY s.Slot_Name
         """, (selected_frame,))
         assigned_slots = [
-            {
-                'frame_value_id': row[0],
-                'slot_name': row[1],
-                'value_name': row[2],
-                'slot_id': row[3],
-                'value_id': row[4]
-            }
-            for row in cursor.fetchall()
+            {'frame_value_id': r[0], 'slot_name': r[1], 'value_name': r[2]}
+            for r in cursor.fetchall()
         ]
         cursor.close()
-        
+
         frame_data = {'id': selected_frame, 'assigned_slots': assigned_slots, 'name': frame_name}
+
+        # --- Операции ---
+        groups = get_operation_groups(con_db)
+        tools = get_all_tools(con_db)
+
+        selected_group = request.args.get('group') or (str(groups[0][0]) if groups else None)
+        selected_group = int(selected_group) if selected_group else None
+        group_operations = get_operations_by_group(con_db, selected_group) if selected_group else []
+
+        cursor = con_db.cursor()
+        cursor.execute("""
+            SELECT po.Process_Op_ID, ol.Operation_Name, t.Tool_Name, po.Op_Order,
+                   og.Group_Number, ol.Operation_Number
+            FROM EXPERT_PROCESS_OPERATIONS po
+            JOIN TCHG_OPERATION_LIST ol ON po.Operation_ID = ol.Operation_ID
+            LEFT JOIN TCHG_TOOLS t ON po.Tool_ID = t.Tool_ID
+            JOIN TCHG_OPERATION_GROUP og ON ol.Operation_Group_ID = og.Group_ID
+            WHERE po.Frame_ID = :1
+            ORDER BY po.Op_Order
+        """, (selected_frame,))
+        operations = [
+            {
+                'id': r[0],
+                'name': r[1],
+                'tool': r[2],
+                'order': r[3],
+                'group_number': r[4],
+                'operation_number': r[5]
+            }
+            for r in cursor.fetchall()
+        ]
+        cursor.close()
 
     con_db.close()
     return render_template(
@@ -381,20 +404,23 @@ def frame_slots_page():
         selected_frame=selected_frame,
         frame_data=frame_data,
         all_slots=all_slots,
+        operations=operations,
+        groups=groups,
+        group_operations=group_operations,
+        selected_group=selected_group,
+        tools=tools,
         role=role
     )
-
 def add_frame_slot(frame_id):
     if request.cookies.get('auth_status') != 'True' or func.get_role(request.cookies.get('auth_login')) != 'expert':
         return redirect('/')
     slot_id = request.form.get('slot_id')
     value_id = request.form.get('value_id')
     if not slot_id or not value_id:
-        return redirect(f'/expert/frame-slots?frame={frame_id}')
+        return redirect(f'/expert/frame-slots-ops?frame={frame_id}')
     con_db = func.connect_to_db('expert')
     cursor = con_db.cursor()
     try:
-        # Проверка на дубликат по Slot_ID
         cursor.execute("""
             SELECT 1 FROM EXPERT_FRAME_VALUES fv
             JOIN EXPERT_SLOT_VALUES sv ON fv.Slot_Value_ID = sv.Slot_Value_ID
@@ -411,42 +437,14 @@ def add_frame_slot(frame_id):
     finally:
         cursor.close()
         con_db.close()
-    return redirect(f'/expert/frame-slots?frame={frame_id}')
-
-
-def update_frame_slot_value(frame_value_id):
-    if request.cookies.get('auth_status') != 'True' or func.get_role(request.cookies.get('auth_login')) != 'expert':
-        return redirect('/')
-    frame_id = request.form.get('frame_id')
-    slot_id = request.form.get('slot_id')
-    new_value_id = request.form.get('value_id')
-    if not frame_id or not slot_id or not new_value_id:
-        return redirect(f'/expert/frame-slots?frame={frame_id}')
-    
-    con_db = func.connect_to_db('expert')
-    cursor = con_db.cursor()
-    try:
-        # Обновляем значение
-        cursor.execute("""
-            UPDATE EXPERT_FRAME_VALUES
-            SET Slot_Value_ID = :1
-            WHERE Frame_Value_ID = :2
-        """, (new_value_id, frame_value_id))
-        con_db.commit()
-    except Exception as e:
-        pass
-    finally:
-        cursor.close()
-        con_db.close()
-    return redirect(f'/expert/frame-slots?frame={frame_id}')
-
+    return redirect(f'/expert/frame-slots-ops?frame={frame_id}')
 
 def delete_frame_slot(frame_value_id):
     if request.cookies.get('auth_status') != 'True' or func.get_role(request.cookies.get('auth_login')) != 'expert':
         return redirect('/')
     frame_id = request.args.get('frame_id')
     if not frame_id:
-        return redirect('/expert/frame-slots')
+        return redirect('/expert/frame-slots-ops')
     con_db = func.connect_to_db('expert')
     cursor = con_db.cursor()
     try:
@@ -457,7 +455,7 @@ def delete_frame_slot(frame_value_id):
     finally:
         cursor.close()
         con_db.close()
-    return redirect(f'/expert/frame-slots?frame={frame_id}')
+    return redirect(f'/expert/frame-slots-ops?frame={frame_id}')
 
 def get_slot_values_json(slot_id):
     if request.cookies.get('auth_status') != 'True' or func.get_role(request.cookies.get('auth_login')) != 'expert':
@@ -467,31 +465,7 @@ def get_slot_values_json(slot_id):
     con_db.close()
     return jsonify([{'id': v[0], 'name': v[1]} for v in values])
 
-def get_operations_for_frame(con_db, frame_id):
-    cursor = con_db.cursor()
-    cursor.execute("""
-        SELECT po.Process_Op_ID, ol.Operation_Name, t.Tool_Name, po.Op_Duration, po.Op_Order, po.Operation_ID, po.Tool_ID
-        FROM EXPERT_PROCESS_OPERATIONS po
-        JOIN TCHG_OPERATION_LIST ol ON po.Operation_ID = ol.Operation_ID
-        JOIN TCHG_TOOLS t ON po.Tool_ID = t.Tool_ID
-        WHERE po.Frame_ID = :1
-        ORDER BY po.Op_Order
-    """, (frame_id,))
-    rows = cursor.fetchall()
-    cursor.close()
-    return [
-        {
-            'id': r[0],
-            'name': r[1],
-            'tool': r[2],
-            'duration': r[3],
-            'order': r[4],
-            'operation_id': r[5],
-            'tool_id': r[6]
-        }
-        for r in rows
-    ]
-
+# === Операции (вспомогательные функции) ===
 def get_operation_groups(con_db):
     cursor = con_db.cursor()
     cursor.execute("SELECT Group_ID, Group_Name, Group_Number FROM TCHG_OPERATION_GROUP ORDER BY Group_Number")
@@ -518,57 +492,20 @@ def get_all_tools(con_db):
     cursor.close()
     return tools
 
-def frame_operations_page(frame_id):
-    redirect_result = check_expert_access()
-    if redirect_result:
-        return redirect_result
-    role = func.get_role(request.cookies.get('auth_login'))
-    con_db = func.connect_to_db('expert')
-    
-    # Получаем фрейм по ID
-    cursor = con_db.cursor()
-    cursor.execute("SELECT Frame_Name FROM EXPERT_FRAMES WHERE Frame_ID = :1", (frame_id,))
-    frame_row = cursor.fetchone()
-    if not frame_row:
-        con_db.close()
-        return redirect('/expert/frames')
-    frame_name = frame_row[0]
-    cursor.close()
-    
-    operations = get_operations_for_frame(con_db, frame_id)
-    groups = get_operation_groups(con_db)
-    tools = get_all_tools(con_db)
-    
-    selected_group = request.args.get('group') or (str(groups[0][0]) if groups else None)
-    selected_group = int(selected_group) if selected_group else None
-    group_operations = get_operations_by_group(con_db, selected_group) if selected_group else []
-    
-    con_db.close()
-    return render_template(
-        "expert/frame_operations.html",
-        frame_id=frame_id,
-        frame_name=frame_name,
-        operations=operations,
-        groups=groups,
-        group_operations=group_operations,
-        selected_group=selected_group,
-        tools=tools,
-        role=role
-    )
-
+# === Управление операциями ===
 def add_frame_operation(frame_id):
     if request.cookies.get('auth_status') != 'True' or func.get_role(request.cookies.get('auth_login')) != 'expert':
         return redirect('/')
     op_id = request.form.get('operation_id')
-    tool_id = request.form.get('tool_id')
-    duration = request.form.get('duration', '0').strip()
-    if not op_id or not tool_id or not duration.isdigit():
-        return redirect(f'/expert/frame/{frame_id}/operations')
+    tool_id = request.form.get('tool_id') or None  # может быть None
+    duration = 0  # всегда 0
+
+    if not op_id:
+        return redirect(f'/expert/frame-slots-ops?frame={frame_id}')
     
     con_db = func.connect_to_db('expert')
     cursor = con_db.cursor()
     try:
-        # Получаем максимальный порядок
         cursor.execute("SELECT NVL(MAX(Op_Order), 0) FROM EXPERT_PROCESS_OPERATIONS WHERE Frame_ID = :1", (frame_id,))
         max_order = cursor.fetchone()[0]
         new_order = max_order + 10
@@ -577,14 +514,14 @@ def add_frame_operation(frame_id):
             INSERT INTO EXPERT_PROCESS_OPERATIONS 
             (Process_Op_ID, Frame_ID, Operation_ID, Op_Order, Op_Duration, Tool_ID)
             VALUES (S_EXPERT_PROCESS_OPERATIONS.NEXTVAL, :1, :2, :3, :4, :5)
-        """, (frame_id, op_id, new_order, int(duration), tool_id))
+        """, (frame_id, op_id, new_order, duration, tool_id))
         con_db.commit()
     except Exception as e:
         pass
     finally:
         cursor.close()
         con_db.close()
-    return redirect(f'/expert/frame/{frame_id}/operations')
+    return redirect(f'/expert/frame-slots-ops?frame={frame_id}')
 
 def delete_frame_operation(op_id):
     if request.cookies.get('auth_status') != 'True' or func.get_role(request.cookies.get('auth_login')) != 'expert':
@@ -605,7 +542,7 @@ def delete_frame_operation(op_id):
     finally:
         cursor.close()
         con_db.close()
-    return redirect(f'/expert/frame/{frame_id}/operations')
+    return redirect(f'/expert/frame-slots-ops?frame={frame_id}')
 
 def move_operation_up(op_id):
     if request.cookies.get('auth_status') != 'True' or func.get_role(request.cookies.get('auth_login')) != 'expert':
@@ -639,10 +576,7 @@ def move_operation_up(op_id):
     finally:
         cursor.close()
         con_db.close()
-    
-    # Возвращаемся на страницу операций фрейма
-    return redirect(f'/expert/frame/{frame_id}/operations')
-
+    return redirect(f'/expert/frame-slots-ops?frame={frame_id}')
 
 def move_operation_down(op_id):
     if request.cookies.get('auth_status') != 'True' or func.get_role(request.cookies.get('auth_login')) != 'expert':
@@ -676,5 +610,4 @@ def move_operation_down(op_id):
     finally:
         cursor.close()
         con_db.close()
-    
-    return redirect(f'/expert/frame/{frame_id}/operations')
+    return redirect(f'/expert/frame-slots-ops?frame={frame_id}')

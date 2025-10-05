@@ -82,5 +82,16 @@ def get_role(login):
   con_db = connect_to_db('guest')
   cursor = con_db.cursor()
   cursor.execute('SELECT User_Role FROM AUTH_USERS WHERE User_Login = \'' + login +'\'')
-  return cursor.fetchall()[0][0]
+  result = cursor.fetchall()[0][0]
+  cursor.close()
+  return result
+
+#вывод id пользователя по логину
+def get_id(con_db, login):
+  cursor = con_db.cursor()
+  cursor.execute('SELECT User_ID FROM AUTH_USERS WHERE User_Login = \'' + login +'\'')
+  result = cursor.fetchall()[0][0]
+  cursor.close()
+  return result
+
 

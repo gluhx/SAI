@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}Предпросмотр ТП{% endblock %}
+{% block page_title %}Сгенерированный ТП{% endblock %}
+{% block content %}
+<h2>Операции технологического процесса</h2>
+{% if operations %}
+  <ol>
+  {% for op_id, duration, tool_id in operations %}
+    <li>Операция ID={{ op_id }}, время={{ duration }}, оборудование={{ tool_id }}</li>
+  {% endfor %}
+  </ol>
+  <form method="post" action="/expert/create-tp">
+    <button type="submit" class="btn-primary">Создать ТП</button>
+  </form>
+{% else %}
+  <p>Нет операций для создания ТП.</p>
+{% endif %}
+<a href="/expert/cancel" class="btn-secondary">Отмена</a>
+{% endblock %}
