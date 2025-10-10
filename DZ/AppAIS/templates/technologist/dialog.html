@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}Экспертная система — {{ frame_name }}{% endblock %}
+{% block page_title %}Экспертная система{% endblock %}
+{% block extra_css %}
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/technologist/dialog.css') }}">
+{% endblock %}
+{% block content %}
+<h2>Фрейм: {{ frame_name }}</h2>
+
+<div class="expert-dialog-box">
+  <p><strong>Слот:</strong> {{ slot_name }}</p>
+  <p><strong>Значение:</strong> "{{ value_name }}"?</p>
+
+  <form method="post" class="expert-form">
+    <input type="hidden" name="slot_id" value="{{ slot_id }}">
+    <input type="hidden" name="value_id" value="{{ value_id }}">
+    <button type="submit" name="answer" value="yes" class="btn-primary">Да</button>
+    <button type="submit" name="answer" value="no" class="btn-secondary">Нет</button>
+  </form>
+
+  <a href="/expert/cancel" class="btn-link">Отмена</a>
+</div>
+{% endblock %}

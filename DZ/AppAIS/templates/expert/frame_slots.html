@@ -1,0 +1,159 @@
+{% extends "base.html" %}
+{% block title %}Слоты и операции — Эксперт{% endblock %}
+{% block page_title %}Слоты и операции фрейма «{{ frame_data.name if frame_data else '' }}»{% endblock %}
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='styles/expert/expert.css') }}">
+{% endblock %}
+
+{% block content %}
+<main class="slot-assignment-main">
+    <!-- Выбор прототипа -->
+    <h2>Выберите прототип</h2>
+    <form method="get" action="/expert/frame-slots" class="prototype-select">
+        <select name="frame" onchange="this.form.submit()">
+            <option value="">— Выберите —</option>
+            {% for f in frames %}
+                <option value="{{ f[0] }}" {% if selected_frame == f[0]|string %}selected{% endif %}>{{ f[1] }}</option>
+            {% endfor %}
+        </select>
+    </form>
+
+    {% if frame_data %}
+        <!-- === СЛОТЫ === -->
+        <h3>Слоты прототипа "{{ frame_data.name }}"</h3>
+        <div class="slot-cards-container">
+            {% for item in frame_data.assigned_slots %}
+                <div class="slot-card">
+                    <div class="slot-name">{{ item.slot_name }}</div>
+                    <div class="value-box">{{ item.value_name }}</div>
+                    <div class="actions">
+                        <a href="/expert/frame-slot/{{ item.frame_value_id }}/delete?frame_id={{ selected_frame }}"
+                           class="btn-delete"
+                           onclick="return confirm('Удалить значение слота?')">
+                            Удалить
+                        </a>
+                    </div>
+                </div>
+            {% else %}
+                <p class="no-slots-message">У прототипа пока нет назначенных слотов.</p>
+            {% endfor %}
+        </div>
+
+        <h3>Добавить новый слот</h3>
+        <div class="add-slot-form-container">
+            <form method="post" action="/expert/frame/{{ selected_frame }}/slot/add">
+                <select name="slot_id" required>
+                    <option value="">— Выберите слот —</option>
+                    {% for sid, sname in all_slots %}
+                        <option value="{{ sid }}">{{ sname }}</option>
+                    {% endfor %}
+                </select>
+                <select name="value_id" required>
+                    <option value="">— Выберите значение —</option>
+                </select>
+                <button type="submit">Добавить слот</button>
+            </form>
+        </div>
+
+        <!-- === ОПЕРАЦИИ === -->
+        <h3 class="operations-title">Операции фрейма "{{ frame_data.name }}"</h3>
+
+        <!-- Форма добавления операции -->
+        <div class="add-operation-form-container">
+            <form method="get" action="/expert/frame-slots" class="group-select-form">
+                <input type="hidden" name="frame" value="{{ selected_frame }}">
+                <select name="group" onchange="this.form.submit()" class="group-select">
+                    {% for g in groups %}
+                        <option value="{{ g[0] }}" {% if selected_group == g[0]|string %}selected{% endif %}>
+                            {{ g[1] }} ({{ "%02d"|format(g[2]) }}00)
+                        </option>
+                    {% endfor %}
+                </select>
+            </form>
+
+            <form method="post" action="/expert/frame/{{ selected_frame }}/operation/add" class="operation-add-form">
+                <input type="hidden" name="frame_id" value="{{ selected_frame }}">
+                <div class="form-group">
+                    <label>Операция *</label>
+                    <select name="operation_id" required class="operation-select">
+                        <option value="">— Выберите —</option>
+                        {% for op in group_operations %}
+                            <option value="{{ op[0] }}">
+                                ({{ "%02d"|format(group_number) }}{{ "%02d"|format(op[1]) }}) {{ op[2] }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Название операции *</label>
+                    <input type="text" name="process_name" required maxlength="1000"
+                           placeholder="Например: Монтаж платы ПП-123"
+                           style="width:100%; padding:10px; border:1px solid #ccc; border-radius:6px; font-size:14px;">
+                </div>
+                <div class="form-group">
+                    <label>Оборудование *</label>
+                    <select name="tool_id" required class="tool-select">
+                        <option value="">— Выберите —</option>
+                        {% for t in tools %}
+                            <option value="{{ t[0] }}">{{ t[1] }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <input type="hidden" name="duration" value="0">
+                <button type="submit" class="btn-primary">Добавить операцию</button>
+            </form>
+        </div>
+
+        <!-- Список операций -->
+        {% if operations %}
+            <div class="operations-table">
+                <div class="operations-header">
+                    <div>Код</div>
+                    <div>Название</div>
+                    <div>Операция</div>
+                    <div>Оборудование</div>
+                    <div>Действия</div>
+                </div>
+                {% for op in operations %}
+                    <div class="operation-row">
+                        <div>{{ "%02d"|format(op.group_number) }}{{ "%02d"|format(op.operation_number) }}</div>
+                        <div>{{ op.process_name or '—' }}</div>
+                        <div>{{ op.name }}</div>
+                        <div>{{ op.tool or '—' }}</div>
+                        <div class="operation-actions">
+                            <a href="/expert/frame-op/{{ op.id }}/delete" class="btn-delete" onclick="return confirm('Удалить операцию?')">🗑️</a>
+                            {% if not loop.first %}
+                                <a href="/expert/frame-op/{{ op.id }}/up" class="btn-move">↑</a>
+                            {% endif %}
+                            {% if not loop.last %}
+                                <a href="/expert/frame-op/{{ op.id }}/down" class="btn-move">↓</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p class="no-operations-message">Нет операций.</p>
+        {% endif %}
+    {% endif %}
+</main>
+
+<script>
+document.querySelector('select[name="slot_id"]').addEventListener('change', function() {
+    const slotId = this.value;
+    const valueSelect = document.querySelector('select[name="value_id"]');
+    valueSelect.innerHTML = '<option value="">— Выберите значение —</option>';
+    if (!slotId) return;
+    fetch(`/expert/slot/${slotId}/values`)
+        .then(r => r.json())
+        .then(values => {
+            values.forEach(v => {
+                const opt = document.createElement('option');
+                opt.value = v.id;
+                opt.textContent = v.name;
+                valueSelect.appendChild(opt);
+            });
+        });
+});
+</script>
+{% endblock %}

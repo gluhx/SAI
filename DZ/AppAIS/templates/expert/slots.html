@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% block title %}Слоты — Эксперт{% endblock %}
+{% block page_title %}Слоты{% endblock %}
+{% block extra_css %}
+<link rel="stylesheet" href="/static/styles/expert/expert.css">
+{% endblock %}
+{% block content %}
+<main class="expert-main-content">
+    <div class="expert-tree">
+        <h3>Добавить слот</h3>
+        <div class="expert-form">
+            <form method="post" action="/expert/slots">
+                <input type="text" name="name" placeholder="Название слота" required>
+                <input type="text" name="desc" placeholder="Описание (необязательно)">
+                <button type="submit">Добавить</button>
+            </form>
+        </div>
+        <h3>Дерево слотов</h3>
+
+        {% macro render_slot(slot, level=0) %}
+            <div class="slot-node {% if slot.values %}has-values{% endif %}" style="padding-left: {{ level * 20 }}px;">
+                <span class="slot-name" onclick="location.href='/expert/slots?edit_slot={{ slot.id }}'">
+                    <span class="slot-box">{{ slot.name }}</span>
+                </span>
+                {% if slot.values %}
+                    <div class="values-container">
+                        {% for val in slot['values'] %}
+                            <div class="slot-value" style="padding-left: 20px; display: flex; align-items: center; gap: 6px;">
+                                <!-- Значение слота — оранжевое -->
+                                <span style="background: #d986b9; color: #2c3e50; padding: 2px 6px; border-radius: 4px; font-size: 14px;">
+                                    {{ val[1] }}
+                                </span>
+                                <!-- Кнопка удаления — красная круглая -->
+                                <a href="/expert/slot/value/{{ val[0] }}/delete"
+                                   style="width: 20px; height: 20px; border-radius: 50%; background: #e74c3c; color: white; display: flex; align-items: center; justify-content: center; text-decoration: none; font-size: 14px;"
+                                   onclick="return confirm('Удалить значение?')">
+                                    –
+                                </a>
+                            </div>
+                        {% endfor %}
+                        <form method="post" action="/expert/slot/{{ slot.id }}/value/add">
+                            <input type="text" name="value" placeholder="Новое значение" required>
+                            <button type="submit">+</button>
+                        </form>
+                    </div>
+                {% endif %}
+            </div>
+        {% endmacro %}
+
+        <div class="slot-node" onclick="location.href='/expert/slots'">Слоты</div>
+        {% for slot in slots %}
+            {{ render_slot(slot, 1) }}
+        {% endfor %}
+    </div>
+
+    {% if edit_slot %}
+    <div class="expert-edit-panel">
+        <h3>Редактирование слота</h3>
+        <div class="expert-form">
+            <form method="post" action="/expert/slot/{{ edit_slot.id }}/update">
+                <input type="text" name="name" value="{{ edit_slot.name }}" required>
+                <input type="text" name="desc" value="{{ edit_slot.desc }}">
+                <button type="submit">Сохранить</button>
+                <a href="/expert/slots" class="btn-secondary">Отмена</a>
+            </form>
+            <form method="post" action="/expert/slot/{{ edit_slot.id }}/delete" onsubmit="return confirm('Удалить слот?')">
+                <button type="submit" class="delete">Удалить</button>
+            </form>
+        </div>
+    </div>
+    {% endif %}
+</main>
+{% endblock %}

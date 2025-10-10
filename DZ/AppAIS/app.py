@@ -15,6 +15,8 @@ from flask import send_file
 from flask_qrcode import QRcode
 app = Flask(__name__)
 QRcode(app)
+
+app.secret_key = 'f2line.'  # для сессий
 ###########################################
 ##### Подключение файлов с функциями ######
 ###########################################
@@ -30,6 +32,8 @@ import director as dir
 import function as func
 #модуль администратора
 import admin as adm
+#модуль эксперта
+import expert as exp
 ###########################################
 ############# Страницы сайта ##############
 ###########################################
@@ -164,6 +168,22 @@ def tools():
 def tech_help():
     return tech.help()
 
+@app.route('/expert/generate-tp')
+def expert_generate_tp():
+    return tech.expert_generate_tp()
+
+@app.route('/expert/dialog', methods=['GET', 'POST'])
+def expert_dialog():
+    return tech.expert_dialog()
+
+@app.route('/expert/cancel')
+def expert_cancel():
+    return tech.expert_cancel()
+
+@app.route('/expert/create-tp', methods=['GET', 'POST'])
+def expert_create_tp():
+    return tech.expert_create_tp()
+
 ############# модуль директора ##############
 @app.route('/add-tasks', methods=['POST', 'GET'])
 def create_task():
@@ -201,6 +221,73 @@ def admin_edit_form(table_name, pk_value):
 def admin_handle_edit(table_name):
     pk_value = request.form.get('pk')
     return adm.handle_edit(table_name, pk_value)
+
+############# модуль эксперта ##############
+@app.route('/expert/slots', methods=['GET', 'POST'])
+def expert_slots():
+    if request.method == 'POST':
+        return exp.add_slot()
+    return exp.slots_page()
+
+@app.route('/expert/slot/<int:slot_id>/update', methods=['POST'])
+def expert_update_slot(slot_id):
+    return exp.update_slot(slot_id)
+
+@app.route('/expert/slot/<int:slot_id>/delete', methods=['POST'])
+def expert_delete_slot(slot_id):
+    return exp.delete_slot(slot_id)
+
+@app.route('/expert/slot/<int:slot_id>/value/add', methods=['POST'])
+def expert_add_slot_value(slot_id):
+    return exp.add_slot_value(slot_id)
+
+@app.route('/expert/slot/value/<int:value_id>/delete')
+def expert_delete_slot_value(value_id):
+    return exp.delete_slot_value(value_id)
+
+@app.route('/expert/frames', methods=['GET', 'POST'])
+def expert_frames():
+    if request.method == 'POST':
+        return exp.add_frame()
+    return exp.frames_page()
+
+@app.route('/expert/frame/<int:frame_id>/update', methods=['POST'])
+def expert_update_frame(frame_id):
+    return exp.update_frame(frame_id)
+
+@app.route('/expert/frame/<int:frame_id>/delete', methods=['POST'])
+def expert_delete_frame(frame_id):
+    return exp.delete_frame(frame_id)
+
+@app.route('/expert/frame-slots')
+def expert_frame_slots():
+    return exp.frame_slots_page()
+
+@app.route('/expert/frame/<frame_id>/slot/add', methods=['POST'])
+def expert_add_frame_slot(frame_id):
+    return exp.add_frame_slot(frame_id)
+
+@app.route('/expert/frame-slot/<int:frame_value_id>/delete')
+def expert_delete_frame_slot(frame_value_id):
+    frame_id = request.args.get('frame_id')
+    return exp.delete_frame_slot(frame_value_id)
+
+# Управление операциями фрейма
+@app.route('/expert/frame/<int:frame_id>/operation/add', methods=['POST'])
+def expert_add_frame_operation(frame_id):
+    return exp.add_frame_operation(frame_id)
+
+@app.route('/expert/frame-op/<int:op_id>/delete')
+def expert_delete_frame_operation(op_id):
+    return exp.delete_frame_operation(op_id)
+
+@app.route('/expert/frame-op/<int:op_id>/up')
+def expert_move_operation_up(op_id):
+    return exp.move_operation_up(op_id)
+
+@app.route('/expert/frame-op/<int:op_id>/down')
+def expert_move_operation_down(op_id):
+    return exp.move_operation_down(op_id)
 
 #запуск Web приложения
 if __name__ == '__main__':

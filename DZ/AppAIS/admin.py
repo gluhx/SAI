@@ -15,7 +15,8 @@ def get_table_columns_and_data(con_db, table_name):
 def admin_tables():
     if request.cookies.get('auth_status') != 'True':
         return redirect('/login')
-    if func.get_role(request.cookies.get('auth_login')) != 'admin':
+    role = func.get_role(request.cookies.get('auth_login'))
+    if role != 'admin':
         return redirect('/')
     
     table_name = request.args.get('table', 'AUTH_USERS')
@@ -43,6 +44,7 @@ def admin_tables():
                            columns=columns,
                            rows=rows,
                            pk_index=0,
+                           role=role,
                            pk_column=columns[0] if columns else '',
                            error_message=error_message)
 
@@ -137,7 +139,10 @@ def insert_row(table_name):
         return redirect('/admin-tables?table=' + table_name)
 
 def update_row(table_name):
-    if request.cookies.get('auth_status') != 'True' or func.get_role(request.cookies.get('auth_login')) != 'admin':
+    if request.cookies.get('auth_status') != 'True':
+        return redirect('/')
+    role = func.get_role(request.cookies.get('auth_login'))
+    if role != 'admin':
         return redirect('/')
     
     con_db = func.connect_to_db('admin')

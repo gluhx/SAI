@@ -20,7 +20,8 @@ ALTER TABLE AUTH_USERS
                                             User_Role = 'director' OR 
                                             User_Role = 'technologist' OR 
                                             User_Role = 'engineer' OR
-                                            User_Role = 'guest');
+                                            User_Role = 'guest' OR
+                                            User_Role = 'expert');
 
 CREATE SEQUENCE S_AUTH_USERS INCREMENT BY 1 START WITH 1;
 
@@ -31,18 +32,24 @@ INSERT INTO AUTH_USERS (
 
 INSERT INTO AUTH_USERS (
     User_ID, User_Login, User_Name, User_Last_Name, User_Password, User_Phone, User_Email, User_Role)
-    VALUES (S_AUTH_USERS.NEXTVAL, 'director', 'Степан', 'Глухов', '085ccfa329241ca2f35b684caf376e1f', 
-        '', '', 'director');
+    VALUES (S_AUTH_USERS.NEXTVAL, 'director', 'Никита', 'Сальников', '085ccfa329241ca2f35b684caf376e1f', 
+        '+79684904122', '', 'director');
 
 INSERT INTO AUTH_USERS (
     User_ID, User_Login, User_Name, User_Last_Name, User_Password, User_Phone, User_Email, User_Role)
     VALUES (S_AUTH_USERS.NEXTVAL, 'technologist', 'Владислав', 'Рогозинский', '085ccfa329241ca2f35b684caf376e1f', 
-        '', '', 'technologist');
+        '89006075748', 'vladislav020603@mail.ru', 'technologist');
 
 INSERT INTO AUTH_USERS (
     User_ID, User_Login, User_Name, User_Last_Name, User_Password, User_Phone, User_Email, User_Role)
     VALUES (S_AUTH_USERS.NEXTVAL, 'engineer', 'Борис', 'Карышев', '085ccfa329241ca2f35b684caf376e1f', 
-        '', '', 'engineer');
+        '+79166606624', 'boris.karyshev@gmail.com', 'engineer');
+
+INSERT INTO AUTH_USERS (
+    User_ID, User_Login, User_Name, User_Last_Name, User_Password, User_Phone, User_Email, User_Role)
+    VALUES (S_AUTH_USERS.NEXTVAL, 'expert', 'Александр', 'Бабич', '085ccfa329241ca2f35b684caf376e1f', 
+        '+79778500433', '', 'expert');
+
 
 PROMPT Создаём публичные синонимы
 

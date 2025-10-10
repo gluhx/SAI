@@ -1,98 +1,79 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Администрирование таблицы {{ table_name }} | ООО "Альбирео"</title>
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/common.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/admin/admin_tables.css') }}">
-</head>
-<body>
-    <!-- Единая шапка -->
-    <header class="main-header">
-        <div class="header-title">Администрирование</div>
-        <div class="header-nav">
-            <a href="/" class="nav-btn">Главная</a>
+{% extends "base.html" %}
+{% block title %}Администрирование таблицы {{ table_name }} | ООО "Альбирео"{% endblock %}
+{% block page_title %}Администрирование{% endblock %}
+{% block extra_css %}
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/admin/admin_tables.css') }}">
+{% endblock %}
+{% block content %}
+<main class="admin-page">
+    <section class="page-header">
+        <h1>Таблица: {{ table_name }}</h1>
+        <p class="page-subtitle">Вы администратор, вам доступно изменение данных в таблицах</p>
+    </section>
+    {% if error_message %}
+        <div class="error-message">
+            <strong>Ошибка:</strong> {{ error_message }}
         </div>
-        <a href="/user" class="user-avatar"></a>
-    </header>
-
-    <main class="admin-page">
-        <section class="page-header">
-            <h1>Таблица: {{ table_name }}</h1>
-            <p class="page-subtitle">Вы администратор, вам доступно изменение данных в таблицах</p>
-        </section>
-
-        {% if error_message %}
-            <div class="error-message">
-                <strong>Ошибка:</strong> {{ error_message }}
-            </div>
-        {% endif %}
-
-        {% if rows %}
-            <section class="data-table-section">
-                <div class="table-wrapper">
-                    <table class="data-table">
-                        <thead>
-                            <tr>
-                                {% for col in columns %}
-                                    <th>{{ col }}{% if loop.index0 == pk_index %} (PK){% endif %}</th>
-                                {% endfor %}
-                                <th>Действия</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for row in rows %}
-                                <tr>
-                                    {% for cell in row %}
-                                        <td>{{ cell if cell is not none else '' }}</td>
-                                    {% endfor %}
-                                    <td class="actions-cell">
-                                        <form method="POST" action="/admin/delete/{{ table_name }}" class="action-form">
-                                            <input type="hidden" name="pk" value="{{ row[pk_index] }}">
-                                            <button type="submit" class="delete-btn">Удалить</button>
-                                        </form>
-                                        <a href="/admin/edit/{{ table_name }}/{{ row[pk_index] }}" class="edit-btn">Изменить</a>
-                                    </td>
-                                </tr>
+    {% endif %}
+    {% if rows %}
+        <section class="data-table-section">
+            <div class="table-wrapper">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            {% for col in columns %}
+                                <th>{{ col }}{% if loop.index0 == pk_index %} (PK){% endif %}</th>
                             {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
-            </section>
-
-            <section class="add-record-section">
-                <h2>Добавить новую запись</h2>
-                <form method="POST" action="/admin/insert/{{ table_name }}" class="add-record-form">
-                    {% for col in columns %}
-                        {% if loop.index0 != pk_index %} <!-- Не показываем поле PK в форме добавления -->
-                            <div class="form-group">
-                                <label for="add_{{ col }}">{{ col }}:</label>
-                                {% if table_name == 'AUTH_USERS' and col == 'USER_ROLE' %}
-                                    <select id="add_{{ col }}" name="{{ col }}" required>
-                                        <option value="">— Выберите роль —</option>
-                                        <option value="admin">admin</option>
-                                        <option value="director">director</option>
-                                        <option value="technologist">technologist</option>
-                                        <option value="engineer">engineer</option>
-                                    </select>
-                                {% else %}
-                                    <input type="text" id="add_{{ col }}" name="{{ col }}" required>
-                                {% endif %}
-                            </div>
-                        {% endif %}
-                    {% endfor %}
-                    <button type="submit" class="btn-primary">Добавить</button>
-                </form>
-            </section>
-
-        {% else %}
-            <p class="empty-message">Таблица пуста.</p>
-        {% endif %}
-
-        <a href="/" class="back-link">← На главную</a>
-    </main>
-
-    <footer class="footer">Хорошего дня!</footer>
-</body>
-</html>
+                            <th>Действия</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for row in rows %}
+                            <tr>
+                                {% for cell in row %}
+                                    <td>{{ cell if cell is not none else '' }}</td>
+                                {% endfor %}
+                                <td class="actions-cell">
+                                    <form method="POST" action="/admin/delete/{{ table_name }}" class="action-form">
+                                        <input type="hidden" name="pk" value="{{ row[pk_index] }}">
+                                        <button type="submit" class="delete-btn">Удалить</button>
+                                    </form>
+                                    <a href="/admin/edit/{{ table_name }}/{{ row[pk_index] }}" class="edit-btn">Изменить</a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </section>
+        <section class="add-record-section">
+            <h2>Добавить новую запись</h2>
+            <form method="POST" action="/admin/insert/{{ table_name }}" class="add-record-form">
+                {% for col in columns %}
+                    {% if loop.index0 != pk_index %}
+                        <div class="form-group">
+                            <label for="add_{{ col }}">{{ col }}:</label>
+                            {% if table_name == 'AUTH_USERS' and col == 'USER_ROLE' %}
+                                <select id="add_{{ col }}" name="{{ col }}" required>
+                                    <option value="">— Выберите роль —</option>
+                                    <option value="admin">admin</option>
+                                    <option value="director">director</option>
+                                    <option value="technologist">technologist</option>
+                                    <option value="engineer">engineer</option>
+                                </select>
+                            {% else %}
+                                <input type="text" id="add_{{ col }}" name="{{ col }}" required>
+                            {% endif %}
+                        </div>
+                    {% endif %}
+                {% endfor %}
+                <button type="submit" class="btn-primary">Добавить</button>
+            </form>
+        </section>
+    {% else %}
+        <p class="empty-message">Таблица пуста.</p>
+    {% endif %}
+    <a href="/" class="back-link">← На главную</a>
+</main>
+<footer class="footer">Хорошего дня!</footer>
+{% endblock %}

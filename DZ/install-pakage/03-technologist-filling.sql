@@ -3915,7 +3915,16 @@ INSERT INTO TCHG_TOOLS (Tool_ID, Tool_Name)
     VALUES (S_TCHG_TOOLS.NEXTVAL, 'Шкаф сушильный');
 INSERT INTO TCHG_TOOLS (Tool_ID, Tool_Name)
     VALUES (S_TCHG_TOOLS.NEXTVAL, 'Установка для нанесения лака');
-
+INSERT INTO TCHG_TOOLS (Tool_ID, Tool_Name)
+    VALUES (S_TCHG_TOOLS.NEXTVAL, 'Рентгеновская установка');
+INSERT INTO TCHG_TOOLS (Tool_ID, Tool_Name)
+    VALUES (S_TCHG_TOOLS.NEXTVAL, 'Паяльная станция с феном');
+INSERT INTO TCHG_TOOLS (Tool_ID, Tool_Name)
+    VALUES (S_TCHG_TOOLS.NEXTVAL, 'Селективная паяльная машина');
+INSERT INTO TCHG_TOOLS (Tool_ID, Tool_Name)
+    VALUES (S_TCHG_TOOLS.NEXTVAL, 'Установка для нанесения клея');
+INSERT INTO TCHG_TOOLS (Tool_ID, Tool_Name)
+    VALUES (S_TCHG_TOOLS.NEXTVAL, 'Установка для формовки выводов');
 
 PROMPT Заполняем таблицу ТП примером
 

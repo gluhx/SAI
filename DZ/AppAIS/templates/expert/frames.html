@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% block title %}Фреймы — Эксперт{% endblock %}
+{% block page_title %}Фреймы{% endblock %}
+{% block extra_css %}
+<link rel="stylesheet" href="/static/styles/expert/expert.css">
+{% endblock %}
+{% block content %}
+<main class="expert-main-content">
+    <div class="expert-tree">
+        <h3>Добавить фрейм</h3>
+        <div class="expert-form">
+            <form method="post" action="/expert/frames">
+                <input type="text" name="name" placeholder="Название фрейма" required>
+                <select name="parent_id">
+                    <option value="">Корневой</option>
+                    {% for f in all_frames %}
+                        <option value="{{ f[0] }}">{{ f[1] }}</option>
+                    {% endfor %}
+                </select>
+                <label><input type="checkbox" name="is_prototype" value="1"> Прототип</label>
+                <button type="submit">Добавить</button>
+            </form>
+        </div>
+        <h3>Дерево фреймов</h3>
+        <div class="frame-node"><strong>Фреймы</strong></div>
+
+        {% macro render_frame(frame, level=0) %}
+            <div class="frame-node {% if frame.children %}has-children{% endif %}" style="padding-left: {{ level * 20 }}px;">
+                <span class="frame-name {% if frame.is_prototype %}prototype{% endif %} {% if frame.children %}has-children{% endif %}" 
+                      onclick="location.href='/expert/frames?edit_frame={{ frame.id }}'">
+                    <span class="frame-box {% if frame.is_prototype %}prototype-box{% endif %}">
+                        {{ frame.name }}
+                    </span>
+                </span>
+                {% if frame.children %}
+                    <div class="children-container">
+                        {% for child in frame.children %}
+                            {{ render_frame(child, level + 1) }}
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+        {% endmacro %}
+
+        {% for frame in frames %}
+            {{ render_frame(frame, 1) }}
+        {% endfor %}
+    </div>
+
+    {% if edit_frame %}
+    <div class="expert-edit-panel">
+        <h3>Редактирование фрейма</h3>
+        <div class="expert-form">
+            <form method="post" action="/expert/frame/{{ edit_frame.id }}/update">
+                <input type="text" name="name" value="{{ edit_frame.name }}" required>
+                <select name="parent_id">
+                    <option value="">Корневой</option>
+                    {% for f in all_frames %}
+                        <option value="{{ f[0] }}" {% if f[0] == edit_frame.parent %}selected{% endif %}>{{ f[1] }}</option>
+                    {% endfor %}
+                </select>
+                <label><input type="checkbox" name="is_prototype" value="1" {% if edit_frame.is_prototype %}checked{% endif %}> Прототип</label>
+                <button type="submit">Сохранить</button>
+                <a href="/expert/frames" class="btn-secondary">Отмена</a>
+            </form>
+            <form method="post" action="/expert/frame/{{ edit_frame.id }}/delete" onsubmit="return confirm('Удалить фрейм?')">
+                <button type="submit" class="delete">Удалить</button>
+            </form>
+        </div>
+    </div>
+    {% endif %}
+</main>
+{% endblock %}

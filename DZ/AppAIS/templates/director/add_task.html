@@ -1,133 +1,97 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Управление задачами</title>
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/common.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/director/add_task.css') }}">
-</head>
-<body>
-    <!-- Единая шапка -->
-    <header class="main-header">
-        <div class="header-title">Задачи</div>
-        <div class="header-nav">
-            <a href="/" class="nav-btn">Главная</a>
-            {% if role == 'engineer' %}
-                <a href="/all-devices" class="nav-btn">Устройства</a>
-                <a href="/component-lib" class="nav-btn">Компоненты</a>
-                <a href="/engineer-help" class="nav-btn">Помощь</a>
-            {% elif role == 'technologist' %}
-                <a href="/tech-processes" class="nav-btn">Тех. процессы</a>
-                <a href="/tools" class="nav-btn">Оборудование</a>
-                <a href="/technologist-help" class="nav-btn">Помощь</a>
-            {% elif role == 'director' %}
-                <a href="/add-tasks" class="nav-btn active">Задачи</a>
-                <a href="/staff" class="nav-btn">Сотрудники</a>
-            {% elif role == 'guest' %}
-                <a href="/all-devices" class="nav-btn">Устройства</a>
-                <a href="/tech-processes" class="nav-btn">Тех. процессы</a>
+{% extends "base.html" %}
+{% block title %}Управление задачами{% endblock %}
+{% block page_title %}Задачи{% endblock %}
+{% block extra_css %}
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/director/add_task.css') }}">
+{% endblock %}
+{% block content %}
+<main class="tasks-page">
+    {% if role == 'director' %}
+        <section class="add-task-card">
+            <h2>Назначить новую задачу</h2>
+            <form method="post" action="/add-task" class="add-task-form">
+                <div class="form-group">
+                    <label for="task">Описание задачи</label>
+                    <input type="text" id="task" name="task" placeholder="Например: Разработать ТП для блока питания" required>
+                </div>
+                <div class="form-group">
+                    <label for="user">Исполнитель</label>
+                    <select id="user" name="user" required>
+                        <option value="">— Выберите сотрудника —</option>
+                        {% for user in users_data %}
+                            <option value="{{ user[0] }}">{{ user[1] }} {{ user[2] }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <button type="submit" class="btn-primary">Назначить задачу</button>
+            </form>
+        </section>
+    {% endif %}
+    <section class="tasks-section">
+        <div class="section-header">
+            <h2>Активные задачи</h2>
+            {% set active_tasks = tasks_data|selectattr('status', 'equalto', 0)|list %}
+            {% if active_tasks %}
+                <span class="task-count">{{ active_tasks|length }}</span>
             {% endif %}
         </div>
-        <a href="/user" class="user-avatar"></a>
-    </header>
-
-    <main class="tasks-page">
-        <!-- Форма добавления задачи -->
-        {% if role == 'director' %}
-            <section class="add-task-card">
-                <h2>Назначить новую задачу</h2>
-                <form method="post" action="/add-task" class="add-task-form">
-                    <div class="form-group">
-                        <label for="task">Описание задачи</label>
-                        <input type="text" id="task" name="task" placeholder="Например: Разработать ТП для блока питания" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="user">Исполнитель</label>
-                        <select id="user" name="user" required>
-                            <option value="">— Выберите сотрудника —</option>
-                            {% for user in users_data %}
-                                <option value="{{ user[0] }}">{{ user[1] }} {{ user[2] }}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                    <button type="submit" class="btn-primary">Назначить задачу</button>
-                </form>
-            </section>
-        {% endif %}
-
-        <!-- Активные задачи -->
-        <section class="tasks-section">
-            <div class="section-header">
-                <h2>Активные задачи</h2>
-                {% set active_tasks = tasks_data|selectattr('status', 'equalto', 0)|list %}
-                {% if active_tasks %}
-                    <span class="task-count">{{ active_tasks|length }}</span>
-                {% endif %}
-            </div>
-
-            {% if active_tasks %}
-                <div class="tasks-table">
-                    <div class="tasks-header">
-                        <div class="col-id">№</div>
-                        <div class="col-user">Исполнитель</div>
-                        <div class="col-about">Задача</div>
+        {% if active_tasks %}
+            <div class="tasks-table">
+                <div class="tasks-header">
+                    <div class="col-id">№</div>
+                    <div class="col-user">Исполнитель</div>
+                    <div class="col-about">Задача</div>
+                    {% if role == 'director' %}
+                        <div class="col-actions">Действия</div>
+                    {% endif %}
+                </div>
+                {% for task in active_tasks %}
+                    <div class="task-row">
+                        <div class="col-id">{{ task['id'] }}</div>
+                        <div class="col-user">{{ task['user_name'] }} {{ task['user_last'] }}</div>
+                        <div class="col-about">{{ task['about'] }}</div>
                         {% if role == 'director' %}
-                            <div class="col-actions">Действия</div>
+                            <div class="col-actions">
+                                <a href="/delete-task/{{ task['id'] }}" class="complete-btn" 
+                                   onclick="return confirm('Отметить задачу как выполненную?')">
+                                    ✅ Завершить
+                                </a>
+                            </div>
                         {% endif %}
                     </div>
-                    {% for task in active_tasks %}
-                        <div class="task-row">
-                            <div class="col-id">{{ task['id'] }}</div>
-                            <div class="col-user">{{ task['user_name'] }} {{ task['user_last'] }}</div>
-                            <div class="col-about">{{ task['about'] }}</div>
-                            {% if role == 'director' %}
-                                <div class="col-actions">
-                                    <a href="/delete-task/{{ task['id'] }}" class="complete-btn" 
-                                       onclick="return confirm('Отметить задачу как выполненную?')">
-                                        ✅ Завершить
-                                    </a>
-                                </div>
-                            {% endif %}
-                        </div>
-                    {% endfor %}
-                </div>
-            {% else %}
-                <p class="empty-message">Нет активных задач.</p>
-            {% endif %}
-        </section>
-
-        <!-- Выполненные задачи -->
-        <section class="tasks-section completed">
-            <div class="section-header">
-                <h2>Выполненные задачи</h2>
-                {% set completed_tasks = tasks_data|selectattr('status', 'equalto', 1)|list %}
-                {% if completed_tasks %}
-                    <span class="task-count completed">{{ completed_tasks|length }}</span>
-                {% endif %}
+                {% endfor %}
             </div>
-
+        {% else %}
+            <p class="empty-message">Нет активных задач.</p>
+        {% endif %}
+    </section>
+    <section class="tasks-section completed">
+        <div class="section-header">
+            <h2>Выполненные задачи</h2>
+            {% set completed_tasks = tasks_data|selectattr('status', 'equalto', 1)|list %}
             {% if completed_tasks %}
-                <div class="tasks-table">
-                    <div class="tasks-header">
-                        <div class="col-id">№</div>
-                        <div class="col-user">Исполнитель</div>
-                        <div class="col-about">Задача</div>
-                    </div>
-                    {% for task in completed_tasks %}
-                        <div class="task-row completed">
-                            <div class="col-id">{{ task['id'] }}</div>
-                            <div class="col-user">{{ task['user_name'] }} {{ task['user_last'] }}</div>
-                            <div class="col-about">{{ task['about'] }}</div>
-                        </div>
-                    {% endfor %}
-                </div>
-            {% else %}
-                <p class="empty-message">Нет завершённых задач.</p>
+                <span class="task-count completed">{{ completed_tasks|length }}</span>
             {% endif %}
-        </section>
-    </main>
-
-    <footer class="footer">Хорошего дня!</footer>
-</body>
-</html>
+        </div>
+        {% if completed_tasks %}
+            <div class="tasks-table">
+                <div class="tasks-header">
+                    <div class="col-id">№</div>
+                    <div class="col-user">Исполнитель</div>
+                    <div class="col-about">Задача</div>
+                </div>
+                {% for task in completed_tasks %}
+                    <div class="task-row completed">
+                        <div class="col-id">{{ task['id'] }}</div>
+                        <div class="col-user">{{ task['user_name'] }} {{ task['user_last'] }}</div>
+                        <div class="col-about">{{ task['about'] }}</div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p class="empty-message">Нет завершённых задач.</p>
+        {% endif %}
+    </section>
+</main>
+<footer class="footer">Хорошего дня!</footer>
+{% endblock %}
