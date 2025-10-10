@@ -272,6 +272,26 @@ def expert_delete_frame_slot(frame_value_id):
     frame_id = request.args.get('frame_id')
     return exp.delete_frame_slot(frame_value_id)
 
+@app.route('/expert/frame/<frame_id>/operation/add', methods=['POST'])
+def expert_add_frame_operation(frame_id):
+    return exp.add_frame_operation(frame_id)
+
+@app.route('/expert/frame-op/<int:op_id>/delete')
+def expert_delete_frame_operation(op_id):
+    return exp.delete_frame_operation(op_id)
+
+@app.route('/expert/frame-op/<int:op_id>/up')
+def expert_move_operation_up(op_id):
+    return exp.move_operation_up(op_id)
+
+@app.route('/expert/frame-op/<int:op_id>/down')
+def expert_move_operation_down(op_id):
+    return exp.move_operation_down(op_id)
+
+@app.route('/expert/slot/<int:slot_id>/values')
+def expert_get_slot_values(slot_id):
+    return exp.get_slot_values_json(slot_id)
+
 #запуск Web приложения
 if __name__ == '__main__':
     app.run(debug=True)

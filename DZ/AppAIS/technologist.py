@@ -582,7 +582,7 @@ def generate_tp_operations(con_db, user_id):
     operations = []
     for fid in frame_ids:
         cursor.execute("""
-            SELECT Operation_ID, Op_Duration, Tool_ID
+            SELECT Operation_Name, Operation_ID, Op_Duration, Tool_ID
             FROM EXPERT_PROCESS_OPERATIONS
             WHERE Frame_ID = :1
             ORDER BY Op_Order
@@ -590,7 +590,7 @@ def generate_tp_operations(con_db, user_id):
         ops = cursor.fetchall()
         operations.extend(ops)
     cursor.close()
-    return operations
+    return operations    
 
 def expert_generate_tp():
     if request.cookies.get('auth_status') != 'True':
@@ -864,3 +864,92 @@ def find_best_prototype_by_yes_answers(con_db, root_frame_id, answers):
             return (fid, fname)
     
     return None
+
+def save_generated_tp_to_db(con_db, user_id):
+    """Сохраняет сгенерированный ТП в основные таблицы, используя Operation_Name из EXPERT_PROCESS_OPERATIONS"""
+    cursor = con_db.cursor()
+    # Создаём заголовок ТП
+    pid_var = cursor.var(cx_Oracle.NUMBER)
+    cursor.execute("""
+        INSERT INTO TCHG_PROCESS (Process_ID, Process_Note)
+        VALUES (S_TCHG_PROCESS.NEXTVAL, 'Сгенерирован ЭС')
+        RETURNING Process_ID INTO :pid
+    """, pid=pid_var)
+    process_id = int(pid_var.getvalue()[0])
+
+    # Получаем операции с кастомными названиями
+    operations = generate_tp_operations(con_db, user_id)
+    for op_name, op_id, op_time, tool_id in operations:
+        cursor.execute("""
+            INSERT INTO TCHG_PROCESS_OPERATION (
+                Process_Operation_ID, Process_ID, GOST_Operation_ID,
+                Operation_About, Operation_Time, Operation_Tools_ID
+            ) VALUES (
+                S_TCHG_PROCESS_OPERATION.NEXTVAL, :process_id, :op_id,
+                :op_name, :op_time, :tool_id
+            )
+        """, {
+            'process_id': process_id,
+            'op_id': op_id,
+            'op_name': op_name,
+            'op_time': op_time,
+            'tool_id': tool_id
+        })
+    con_db.commit()
+    cursor.close()
+    return process_id
+
+def expert_create_tp():
+    if request.cookies.get('auth_status') != 'True':
+        return redirect('/login')
+    role = func.get_role(request.cookies.get('auth_login'))
+    if role not in ['technologist', 'admin']:
+        return redirect('/')
+    user_id = session.get('expert_user_id')
+    if not user_id:
+        return redirect('/tech-processes')
+
+    con_db = func.connect_to_db('technologist')
+    cursor = con_db.cursor()
+
+    # Создаём заголовок ТП
+    pid_var = cursor.var(cx_Oracle.NUMBER)
+    cursor.execute("""
+        INSERT INTO TCHG_PROCESS (Process_ID, Process_Note)
+        VALUES (S_TCHG_PROCESS.NEXTVAL, 'Сгенерирован ЭС')
+        RETURNING Process_ID INTO :pid
+    """, pid=pid_var)
+    process_id = int(pid_var.getvalue()[0])
+
+    # Получаем операции с Operation_Name из EXPERT_PROCESS_OPERATIONS
+    operations = generate_tp_operations(con_db, user_id)
+    for op_name, op_id, op_time, tool_id in operations:
+        # Обработка NULL для tool_id
+        cursor.execute("""
+            INSERT INTO TCHG_PROCESS_OPERATION (
+                Process_Operation_ID, Process_ID, GOST_Operation_ID,
+                Operation_About, Operation_Time, Operation_Tools_ID
+            ) VALUES (
+                S_TCHG_PROCESS_OPERATION.NEXTVAL, :process_id, :op_id,
+                :op_name, :op_time, :tool_id
+            )
+        """, {
+            'process_id': process_id,
+            'op_id': op_id,
+            'op_name': op_name,
+            'op_time': op_time,
+            'tool_id': tool_id
+        })
+
+    con_db.commit()
+    cursor.close()
+    con_db.close()
+
+    # Очистка сессии после успешного сохранения
+    session.pop('expert_frame_index', None)
+    session.pop('expert_root_frames', None)
+    session.pop('expert_user_id', None)
+    session.pop('current_prototype_id', None)
+    session.pop('slot_idx', None)
+
+    return redirect(f'/process/{process_id}')

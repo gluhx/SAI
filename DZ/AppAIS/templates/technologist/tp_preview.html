@@ -4,16 +4,31 @@
 {% block content %}
 <h2>Операции технологического процесса</h2>
 {% if operations %}
-  <ol>
-  {% for op_id, duration, tool_id in operations %}
-    <li>Операция ID={{ op_id }}, время={{ duration }}, оборудование={{ tool_id }}</li>
-  {% endfor %}
-  </ol>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Название операции</th>
+        <th>ID операции</th>
+        <th>Время (с)</th>
+        <th>Инструмент</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for op_name, op_id, op_time, tool_id in operations %}
+      <tr>
+        <td>{{ op_name }}</td>
+        <td>{{ op_id }}</td>
+        <td>{{ op_time }}</td>
+        <td>{{ tool_id or '—' }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
   <form method="post" action="/expert/create-tp">
-    <button type="submit" class="btn-primary">Создать ТП</button>
+    <button type="submit" class="btn btn-primary">Создать ТП</button>
   </form>
 {% else %}
   <p>Нет операций для создания ТП.</p>
 {% endif %}
-<a href="/expert/cancel" class="btn-secondary">Отмена</a>
+<a href="/expert/cancel" class="btn btn-secondary">Отмена</a>
 {% endblock %}

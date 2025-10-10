@@ -1,0 +1,568 @@
+
+ 
+            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'компоненты берутся' AND sv.Value_Name = 'сразу из транспортных машин'))
+                    *
+ERROR at line 4:
+ORA-01400: cannot insert NULL into
+ 
+            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'входной контроль' AND sv.Value_Name = 'нужен'))
+                    *
+ERROR at line 4:
+ORA-01400: cannot insert NULL into
+ 
+            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'компоненты берутся' AND sv.Value_Name = 'сразу из транспортных машин'))
+                    *
+ERROR at line 4:
+ORA-01400: cannot insert NULL into
+ 
+            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'входной контроль' AND sv.Value_Name = 'не нужен'))
+                    *
+ERROR at line 4:
+ORA-01400: cannot insert NULL into
+ 
+            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'компоненты берутся' AND sv.Value_Name = 'со склада'))
+                    *
+ERROR at line 4:
+ORA-01400: cannot insert NULL into
+ 
+            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'входной контроль' AND sv.Value_Name = 'нужен'))
+                    *
+ERROR at line 4:
+ORA-01400: cannot insert NULL into
+ 
+            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'компоненты берутся' AND sv.Value_Name = 'со склада'))
+                    *
+ERROR at line 4:
+ORA-01400: cannot insert NULL into
+ 
+            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'входной контроль' AND sv.Value_Name = 'не нужен'))
+                    *
+ERROR at line 4:
+ORA-01400: cannot insert NULL into
+ 
+            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'КМО' AND sv.Value_Name = 'нет'))
+                    *
+ERROR at line 4:
+ORA-01400: cannot insert NULL into
+ 
+            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'способ установки компонентов' AND sv.Value_Name = 'автоматизированный'))
+                    *
+ERROR at line 4:
+ORA-01400: cannot insert NULL into
+ 
+            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'пайка КМП' AND sv.Value_Name = 'в печи'))
+                    *
+ERROR at line 4:
+ORA-01400: cannot insert NULL into
+ 
+            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'тип платы' AND sv.Value_Name = 'ОПП'))
+                    *
+ERROR at line 4:
+ORA-01400: cannot insert NULL into
+ 
+            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'КМО' AND sv.Value_Name = 'нет'))
+                    *
+ERROR at line 4:
+ORA-01400: cannot insert NULL into
+ 
+            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'способ установки компонентов' AND sv.Value_Name = 'ручной'))
+                    *
+ERROR at line 4:
+ORA-01400: cannot insert NULL into
+ 
+            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'пайка КМП' AND sv.Value_Name = 'феном'))
+                    *
+ERROR at line 4:
+ORA-01400: cannot insert NULL into
+ 
+            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'тип платы' AND sv.Value_Name = 'ОПП'))
+                    *
+ERROR at line 4:
+ORA-01400: cannot insert NULL into
+ 
+            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'КМО' AND sv.Value_Name = 'нет'))
+                    *
+ERROR at line 4:
+ORA-01400: cannot insert NULL into
+ 
+            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'способ установки компонентов' AND sv.Value_Name = 'ручной'))
+                    *
+ERROR at line 4:
+ORA-01400: cannot insert NULL into
+ 
+            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'пайка КМП' AND sv.Value_Name = 'селективная'))
+                    *
+ERROR at line 4:
+ORA-01400: cannot insert NULL into
+ 
+            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'тип платы' AND sv.Value_Name = 'ОПП'))
+                    *
+ERROR at line 4:
+ORA-01400: cannot insert NULL into
+ 
+            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'КМО' AND sv.Value_Name = 'нет'))
+                    *
+ERROR at line 4:
+ORA-01400: cannot insert NULL into
+ 
+            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'способ установки компонентов' AND sv.Value_Name = 'автоматизированный'))
+                    *
+ERROR at line 4:
+ORA-01400: cannot insert NULL into
+ 
+            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'пайка КМП' AND sv.Value_Name = 'в печи'))
+                    *
+ERROR at line 4:
+ORA-01400: cannot insert NULL into
+ 
+            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'тип платы' AND sv.Value_Name = 'ОПП'))
+                    *
+ERROR at line 4:
+ORA-01400: cannot insert NULL into
+ 
+            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'есть ли компоненты с BGA выводами' AND sv.Value_Name = 'есть'))
+                    *
+ERROR at line 4:
+ORA-01400: cannot insert NULL into
+ 
+            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'КМО' AND sv.Value_Name = 'нет'))
+                    *
+ERROR at line 4:
+ORA-01400: cannot insert NULL into
+ 
+            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'способ установки компонентов' AND sv.Value_Name = 'автоматизированный'))
+                    *
+ERROR at line 4:
+ORA-01400: cannot insert NULL into
+ 
+            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'пайка КМП' AND sv.Value_Name = 'в печи'))
+                    *
+ERROR at line 4:
+ORA-01400: cannot insert NULL into
+ 
+            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'тип платы' AND sv.Value_Name = 'ОПП'))
+                    *
+ERROR at line 4:
+ORA-01400: cannot insert NULL into
+ 
+            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'КМО' AND sv.Value_Name = 'нет'))
+                    *
+ERROR at line 4:
+ORA-01400: cannot insert NULL into
+ 
+            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'способ установки компонентов' AND sv.Value_Name = 'автоматизированный'))
+                    *
+ERROR at line 4:
+ORA-01400: cannot insert NULL into
+ 
+            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'пайка КМП' AND sv.Value_Name = 'селективная'))
+                    *
+ERROR at line 4:
+ORA-01400: cannot insert NULL into
+ 
+            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'тип платы' AND sv.Value_Name = 'ОПП'))
+                    *
+ERROR at line 4:
+ORA-01400: cannot insert NULL into
+ 
+            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'КМО' AND sv.Value_Name = 'нет'))
+                    *
+ERROR at line 4:
+ORA-01400: cannot insert NULL into
+ 
+            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'способ установки компонентов' AND sv.Value_Name = 'ручной'))
+                    *
+ERROR at line 4:
+ORA-01400: cannot insert NULL into
+ 
+            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'пайка КМП' AND sv.Value_Name = 'селективная'))
+                    *
+ERROR at line 4:
+ORA-01400: cannot insert NULL into
+ 
+            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'тип платы' AND sv.Value_Name = 'ОПП'))
+                    *
+ERROR at line 4:
+ORA-01400: cannot insert NULL into
+ 
+            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'КМО' AND sv.Value_Name = 'нет'))
+                    *
+ERROR at line 4:
+ORA-01400: cannot insert NULL into
+ 
+            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'способ установки компонентов' AND sv.Value_Name = 'автоматизированный'))
+                    *
+ERROR at line 4:
+ORA-01400: cannot insert NULL into
+ 
+            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'пайка КМП' AND sv.Value_Name = 'в печи'))
+                    *
+ERROR at line 4:
+ORA-01400: cannot insert NULL into
+ 
+            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'тип платы' AND sv.Value_Name = 'ОПП'))
+                    *
+ERROR at line 4:
+ORA-01400: cannot insert NULL into
+ 
+            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'есть ли компоненты с BGA выводами' AND sv.Value_Name = 'есть'))
+                    *
+ERROR at line 4:
+ORA-01400: cannot insert NULL into
+ 
+            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'КМО' AND sv.Value_Name = 'есть'))
+                    *
+ERROR at line 4:
+ORA-01400: cannot insert NULL into
+ 
+            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'способ установки компонентов' AND sv.Value_Name = 'автоматизированный'))
+                    *
+ERROR at line 4:
+ORA-01400: cannot insert NULL into
+ 
+            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'пайка КМП' AND sv.Value_Name = 'в печи'))
+                    *
+ERROR at line 4:
+ORA-01400: cannot insert NULL into
+ 
+            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'пайка КМО' AND sv.Value_Name = 'волной припоя'))
+                    *
+ERROR at line 4:
+ORA-01400: cannot insert NULL into
+ 
+            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'тип платы' AND sv.Value_Name = 'ОПП'))
+                    *
+ERROR at line 4:
+ORA-01400: cannot insert NULL into
+ 
+            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'КМО' AND sv.Value_Name = 'есть'))
+                    *
+ERROR at line 4:
+ORA-01400: cannot insert NULL into
+ 
+            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'способ установки компонентов' AND sv.Value_Name = 'ручной'))
+                    *
+ERROR at line 4:
+ORA-01400: cannot insert NULL into
+ 
+            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'пайка КМП' AND sv.Value_Name = 'феном'))
+                    *
+ERROR at line 4:
+ORA-01400: cannot insert NULL into
+ 
+            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'пайка КМО' AND sv.Value_Name = 'селективная'))
+                    *
+ERROR at line 4:
+ORA-01400: cannot insert NULL into
+ 
+            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'тип платы' AND sv.Value_Name = 'ОПП'))
+                    *
+ERROR at line 4:
+ORA-01400: cannot insert NULL into
+ 
+            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'КМО' AND sv.Value_Name = 'есть'))
+                    *
+ERROR at line 4:
+ORA-01400: cannot insert NULL into
+ 
+            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'способ установки компонентов' AND sv.Value_Name = 'автоматизированный'))
+                    *
+ERROR at line 4:
+ORA-01400: cannot insert NULL into
+ 
+            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'пайка КМП' AND sv.Value_Name = 'феном'))
+                    *
+ERROR at line 4:
+ORA-01400: cannot insert NULL into
+ 
+            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'пайка КМО' AND sv.Value_Name = 'волной припоя'))
+                    *
+ERROR at line 4:
+ORA-01400: cannot insert NULL into
+ 
+            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'тип платы' AND sv.Value_Name = 'ОПП'))
+                    *
+ERROR at line 4:
+ORA-01400: cannot insert NULL into
+ 
+            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'КМО' AND sv.Value_Name = 'есть'))
+                    *
+ERROR at line 4:
+ORA-01400: cannot insert NULL into
+ 
+            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'способ установки компонентов' AND sv.Value_Name = 'автоматизированный'))
+                    *
+ERROR at line 4:
+ORA-01400: cannot insert NULL into
+ 
+            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'пайка КМО' AND sv.Value_Name = 'селективная'))
+                    *
+ERROR at line 4:
+ORA-01400: cannot insert NULL into
+ 
+            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'тип платы' AND sv.Value_Name = 'ОПП'))
+                    *
+ERROR at line 4:
+ORA-01400: cannot insert NULL into
+ 
+            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'КМО' AND sv.Value_Name = 'есть'))
+                    *
+ERROR at line 4:
+ORA-01400: cannot insert NULL into
+ 
+            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'способ установки компонентов' AND sv.Value_Name = 'ручной'))
+                    *
+ERROR at line 4:
+ORA-01400: cannot insert NULL into
+ 
+            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'пайка КМО' AND sv.Value_Name = 'селективная'))
+                    *
+ERROR at line 4:
+ORA-01400: cannot insert NULL into
+ 
+            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'тип платы' AND sv.Value_Name = 'ОПП'))
+                    *
+ERROR at line 4:
+ORA-01400: cannot insert NULL into
+ 
+            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'КМО' AND sv.Value_Name = 'есть'))
+                    *
+ERROR at line 4:
+ORA-01400: cannot insert NULL into
+ 
+            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'способ установки компонентов' AND sv.Value_Name = 'автоматизированный'))
+                    *
+ERROR at line 4:
+ORA-01400: cannot insert NULL into
+ 
+            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'пайка КМП' AND sv.Value_Name = 'в печи'))
+                    *
+ERROR at line 4:
+ORA-01400: cannot insert NULL into
+ 
+            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'пайка КМО' AND sv.Value_Name = 'волной припоя'))
+                    *
+ERROR at line 4:
+ORA-01400: cannot insert NULL into
+ 
+            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'тип платы' AND sv.Value_Name = 'ОПП'))
+                    *
+ERROR at line 4:
+ORA-01400: cannot insert NULL into
+ 
+            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'есть ли компоненты с BGA выводами' AND sv.Value_Name = 'есть'))
+                    *
+ERROR at line 4:
+ORA-01400: cannot insert NULL into
+ 
+            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'КМО' AND sv.Value_Name = 'есть'))
+                    *
+ERROR at line 4:
+ORA-01400: cannot insert NULL into
+ 
+            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'способ установки компонентов' AND sv.Value_Name = 'автоматизированный'))
+                    *
+ERROR at line 4:
+ORA-01400: cannot insert NULL into
+ 
+            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'пайка КМП' AND sv.Value_Name = 'в печи'))
+                    *
+ERROR at line 4:
+ORA-01400: cannot insert NULL into
+ 
+            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'пайка КМО' AND sv.Value_Name = 'волной припоя'))
+                    *
+ERROR at line 4:
+ORA-01400: cannot insert NULL into
+ 
+            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'тип платы' AND sv.Value_Name = 'ОПП'))
+                    *
+ERROR at line 4:
+ORA-01400: cannot insert NULL into
+ 
+            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'КМО' AND sv.Value_Name = 'есть'))
+                    *
+ERROR at line 4:
+ORA-01400: cannot insert NULL into
+ 
+            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'способ установки компонентов' AND sv.Value_Name = 'автоматизированный'))
+                    *
+ERROR at line 4:
+ORA-01400: cannot insert NULL into
+ 
+            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'пайка КМП' AND sv.Value_Name = 'в печи'))
+                    *
+ERROR at line 4:
+ORA-01400: cannot insert NULL into
+ 
+            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'пайка КМО' AND sv.Value_Name = 'селективная'))
+                    *
+ERROR at line 4:
+ORA-01400: cannot insert NULL into
+ 
+            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'тип платы' AND sv.Value_Name = 'ОПП'))
+                    *
+ERROR at line 4:
+ORA-01400: cannot insert NULL into
+ 
+            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'КМО' AND sv.Value_Name = 'есть'))
+                    *
+ERROR at line 4:
+ORA-01400: cannot insert NULL into
+ 
+            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'способ установки компонентов' AND sv.Value_Name = 'автоматизированный'))
+                    *
+ERROR at line 4:
+ORA-01400: cannot insert NULL into
+ 
+            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'пайка КМП' AND sv.Value_Name = 'в печи'))
+                    *
+ERROR at line 4:
+ORA-01400: cannot insert NULL into
+ 
+            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'пайка КМО' AND sv.Value_Name = 'волной припоя'))
+                    *
+ERROR at line 4:
+ORA-01400: cannot insert NULL into
+ 
+            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'тип платы' AND sv.Value_Name = 'ОПП'))
+                    *
+ERROR at line 4:
+ORA-01400: cannot insert NULL into
+ 
+            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'есть ли компоненты с BGA выводами' AND sv.Value_Name = 'есть'))
+                    *
+ERROR at line 4:
+ORA-01400: cannot insert NULL into
+ 
+            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'способ промывки' AND sv.Value_Name = 'водой'))
+                    *
+ERROR at line 4:
+ORA-01400: cannot insert NULL into
+ 
+            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'защита от влаги' AND sv.Value_Name = 'не нужна'))
+                    *
+ERROR at line 4:
+ORA-01400: cannot insert NULL into
+ 
+            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'способ промывки' AND sv.Value_Name = 'водой'))
+                    *
+ERROR at line 4:
+ORA-01400: cannot insert NULL into
+ 
+            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'защита от влаги' AND sv.Value_Name = 'нужна'))
+                    *
+ERROR at line 4:
+ORA-01400: cannot insert NULL into
+ 
+            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'способ промывки' AND sv.Value_Name = 'в ультразвуковой ванне'))
+                    *
+ERROR at line 4:
+ORA-01400: cannot insert NULL into
+ 
+            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'защита от влаги' AND sv.Value_Name = 'не нужна'))
+                    *
+ERROR at line 4:
+ORA-01400: cannot insert NULL into
+ 
+            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'способ промывки' AND sv.Value_Name = 'в ультразвуковой ванне'))
+                    *
+ERROR at line 4:
+ORA-01400: cannot insert NULL into
+ 
+            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'защита от влаги' AND sv.Value_Name = 'нужна'))
+                    *
+ERROR at line 4:
+ORA-01400: cannot insert NULL into
+ 
+            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'фиксация платы' AND sv.Value_Name = 'защемлением'))
+                    *
+ERROR at line 4:
+ORA-01400: cannot insert NULL into
+ 
+            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'герметизация' AND sv.Value_Name = 'не нужна'))
+                    *
+ERROR at line 4:
+ORA-01400: cannot insert NULL into
+ 
+            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'фиксация платы' AND sv.Value_Name = 'винтами'))
+                    *
+ERROR at line 4:
+ORA-01400: cannot insert NULL into
+ 
+            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'герметизация' AND sv.Value_Name = 'не нужна'))
+                    *
+ERROR at line 4:
+ORA-01400: cannot insert NULL into
+ 
+            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'фиксация платы' AND sv.Value_Name = 'винтами'))
+                    *
+ERROR at line 4:
+ORA-01400: cannot insert NULL into
+ 
+            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'герметизация' AND sv.Value_Name = 'нужна'))
+                    *
+ERROR at line 4:
+ORA-01400: cannot insert NULL into
+ 
+            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'фиксация платы' AND sv.Value_Name = 'защемлением'))
+                    *
+ERROR at line 4:
+ORA-01400: cannot insert NULL into
+ 
+            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'герметизация' AND sv.Value_Name = 'нужна'))
+                    *
+ERROR at line 4:
+ORA-01400: cannot insert NULL into
+ 
+            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'после производства' AND sv.Value_Name = 'на склад'))
+                    *
+ERROR at line 4:
+ORA-01400: cannot insert NULL into
+ 
+            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'после производства' AND sv.Value_Name = 'заказчику'))
+                    *
+ERROR at line 4:
+ORA-01400: cannot insert NULL into
+ 
+            (SELECT Operation_ID FROM TCHG_OPERATION_LIST WHERE Operation_Number = 225 AND Operation_Group_ID = (SELECT Group_ID FROM TCHG_OPERATION_GROUP WHERE Group_Number = 3)),
+                    *
+ERROR at line 4:
+ORA-01400: cannot insert NULL into
+ 
+            (SELECT Operation_ID FROM TCHG_OPERATION_LIST WHERE Operation_Number = 11 AND Operation_Group_ID = (SELECT Group_ID FROM TCHG_OPERATION_GROUP WHERE Group_Number = 1)),
+                    *
+ERROR at line 4:
+ORA-01400: cannot insert NULL into
+ 
+            (SELECT Operation_ID FROM TCHG_OPERATION_LIST WHERE Operation_Number = 11 AND Operation_Group_ID = (SELECT Group_ID FROM TCHG_OPERATION_GROUP WHERE Group_Number = 1)),
+                    *
+ERROR at line 4:
+ORA-01400: cannot insert NULL into
+ 
+            (SELECT Operation_ID FROM TCHG_OPERATION_LIST WHERE Operation_Number = 225 AND Operation_Group_ID = (SELECT Group_ID FROM TCHG_OPERATION_GROUP WHERE Group_Number = 3)),
+                    *
+ERROR at line 4:
+ORA-01400: cannot insert NULL into
+ 
+            (SELECT Operation_ID FROM TCHG_OPERATION_LIST WHERE Operation_Number = 225 AND Operation_Group_ID = (SELECT Group_ID FROM TCHG_OPERATION_GROUP WHERE Group_Number = 3)),
+                    *
+ERROR at line 4:
+ORA-01400: cannot insert NULL into
+ 
+            (SELECT Operation_ID FROM TCHG_OPERATION_LIST WHERE Operation_Number = 11 AND Operation_Group_ID = (SELECT Group_ID FROM TCHG_OPERATION_GROUP WHERE Group_Number = 1)),
+                    *
+ERROR at line 4:
+ORA-01400: cannot insert NULL into
+ 
+            (SELECT Operation_ID FROM TCHG_OPERATION_LIST WHERE Operation_Number = 11 AND Operation_Group_ID = (SELECT Group_ID FROM TCHG_OPERATION_GROUP WHERE Group_Number = 1)),
+                    *
+ERROR at line 4:
+ORA-01400: cannot insert NULL into
+ 
+            (SELECT Operation_ID FROM TCHG_OPERATION_LIST WHERE Operation_Number = 225 AND Operation_Group_ID = (SELECT Group_ID FROM TCHG_OPERATION_GROUP WHERE Group_Number = 3)),
+                    *
+ERROR at line 4:
+ORA-01400: cannot insert NULL into
+Если вы разварачивайте эту БД в первый развозможен вывод ошибок удаления элементов.
+В этом случае разверните БД ещё раз.

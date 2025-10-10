@@ -55,12 +55,13 @@ CREATE SEQUENCE S_EXPERT_FRAME_VALUES INCREMENT BY 1 START WITH 1;
 
 PROMPT Удаляем и создаём таблицу операций в составе техпроцесса
 CREATE TABLE EXPERT_PROCESS_OPERATIONS (
-    Process_Op_ID       NUMBER      NOT NULL,
-    Frame_ID            NUMBER      NOT NULL,
-    Operation_ID        NUMBER      NOT NULL,
-    Op_Order            NUMBER      NOT NULL,
-    Op_Duration         NUMBER      NOT NULL,
-    Tool_ID             NUMBER      NULL
+    Process_Op_ID       NUMBER        NOT NULL,
+    Operation_Name      VARCHAR(1000) NOT NULL,
+    Frame_ID            NUMBER        NOT NULL,
+    Operation_ID        NUMBER        NOT NULL,
+    Op_Order            NUMBER        NOT NULL,
+    Op_Duration         NUMBER        NOT NULL,
+    Tool_ID             NUMBER        NULL
 );
 ALTER TABLE EXPERT_PROCESS_OPERATIONS
     ADD CONSTRAINT C_EXPERT_PROC_OP_PK PRIMARY KEY (Process_Op_ID);
