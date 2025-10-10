@@ -59,18 +59,22 @@ def processes():
 
 #удаление процесса
 def delete_process(id):
-    #проверка авторизации
+    # проверка авторизации
     if request.cookies.get('auth_status') != 'True':
         return redirect('/login')
 
     role = func.get_role(request.cookies.get('auth_login'))
-    if not(role == 'technologist' or role== 'director'):
+    if not (role == 'technologist' or role == 'director'):
         return redirect('/tech-processes')
     else:
         con_db = func.connect_to_db(func.get_role(request.cookies.get('auth_login')))
         cursor = con_db.cursor()
-        cursor.execute('DELETE FROM TCHG_PROCESS WHERE Process_ID = ' + str(id))
+        
+        # Сначала удаляем дочерние записи!
         cursor.execute('DELETE FROM TCHG_PROCESS_OPERATION WHERE Process_ID = ' + str(id))
+        # Потом — родительскую
+        cursor.execute('DELETE FROM TCHG_PROCESS WHERE Process_ID = ' + str(id))
+        
         con_db.commit()
         cursor.close()
         con_db.close()
@@ -616,123 +620,127 @@ def expert_generate_tp():
 
 def expert_dialog():
     if request.cookies.get('auth_status') != 'True':
-        print(">>> [expert_dialog] Пользователь не авторизован — редирект на /login")
         return redirect('/login')
-    
     role = func.get_role(request.cookies.get('auth_login'))
     if role not in ['technologist', 'admin']:
-        print(f">>> [expert_dialog] Недостаточно прав (роль: {role}) — редирект на /")
         return redirect('/')
-    
+
     user_id = session.get('expert_user_id')
     if not user_id:
-        print(">>> [expert_dialog] Нет user_id в сессии — редирект на /tech-processes")
         return redirect('/tech-processes')
-    
+
     con_db = func.connect_to_db('technologist')
-    print(f"\n{'='*60}")
-    print(f">>> [expert_dialog] НАЧАЛО ДИАЛОГА | user_id={user_id}")
 
     root_frames = session.get('expert_root_frames', [])
     frame_index = session.get('expert_frame_index', 0)
-    print(f">>> Корневые фреймы: {root_frames}")
-    print(f">>> Текущий индекс фрейма: {frame_index}")
 
     if frame_index >= len(root_frames):
-        print(">>> Все корневые фреймы обработаны — генерация ТП")
-        operations = generate_tp_operations(con_db, user_id)
+        root_frames_final = session.get('expert_root_frames', [])
+        solution_ids = [fid for fid, _ in root_frames_final if _ == "Решение"]
+
+        operations = []
+        if solution_ids:
+            cursor = con_db.cursor()
+            # Получаем полные данные с названиями
+            for fid in solution_ids:
+                cursor.execute("""
+                    SELECT
+                    epo.Operation_ID,
+                    epo.Op_Duration,
+                    t.Tool_Name,
+                    ol.Operation_Name,
+                    ol.Operation_Number,
+                    og.Group_Number
+                    FROM EXPERT_PROCESS_OPERATIONS epo
+                    JOIN TCHG_OPERATION_LIST ol ON epo.Operation_ID = ol.Operation_ID
+                    JOIN TCHG_OPERATION_GROUP og ON ol.Operation_Group_ID = og.Group_ID
+                    LEFT JOIN TCHG_TOOLS t ON epo.Tool_ID = t.Tool_ID
+                    WHERE epo.Frame_ID = :1
+                    ORDER BY epo.Op_Order
+                """, (fid,))
+                ops = cursor.fetchall()
+                operations.extend(ops)
+            cursor.close()
+
         con_db.close()
-        return render_template("technologist/tp_preview.html", operations=operations, role=role)
+        return render_template("technologist/tp_preview.html", operations=operations, role=role, show_create_button=True)
 
     current_root_id, current_root_name = root_frames[frame_index]
-    print(f">>> Работаем с корневым фреймом: ID={current_root_id}, имя='{current_root_name}'")
 
     # Инициализация текущего прототипа
     if 'current_prototype_id' not in session:
-        print(">>> Инициализация: выбор первого прототипа")
         first_proto_id = find_first_prototype(con_db, current_root_id)
         if not first_proto_id:
-            print(">>> ОШИБКА: не найдено ни одного прототипа для корневого фрейма!")
             session['expert_frame_index'] = frame_index + 1
             con_db.close()
             return redirect('/expert/dialog')
         session['current_prototype_id'] = first_proto_id
-        session['slot_idx'] = 0
-        print(f">>> Выбран первый прототип: {first_proto_id}")
 
     current_proto_id = session['current_prototype_id']
-    slot_idx = session['slot_idx']
-    print(f">>> Текущий прототип: {current_proto_id}, слот индекс: {slot_idx}")
 
     # Получаем слоты текущего прототипа
     proto_slots = get_frame_slots_values(con_db, current_proto_id)
-    print(f">>> Слоты текущего прототипа: {proto_slots}")
-
     if not proto_slots:
-        print(">>> У прототипа нет слотов — принимаем как решение")
+        # Прототип без слотов — принимаем как решение
         root_frames[frame_index] = (current_proto_id, "Решение")
         session['expert_root_frames'] = root_frames
         session['expert_frame_index'] = frame_index + 1
         session.pop('current_prototype_id', None)
-        session.pop('slot_idx', None)
         con_db.close()
         return redirect('/expert/dialog')
 
-    if slot_idx >= len(proto_slots):
-        print(">>> Все слоты прототипа пройдены — решение найдено")
+    # Получаем текущие ответы пользователя для этого корневого фрейма
+    all_answers = get_session_answers(con_db, user_id, current_root_id)
+
+    # Фильтруем прототипы по ВСЕМ ответам (и "Да", и "Нет")
+    compatible_prototypes = filter_prototypes_by_answers(con_db, current_root_id, all_answers)
+    compatible_ids = [fid for fid, _ in compatible_prototypes]
+
+    # Если текущий прототип больше не совместим — заменяем его
+    if current_proto_id not in compatible_ids:
+        if compatible_ids:
+            session['current_prototype_id'] = compatible_ids[0]
+            current_proto_id = compatible_ids[0]
+            proto_slots = get_frame_slots_values(con_db, current_proto_id)
+        else:
+            # Нет совместимых прототипов
+            print(f">>> Нет прототипов, совместимых со всеми ответами. Фрейм {current_root_id} пропущен.")
+            session['expert_frame_index'] = frame_index + 1
+            session.pop('current_prototype_id', None)
+            con_db.close()
+            return redirect('/expert/dialog')
+
+    # Определяем текущий слот: первый слот, по которому ещё не дан ответ "Да"
+    current_slot_idx = None
+    current_slot = None
+    for idx, (slot_id, slot_name, value_id, value_name) in enumerate(proto_slots):
+        if (slot_id, value_id) in all_answers and all_answers[(slot_id, value_id)] == 1:
+            continue  # уже подтверждён
+        else:
+            current_slot_idx = idx
+            current_slot = (slot_id, slot_name, value_id, value_name)
+            break
+
+    if current_slot is None:
+        # Все слоты подтверждены — решение найдено
         root_frames[frame_index] = (current_proto_id, "Решение")
         session['expert_root_frames'] = root_frames
         session['expert_frame_index'] = frame_index + 1
         session.pop('current_prototype_id', None)
-        session.pop('slot_idx', None)
         con_db.close()
         return redirect('/expert/dialog')
 
-    slot_id, slot_name, value_id, value_name = proto_slots[slot_idx]
-    print(f">>> Текущий вопрос: Слот='{slot_name}', Значение='{value_name}' (slot_id={slot_id}, value_id={value_id})")
+    slot_id, slot_name, value_id, value_name = current_slot
 
     if request.method == 'POST':
-        answer_str = request.form.get('answer', 'unknown')
-        answer_val = 1 if answer_str == 'yes' else 0
-        print(f">>> Получен ответ: '{answer_str}' → числовое значение: {answer_val}")
+        answer_val = 1 if request.form['answer'] == 'yes' else 0
+        save_answer(con_db, user_id, current_root_id, slot_id, value_id, answer_val)
 
-        if answer_val == 1:
-            print(">>> Сохраняем ответ 'Да' в БД")
-            save_answer(con_db, user_id, current_root_id, slot_id, value_id, 1)
-            session['slot_idx'] = slot_idx + 1
-            print(f">>> Переход к следующему слоту: {slot_idx + 1}")
-        else:
-            print(">>> Ответ 'Нет' — ищем другой прототип")
-            # Получаем ВСЕ прототипы для этого корневого фрейма
-            all_protos = get_all_prototypes(con_db, current_root_id)
-            print(f">>> Все прототипы для корневого фрейма {current_root_id}: {all_protos}")
-
-            # Ищем первый прототип, не равный текущему
-            next_proto = None
-            for fid, fname in all_protos:
-                if fid != current_proto_id:
-                    next_proto = fid
-                    print(f">>> Найден альтернативный прототип: {fid} (первый, отличный от текущего)")
-                    break
-
-            if next_proto is not None:
-                session['current_prototype_id'] = next_proto
-                # slot_idx остаётся прежним!
-                print(f">>> Переключились на прототип {next_proto}, остаёмся на слоте {slot_idx}")
-            else:
-                print(">>> НЕТ других прототипов — фрейм не поддерживается")
-                session['expert_frame_index'] = frame_index + 1
-                session.pop('current_prototype_id', None)
-                session.pop('slot_idx', None)
-                con_db.close()
-                return redirect('/expert/dialog')
-
+        # После сохранения — перезагрузка страницы для обновления логики
         con_db.close()
-        print(">>> Редирект на /expert/dialog для следующего шага")
         return redirect('/expert/dialog')
 
     con_db.close()
-    print(">>> Отображение вопроса пользователю")
     return render_template(
         "technologist/dialog.html",
         frame_name=current_root_name,
@@ -746,39 +754,23 @@ def expert_dialog():
 def expert_cancel():
     if request.cookies.get('auth_status') != 'True':
         return redirect('/login')
-    
-    user_id = session.get('expert_user_id')
-    if user_id:
-        # Удаляем все ответы из БД
-        con_db = func.connect_to_db('technologist')
-        clear_session(con_db, user_id)
-        con_db.close()
 
-    # Полностью очищаем сессию от данных экспертной системы
-    session.pop('expert_frame_index', None)
-    session.pop('expert_root_frames', None)
-    session.pop('expert_user_id', None)
-    session.pop('slot_idx', None)
-    session.pop('value_idx', None)
-
-    return redirect('/tech-processes')
-
-def expert_cancel():
-    if request.cookies.get('auth_status') != 'True':
-        return redirect('/login')
-    
     user_id = session.get('expert_user_id')
     if user_id:
         con_db = func.connect_to_db('technologist')
         clear_session(con_db, user_id)
         con_db.close()
 
-    # Полная очистка
-    session.pop('expert_frame_index', None)
-    session.pop('expert_root_frames', None)
-    session.pop('expert_user_id', None)
-    session.pop('current_prototype_id', None)
-    session.pop('slot_idx', None)
+    keys_to_clear = [
+        'expert_frame_index',
+        'expert_root_frames',
+        'expert_user_id',
+        'current_prototype_id',
+        'slot_idx',
+        'rejected_prototypes'
+    ]
+    for key in keys_to_clear:
+        session.pop(key, None)
 
     return redirect('/tech-processes')
 
@@ -815,30 +807,30 @@ def get_slots_for_prototypes(con_db, prototype_ids):
     return rows
 
 def filter_prototypes_by_answers(con_db, root_frame_id, answers):
-    """Вернуть список прототипов, совместимых с ответами"""
     all_prototypes = get_all_prototypes(con_db, root_frame_id)
     compatible = []
 
     for fid, fname in all_prototypes:
-        # Получить слоты и значения этого прототипа
         proto_slots = get_frame_slots_values(con_db, fid)
-        match = True
-        for slot_id, _, value_id, _ in proto_slots:
-            key = (slot_id, value_id)
-            if key in answers:
-                if answers[key] == 0:  # пользователь сказал "Нет"
-                    match = False
-                    break
-        # Также проверяем: если пользователь сказал "Да" на значение,
-        # которого нет в прототипе — он не подходит
-        for (s_id, v_id), ans in answers.items():
-            if ans == 1:
-                found = any(s == s_id and v == v_id for s, _, v, _ in proto_slots)
-                if not found:
-                    match = False
-                    break
+        proto_values = {(s_id, v_id) for s_id, _, v_id, _ in proto_slots}
+        valid = True
 
-        if match:
+        # Проверка "Да": все "Да"-значения должны быть в прототипе
+        for (s_id, v_id), ans in answers.items():
+            if ans == 1 and (s_id, v_id) not in proto_values:
+                valid = False
+                break
+
+        if not valid:
+            continue
+
+        # Проверка "Нет": ни одно "Нет"-значение не должно быть в прототипе
+        for (s_id, v_id), ans in answers.items():
+            if ans == 0 and (s_id, v_id) in proto_values:
+                valid = False
+                break
+
+        if valid:
             compatible.append((fid, fname))
 
     return compatible
@@ -864,3 +856,78 @@ def find_best_prototype_by_yes_answers(con_db, root_frame_id, answers):
             return (fid, fname)
     
     return None
+
+def expert_create_tp():
+    if request.cookies.get('auth_status') != 'True':
+        return redirect('/login')
+    role = func.get_role(request.cookies.get('auth_login'))
+    if role not in ['technologist', 'admin']:
+        return redirect('/')
+
+    # Берём решения из сессии
+    root_frames = session.get('expert_root_frames', [])
+    solution_ids = [fid for fid, _ in root_frames if _ == "Решение"]
+
+    if not solution_ids:
+        return redirect('/tech-processes')
+
+    # Получаем описание ТП из формы (если POST)
+    if request.method == 'POST':
+        process_note = request.form.get('process_note', '').strip()
+    else:
+        # Если вызван без POST (маловероятно), используем заглушку
+        process_note = ''
+
+    if not process_note:
+        process_note = 'Сгенерировано ЭС'
+
+    con_db = func.connect_to_db(role)
+    cursor = con_db.cursor()
+
+    # Создаём ТП с описанием
+    cursor.execute("""
+        INSERT INTO TCHG_PROCESS (Process_ID, Process_Note)
+        VALUES (S_TCHG_PROCESS.NEXTVAL, :1)
+    """, (process_note,))
+    
+    cursor.execute("""
+        SELECT Process_ID FROM TCHG_PROCESS
+        ORDER BY Process_ID DESC
+        FETCH FIRST 1 ROW ONLY
+    """)
+    tp_id = cursor.fetchone()[0]
+
+    # Собираем операции с НАЗВАНИЯМИ из TCHG_OPERATION_LIST
+    operations = []
+    for fid in solution_ids:
+        cursor.execute("""
+            SELECT
+                epo.Operation_ID,
+                epo.Op_Duration,
+                epo.Tool_ID,
+                ol.Operation_Name
+            FROM EXPERT_PROCESS_OPERATIONS epo
+            JOIN TCHG_OPERATION_LIST ol ON epo.Operation_ID = ol.Operation_ID
+            WHERE epo.Frame_ID = :1
+            ORDER BY epo.Op_Order
+        """, (fid,))
+        ops = cursor.fetchall()
+        operations.extend(ops)
+
+    # Вставляем операции с настоящим названием
+    for op_id, duration, tool_id, op_name in operations:
+        cursor.execute("""
+            INSERT INTO TCHG_PROCESS_OPERATION
+            (Process_Operation_ID, Process_ID, GOST_Operation_ID, Operation_About, Operation_Time, Operation_Tools_ID)
+            VALUES (S_TCHG_PROCESS_OPERATION.NEXTVAL, :1, :2, :3, :4, :5)
+        """, (tp_id, op_id, op_name, duration, tool_id))
+
+    con_db.commit()
+    cursor.close()
+    con_db.close()
+
+    # Очистка сессии
+    for key in ['expert_frame_index', 'expert_root_frames', 'expert_user_id', 'current_prototype_id', 'slot_idx']:
+        session.pop(key, None)
+
+    return redirect('/tech-processes')

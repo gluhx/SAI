@@ -1,19 +1,45 @@
 {% extends "base.html" %}
-{% block title %}Предпросмотр ТП{% endblock %}
-{% block page_title %}Сгенерированный ТП{% endblock %}
 {% block content %}
-<h2>Операции технологического процесса</h2>
-{% if operations %}
-  <ol>
-  {% for op_id, duration, tool_id in operations %}
-    <li>Операция ID={{ op_id }}, время={{ duration }}, оборудование={{ tool_id }}</li>
-  {% endfor %}
-  </ol>
-  <form method="post" action="/expert/create-tp">
-    <button type="submit" class="btn-primary">Создать ТП</button>
-  </form>
-{% else %}
-  <p>Нет операций для создания ТП.</p>
+<h2>Предварительный просмотр техпроцесса</h2>
+{% if show_create_button %}
+<form method="POST" action="/expert/create-tp">
+    <div class="mb-3">
+        <label for="process_note" class="form-label">Описание техпроцесса (необязательно):</label>
+        <input type="text" class="form-control" id="process_note" name="process_note" placeholder="Например: ТП для корпуса насоса">
+    </div>
+    <button type="submit" class="btn btn-success">Создать техпроцесс</button>
+    <a href="/expert/cancel" class="btn btn-secondary">Отмена</a>
+</form>
+<br>
 {% endif %}
-<a href="/expert/cancel" class="btn-secondary">Отмена</a>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>№</th>
+            <th>Операция</th>
+            <th>Оборудование</th>
+            <th>Время, с</th>
+            <th>Группа</th>
+            <th>Код</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for op in operations %}
+        <tr>
+            <td>{{ loop.index * 5 }}</td>
+            <td>{{ op[3] }}</td>  <!-- Operation_Name -->
+            <td>{{ op[2] or '—' }}</td>  <!-- Tool_Name -->
+            <td>{{ op[1] }}</td>  <!-- Op_Duration -->
+            <td>{{ "%02d"|format(op[5]) }}</td>  <!-- Group_Number -->
+            <td>{{ "%02d"|format(op[4]) }}</td>  <!-- Operation_Number -->
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% if not show_create_button %}
+<a href="/tech-processes" class="btn btn-primary">Назад к техпроцессам</a>
+{% endif %}
+
 {% endblock %}
