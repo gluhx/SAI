@@ -331,7 +331,6 @@ def frame_slots_page():
     frames = get_prototype_frames(con_db)
     selected_frame = request.args.get('frame')
 
-    # Инициализируем все переменные для шаблона
     frame_data = None
     all_slots = []
     assigned_slots = []
@@ -341,7 +340,7 @@ def frame_slots_page():
     group_operations = []
     selected_group = None
     tools = []
-    group_number = None  # <-- ГЛАВНОЕ ИЗМЕНЕНИЕ
+    group_number = None
 
     if selected_frame:
         # --- Слоты ---
@@ -378,6 +377,7 @@ def frame_slots_page():
         ]
         cursor.close()
         frame_data = {'id': selected_frame, 'assigned_slots': assigned_slots, 'name': frame_name}
+
         # --- Операции ---
         groups = get_operation_groups(con_db)
         tools = get_all_tools(con_db)
@@ -394,7 +394,7 @@ def frame_slots_page():
         group_operations = get_operations_by_group(con_db, selected_group) if selected_group else []
         cursor = con_db.cursor()
         cursor.execute("""
-            SELECT po.Process_Op_ID, po.Process_Name, ol.Operation_Name, t.Tool_Name, po.Op_Order,
+            SELECT po.Process_Op_ID, po.Operation_Name, ol.Operation_Name, t.Tool_Name, po.Op_Order,
                    og.Group_Number, ol.Operation_Number
             FROM EXPERT_PROCESS_OPERATIONS po
             JOIN TCHG_OPERATION_LIST ol ON po.Operation_ID = ol.Operation_ID
@@ -406,8 +406,8 @@ def frame_slots_page():
         operations = [
             {
                 'id': r[0],
-                'process_name': r[1],
-                'name': r[2],
+                'process_name': r[1],          # ← Теперь это po.Operation_Name из EXPERT_PROCESS_OPERATIONS
+                'name': r[2],                  # ← Это ol.Operation_Name из справочника
                 'tool': r[3],
                 'order': r[4],
                 'group_number': r[5],
@@ -523,7 +523,7 @@ def add_frame_operation(frame_id):
     tool_id = request.form.get('tool_id') or None
     duration = 0
 
-    if not process_name or not op_id or not tool_id:
+    if not process_name or not op_id:
         return redirect(f'/expert/frame-slots?frame={frame_id}')
 
     con_db = func.connect_to_db('expert')
@@ -535,7 +535,7 @@ def add_frame_operation(frame_id):
 
         cursor.execute("""
             INSERT INTO EXPERT_PROCESS_OPERATIONS
-            (Process_Op_ID, Process_Name, Frame_ID, Operation_ID, Op_Order, Op_Duration, Tool_ID)
+            (Process_Op_ID, Operation_Name, Frame_ID, Operation_ID, Op_Order, Op_Duration, Tool_ID)
             VALUES (S_EXPERT_PROCESS_OPERATIONS.NEXTVAL, :1, :2, :3, :4, :5, :6)
         """, (process_name, frame_id, op_id, new_order, duration, tool_id))
         con_db.commit()

@@ -59,18 +59,21 @@ def processes():
 
 #удаление процесса
 def delete_process(id):
-    #проверка авторизации
+    # проверка авторизации
     if request.cookies.get('auth_status') != 'True':
         return redirect('/login')
-
     role = func.get_role(request.cookies.get('auth_login'))
-    if not(role == 'technologist' or role== 'director'):
+    if not(role == 'technologist' or role == 'director'):
         return redirect('/tech-processes')
     else:
         con_db = func.connect_to_db(func.get_role(request.cookies.get('auth_login')))
         cursor = con_db.cursor()
-        cursor.execute('DELETE FROM TCHG_PROCESS WHERE Process_ID = ' + str(id))
+        # Удаляем сначала из COM_TP_DEV
+        cursor.execute('DELETE FROM COM_TP_DEV WHERE TP_ID = ' + str(id))
+        # Удаляем операции
         cursor.execute('DELETE FROM TCHG_PROCESS_OPERATION WHERE Process_ID = ' + str(id))
+        # Теперь можно удалить сам процесс
+        cursor.execute('DELETE FROM TCHG_PROCESS WHERE Process_ID = ' + str(id))
         con_db.commit()
         cursor.close()
         con_db.close()
@@ -573,24 +576,21 @@ def get_session_answers(con_db, user_id, root_frame_id):
     cursor.close()
     return answers
 
-def generate_tp_operations(con_db, user_id):
+def get_operations_by_frame_ids(con_db, frame_ids):
+    """Возвращает операции с Tool_ID (число) — для сохранения в БД"""
     cursor = con_db.cursor()
-    cursor.execute("""
-        SELECT DISTINCT Frame_ID FROM EXPERT_SESSION WHERE User_ID = :1
-    """, (user_id,))
-    frame_ids = [r[0] for r in cursor.fetchall()]
     operations = []
     for fid in frame_ids:
         cursor.execute("""
-            SELECT Operation_Name, Operation_ID, Op_Duration, Tool_ID
-            FROM EXPERT_PROCESS_OPERATIONS
-            WHERE Frame_ID = :1
-            ORDER BY Op_Order
+            SELECT e.Operation_Name, e.Operation_ID, e.Op_Duration, e.Tool_ID
+            FROM EXPERT_PROCESS_OPERATIONS e
+            WHERE e.Frame_ID = :1
+            ORDER BY e.Op_Order
         """, (fid,))
         ops = cursor.fetchall()
         operations.extend(ops)
     cursor.close()
-    return operations    
+    return operations  # op[3] = Tool_ID (число!)    
 
 def expert_generate_tp():
     if request.cookies.get('auth_status') != 'True':
@@ -618,7 +618,6 @@ def expert_dialog():
     if request.cookies.get('auth_status') != 'True':
         print(">>> [expert_dialog] Пользователь не авторизован — редирект на /login")
         return redirect('/login')
-    
     role = func.get_role(request.cookies.get('auth_login'))
     if role not in ['technologist', 'admin']:
         print(f">>> [expert_dialog] Недостаточно прав (роль: {role}) — редирект на /")
@@ -632,7 +631,7 @@ def expert_dialog():
     con_db = func.connect_to_db('technologist')
     print(f"\n{'='*60}")
     print(f">>> [expert_dialog] НАЧАЛО ДИАЛОГА | user_id={user_id}")
-
+    
     root_frames = session.get('expert_root_frames', [])
     frame_index = session.get('expert_frame_index', 0)
     print(f">>> Корневые фреймы: {root_frames}")
@@ -640,14 +639,14 @@ def expert_dialog():
 
     if frame_index >= len(root_frames):
         print(">>> Все корневые фреймы обработаны — генерация ТП")
-        operations = generate_tp_operations(con_db, user_id)
+        solution_frame_ids = [fid for fid, name in root_frames]
+        operations = get_operations_for_preview(con_db, solution_frame_ids)  # ← только для отображения!
         con_db.close()
         return render_template("technologist/tp_preview.html", operations=operations, role=role)
 
     current_root_id, current_root_name = root_frames[frame_index]
     print(f">>> Работаем с корневым фреймом: ID={current_root_id}, имя='{current_root_name}'")
 
-    # Инициализация текущего прототипа
     if 'current_prototype_id' not in session:
         print(">>> Инициализация: выбор первого прототипа")
         first_proto_id = find_first_prototype(con_db, current_root_id)
@@ -664,7 +663,6 @@ def expert_dialog():
     slot_idx = session['slot_idx']
     print(f">>> Текущий прототип: {current_proto_id}, слот индекс: {slot_idx}")
 
-    # Получаем слоты текущего прототипа
     proto_slots = get_frame_slots_values(con_db, current_proto_id)
     print(f">>> Слоты текущего прототипа: {proto_slots}")
 
@@ -679,8 +677,23 @@ def expert_dialog():
         return redirect('/expert/dialog')
 
     if slot_idx >= len(proto_slots):
-        print(">>> Все слоты прототипа пройдены — решение найдено")
-        root_frames[frame_index] = (current_proto_id, "Решение")
+        print(">>> Все слоты прототипа пройдены — ищем однозначное решение по ответам 'да'")
+        answers = get_session_answers(con_db, user_id, current_root_id)
+        yes_answers = {k: v for k, v in answers.items() if v == 1}
+        all_prototypes = get_all_prototypes(con_db, current_root_id)
+        matching = []
+        for fid, fname in all_prototypes:
+            proto_slots_vals = get_frame_slots_values(con_db, fid)
+            proto_set = {(s_id, v_id) for s_id, _, v_id, _ in proto_slots_vals}
+            if all(key in proto_set for key in yes_answers.keys()):
+                matching.append((fid, fname))
+        if len(matching) == 1:
+            solution_fid, solution_name = matching[0]
+            print(f">>> Найдено однозначное решение: Frame_ID={solution_fid}")
+            root_frames[frame_index] = (solution_fid, "Решение")
+        else:
+            print(f">>> Неоднозначность ({len(matching)} решений). Используем текущий прототип как решение.")
+            root_frames[frame_index] = (current_proto_id, "Решение (неоднозначно)")
         session['expert_root_frames'] = root_frames
         session['expert_frame_index'] = frame_index + 1
         session.pop('current_prototype_id', None)
@@ -696,31 +709,25 @@ def expert_dialog():
         answer_val = 1 if answer_str == 'yes' else 0
         print(f">>> Получен ответ: '{answer_str}' → числовое значение: {answer_val}")
 
+        # Сохраняем ответ в сессии БД
+        save_answer(con_db, user_id, current_root_id, slot_id, value_id, answer_val)
+
         if answer_val == 1:
-            print(">>> Сохраняем ответ 'Да' в БД")
-            save_answer(con_db, user_id, current_root_id, slot_id, value_id, 1)
+            print(">>> Ответ 'Да' — переходим к следующему слоту")
             session['slot_idx'] = slot_idx + 1
-            print(f">>> Переход к следующему слоту: {slot_idx + 1}")
         else:
-            print(">>> Ответ 'Нет' — ищем другой прототип")
-            # Получаем ВСЕ прототипы для этого корневого фрейма
-            all_protos = get_all_prototypes(con_db, current_root_id)
-            print(f">>> Все прототипы для корневого фрейма {current_root_id}: {all_protos}")
+            print(">>> Ответ 'Нет' — фильтруем прототипы по всем ответам")
+            answers = get_session_answers(con_db, user_id, current_root_id)
+            compatible_prototypes = filter_prototypes_by_answers(con_db, current_root_id, answers)
+            # Исключаем текущий прототип
+            compatible_prototypes = [p for p in compatible_prototypes if p[0] != current_proto_id]
 
-            # Ищем первый прототип, не равный текущему
-            next_proto = None
-            for fid, fname in all_protos:
-                if fid != current_proto_id:
-                    next_proto = fid
-                    print(f">>> Найден альтернативный прототип: {fid} (первый, отличный от текущего)")
-                    break
-
-            if next_proto is not None:
-                session['current_prototype_id'] = next_proto
-                # slot_idx остаётся прежним!
-                print(f">>> Переключились на прототип {next_proto}, остаёмся на слоте {slot_idx}")
+            if compatible_prototypes:
+                session['current_prototype_id'] = compatible_prototypes[0][0]
+                # slot_idx остаётся прежним — задаём тот же слот, но с новым значением
+                print(f">>> Переключились на совместимый прототип: {compatible_prototypes[0][0]}")
             else:
-                print(">>> НЕТ других прототипов — фрейм не поддерживается")
+                print(">>> Нет совместимых прототипов — пропускаем фрейм")
                 session['expert_frame_index'] = frame_index + 1
                 session.pop('current_prototype_id', None)
                 session.pop('slot_idx', None)
@@ -728,11 +735,9 @@ def expert_dialog():
                 return redirect('/expert/dialog')
 
         con_db.close()
-        print(">>> Редирект на /expert/dialog для следующего шага")
         return redirect('/expert/dialog')
 
     con_db.close()
-    print(">>> Отображение вопроса пользователю")
     return render_template(
         "technologist/dialog.html",
         frame_name=current_root_name,
@@ -905,9 +910,15 @@ def expert_create_tp():
     role = func.get_role(request.cookies.get('auth_login'))
     if role not in ['technologist', 'admin']:
         return redirect('/')
+    
     user_id = session.get('expert_user_id')
     if not user_id:
         return redirect('/tech-processes')
+
+    # Получаем пользовательское описание или используем значение по умолчанию
+    process_note = request.form.get('process_note', '').strip()
+    if not process_note:
+        process_note = 'Сгенерирован ЭС'
 
     con_db = func.connect_to_db('technologist')
     cursor = con_db.cursor()
@@ -916,36 +927,40 @@ def expert_create_tp():
     pid_var = cursor.var(cx_Oracle.NUMBER)
     cursor.execute("""
         INSERT INTO TCHG_PROCESS (Process_ID, Process_Note)
-        VALUES (S_TCHG_PROCESS.NEXTVAL, 'Сгенерирован ЭС')
+        VALUES (S_TCHG_PROCESS.NEXTVAL, :note)
         RETURNING Process_ID INTO :pid
-    """, pid=pid_var)
+    """, note=process_note, pid=pid_var)
     process_id = int(pid_var.getvalue()[0])
 
-    # Получаем операции с Operation_Name из EXPERT_PROCESS_OPERATIONS
-    operations = generate_tp_operations(con_db, user_id)
-    for op_name, op_id, op_time, tool_id in operations:
-        # Обработка NULL для tool_id
-        cursor.execute("""
-            INSERT INTO TCHG_PROCESS_OPERATION (
-                Process_Operation_ID, Process_ID, GOST_Operation_ID,
-                Operation_About, Operation_Time, Operation_Tools_ID
-            ) VALUES (
-                S_TCHG_PROCESS_OPERATION.NEXTVAL, :process_id, :op_id,
-                :op_name, :op_time, :tool_id
-            )
-        """, {
-            'process_id': process_id,
-            'op_id': op_id,
-            'op_name': op_name,
-            'op_time': op_time,
-            'tool_id': tool_id
-        })
+    # Получаем ID решений из сессии
+    solution_frame_ids = [fid for fid, name in session.get('expert_root_frames', [])]
+
+    if solution_frame_ids:
+        # Заново получаем операции с Tool_ID (число!) — НЕ с Tool_Name!
+        operations = get_operations_by_frame_ids(con_db, solution_frame_ids)
+        for op_name, op_id, op_time, tool_id in operations:
+            # tool_id здесь — число (Tool_ID), как и требуется для Operation_Tools_ID
+            cursor.execute("""
+                INSERT INTO TCHG_PROCESS_OPERATION (
+                    Process_Operation_ID, Process_ID, GOST_Operation_ID,
+                    Operation_About, Operation_Time, Operation_Tools_ID
+                ) VALUES (
+                    S_TCHG_PROCESS_OPERATION.NEXTVAL, :process_id, :op_id,
+                    :op_name, :op_time, :tool_id
+                )
+            """, {
+                'process_id': process_id,
+                'op_id': op_id,
+                'op_name': op_name,
+                'op_time': op_time,
+                'tool_id': tool_id  # ← это число, не строка!
+            })
 
     con_db.commit()
     cursor.close()
     con_db.close()
 
-    # Очистка сессии после успешного сохранения
+    # Очистка сессии
     session.pop('expert_frame_index', None)
     session.pop('expert_root_frames', None)
     session.pop('expert_user_id', None)
@@ -953,3 +968,20 @@ def expert_create_tp():
     session.pop('slot_idx', None)
 
     return redirect(f'/process/{process_id}')
+
+def get_operations_for_preview(con_db, frame_ids):
+    """Возвращает операции с Tool_Name — для отображения в tp_preview.html"""
+    cursor = con_db.cursor()
+    operations = []
+    for fid in frame_ids:
+        cursor.execute("""
+            SELECT e.Operation_Name, e.Operation_ID, e.Op_Duration, t.Tool_Name
+            FROM EXPERT_PROCESS_OPERATIONS e
+            LEFT JOIN TCHG_TOOLS t ON e.Tool_ID = t.Tool_ID
+            WHERE e.Frame_ID = :1
+            ORDER BY e.Op_Order
+        """, (fid,))
+        ops = cursor.fetchall()
+        operations.extend(ops)
+    cursor.close()
+    return operations  # op[3] = Tool_Name (строка)

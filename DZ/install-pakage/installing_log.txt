@@ -1,3 +1,4 @@
+00-preparing
 Создаём пользователя для администрирования БД
 User dropped.
 User created.
@@ -18,7 +19,8 @@ Grant succeeded.
 Grant succeeded.
 Grant succeeded.
 User altered.
-
+\n
+01-authrization
 Модуль авторизации:
 Создаём таблицу пользователей
 Table created.
@@ -35,7 +37,8 @@ Synonym dropped.
 Synonym created.
 Synonym dropped.
 Synonym created.
-
+\n
+02-technologist
 Модуль технолога
 Создаём таблицу c названием групп технологических операций
 Table created.
@@ -78,7 +81,8 @@ Synonym dropped.
 Synonym created.
 Synonym dropped.
 Synonym created.
-
+\n
+03-technologist-filling
 Заполняем таблицу групп операций
 1 row created.
 1 row created.
@@ -1411,7 +1415,8 @@ Synonym created.
 1 row created.
 1 row created.
 1 row created.
-
+\n
+04-engineer
 Модуль инженера конструктора
 Создаём таблицу устройств
 Table created.
@@ -1451,6 +1456,7 @@ Synonym created.
 Synonym dropped.
 Synonym created.
 
+05-engineer-filling
 Заполняем таблицу с классами компонентов
 1 row created.
 1 row created.
@@ -1570,7 +1576,8 @@ Synonym created.
 1 row created.
 1 row created.
 1 row created.
-
+\n
+06-engineer-help
 Создаём таблицу с ГОСТами для инженеров
 Table created.
 Table altered.
@@ -1624,7 +1631,8 @@ Sequence created.
 Создаём публичный синоним
 Synonym dropped.
 Synonym created.
-
+\n
+07-director
 Модуль директора
 Создаём таблицу с задачами для пользователей
 Table created.
@@ -1636,14 +1644,16 @@ Synonym dropped.
 Synonym created.
 Synonym dropped.
 Synonym created.
-
+\n
+08-director-filling
 Заполняем таблицу с задачами для примера
 1 row created.
 1 row created.
 1 row created.
 1 row created.
 1 row created.
-
+\n
+09-expert
 Модуль экспертной системы
 Удаляем и создаём таблицу слотов
 Table created.
@@ -1705,7 +1715,8 @@ Synonym dropped.
 Synonym created.
 Synonym dropped.
 Synonym created.
-
+\n
+10-expert-filling
 Заполняем таблицу слотов экспертной системы
 1 row created.
 1 row created.
@@ -1878,6 +1889,36 @@ Synonym created.
 1 row created.
 1 row created.
 1 row created.
+1 row created.
+1 row created.
+1 row created.
+1 row created.
+1 row created.
+1 row created.
+1 row created.
+1 row created.
+1 row created.
+1 row created.
+1 row created.
+1 row created.
+1 row created.
+1 row created.
+1 row created.
+1 row created.
+1 row created.
+1 row created.
+1 row created.
+1 row created.
+1 row created.
+1 row created.
+1 row created.
+1 row created.
+1 row created.
+1 row created.
+1 row created.
+1 row created.
+1 row created.
+1 row created.
 Заполняем таблицу операций для фреймов
 1 row created.
 1 row created.
@@ -1894,33 +1935,15 @@ Synonym created.
 1 row created.
 1 row created.
 1 row created.
-    (SELECT Operation_ID FROM TCHG_OPERATION_LIST WHERE Operation_Number = 57 AND Operation_Group_ID =
-            *
-ERROR at line 4:
-ORA-01400: cannot insert NULL into
-("ADMIN_USER"."EXPERT_PROCESS_OPERATIONS"."OPERATION_ID")
-Help: https://docs.oracle.com/error-help/db/ora-01400/ 
 1 row created.
 1 row created.
 1 row created.
 1 row created.
-    (SELECT Operation_ID FROM TCHG_OPERATION_LIST WHERE Operation_Number = 57 AND Operation_Group_ID =
-            *
-ERROR at line 4:
-ORA-01400: cannot insert NULL into
-("ADMIN_USER"."EXPERT_PROCESS_OPERATIONS"."OPERATION_ID")
-Help: https://docs.oracle.com/error-help/db/ora-01400/ 
 1 row created.
 1 row created.
 1 row created.
 1 row created.
 1 row created.
-    (SELECT Operation_ID FROM TCHG_OPERATION_LIST WHERE Operation_Number = 57 AND Operation_Group_ID =
-            *
-ERROR at line 4:
-ORA-01400: cannot insert NULL into
-("ADMIN_USER"."EXPERT_PROCESS_OPERATIONS"."OPERATION_ID")
-Help: https://docs.oracle.com/error-help/db/ora-01400/ 
 1 row created.
 1 row created.
 1 row created.
@@ -1931,101 +1954,35 @@ Help: https://docs.oracle.com/error-help/db/ora-01400/
 1 row created.
 1 row created.
 1 row created.
-    (SELECT Operation_ID FROM TCHG_OPERATION_LIST WHERE Operation_Number = 57 AND Operation_Group_ID =
-            *
-ERROR at line 4:
-ORA-01400: cannot insert NULL into
-("ADMIN_USER"."EXPERT_PROCESS_OPERATIONS"."OPERATION_ID")
-Help: https://docs.oracle.com/error-help/db/ora-01400/ 
 1 row created.
 1 row created.
 1 row created.
 1 row created.
 1 row created.
 1 row created.
-    (SELECT Operation_ID FROM TCHG_OPERATION_LIST WHERE Operation_Number = 57 AND Operation_Group_ID =
-            *
-ERROR at line 4:
-ORA-01400: cannot insert NULL into
-("ADMIN_USER"."EXPERT_PROCESS_OPERATIONS"."OPERATION_ID")
-Help: https://docs.oracle.com/error-help/db/ora-01400/ 
 1 row created.
 1 row created.
 1 row created.
 1 row created.
 1 row created.
 1 row created.
-    (SELECT Operation_ID FROM TCHG_OPERATION_LIST WHERE Operation_Number = 57 AND Operation_Group_ID =
-            *
-ERROR at line 4:
-ORA-01400: cannot insert NULL into
-("ADMIN_USER"."EXPERT_PROCESS_OPERATIONS"."OPERATION_ID")
-Help: https://docs.oracle.com/error-help/db/ora-01400/ 
 1 row created.
 1 row created.
 1 row created.
 1 row created.
-    (SELECT Operation_ID FROM TCHG_OPERATION_LIST WHERE Operation_Number = 57 AND Operation_Group_ID =
-            *
-ERROR at line 4:
-ORA-01400: cannot insert NULL into
-("ADMIN_USER"."EXPERT_PROCESS_OPERATIONS"."OPERATION_ID")
-Help: https://docs.oracle.com/error-help/db/ora-01400/ 
 1 row created.
 1 row created.
 1 row created.
 1 row created.
 1 row created.
 1 row created.
-    (SELECT Operation_ID FROM TCHG_OPERATION_LIST WHERE Operation_Number = 57 AND Operation_Group_ID =
-            *
-ERROR at line 4:
-ORA-01400: cannot insert NULL into
-("ADMIN_USER"."EXPERT_PROCESS_OPERATIONS"."OPERATION_ID")
-Help: https://docs.oracle.com/error-help/db/ora-01400/ 
 1 row created.
 1 row created.
-    (SELECT Operation_ID FROM TCHG_OPERATION_LIST WHERE Operation_Number = 57 AND Operation_Group_ID =
-            *
-ERROR at line 4:
-ORA-01400: cannot insert NULL into
-("ADMIN_USER"."EXPERT_PROCESS_OPERATIONS"."OPERATION_ID")
-Help: https://docs.oracle.com/error-help/db/ora-01400/ 
 1 row created.
 1 row created.
-    (SELECT Frame_ID FROM EXPERT_FRAMES WHERE Frame_Name = '2.2.3 Нанесение паяльной пасты - Автомотизированная установка КМП - Пайка феном'),
-            *
-ERROR at line 3:
-ORA-01400: cannot insert NULL into
-("ADMIN_USER"."EXPERT_PROCESS_OPERATIONS"."FRAME_ID")
-Help: https://docs.oracle.com/error-help/db/ora-01400/ 
-    (SELECT Frame_ID FROM EXPERT_FRAMES WHERE Frame_Name = '2.2.3 Нанесение паяльной пасты - Автомотизированная установка КМП - Пайка феном'),
-            *
-ERROR at line 3:
-ORA-01400: cannot insert NULL into
-("ADMIN_USER"."EXPERT_PROCESS_OPERATIONS"."FRAME_ID")
-Help: https://docs.oracle.com/error-help/db/ora-01400/ 
-    (SELECT Frame_ID FROM EXPERT_FRAMES WHERE Frame_Name = '2.2.3 Нанесение паяльной пасты - Автомотизированная установка КМП - Пайка феном'),
-            *
-ERROR at line 3:
-ORA-01400: cannot insert NULL into
-("ADMIN_USER"."EXPERT_PROCESS_OPERATIONS"."FRAME_ID")
-Help: https://docs.oracle.com/error-help/db/ora-01400/ 
-    (SELECT Operation_ID FROM TCHG_OPERATION_LIST WHERE Operation_Number = 57 AND Operation_Group_ID =
-            *
-ERROR at line 4:
-ORA-01400: cannot insert NULL into
-("ADMIN_USER"."EXPERT_PROCESS_OPERATIONS"."OPERATION_ID")
-Help: https://docs.oracle.com/error-help/db/ora-01400/ 
 1 row created.
 1 row created.
 1 row created.
-    (SELECT Operation_ID FROM TCHG_OPERATION_LIST WHERE Operation_Number = 57 AND Operation_Group_ID =
-            *
-ERROR at line 4:
-ORA-01400: cannot insert NULL into
-("ADMIN_USER"."EXPERT_PROCESS_OPERATIONS"."OPERATION_ID")
-Help: https://docs.oracle.com/error-help/db/ora-01400/ 
 1 row created.
 1 row created.
 1 row created.
@@ -2039,12 +1996,6 @@ Help: https://docs.oracle.com/error-help/db/ora-01400/
 1 row created.
 1 row created.
 1 row created.
-    (SELECT Operation_ID FROM TCHG_OPERATION_LIST WHERE Operation_Number = 57 AND Operation_Group_ID =
-            *
-ERROR at line 4:
-ORA-01400: cannot insert NULL into
-("ADMIN_USER"."EXPERT_PROCESS_OPERATIONS"."OPERATION_ID")
-Help: https://docs.oracle.com/error-help/db/ora-01400/ 
 1 row created.
 1 row created.
 1 row created.
@@ -2081,7 +2032,22 @@ Help: https://docs.oracle.com/error-help/db/ora-01400/
 1 row created.
 1 row created.
 1 row created.
-
+1 row created.
+1 row created.
+1 row created.
+1 row created.
+1 row created.
+1 row created.
+1 row created.
+1 row created.
+1 row created.
+1 row created.
+1 row created.
+1 row created.
+1 row created.
+1 row created.
+\n
+11-communication
 Таблицы для связи между модулями
 Создаём таблицу связи ТП и устройств
 Table created.
@@ -2094,7 +2060,8 @@ Synonym dropped.
 Synonym created.
 Synonym dropped.
 Synonym created.
-
+\n
+12-create-users
 Создаём пользователя для пользовательского общения с БД
 User dropped.
 User created.
@@ -2319,4 +2286,4 @@ Grant succeeded.
 Grant succeeded.
 Grant succeeded.
 Grant succeeded.
-
+\n

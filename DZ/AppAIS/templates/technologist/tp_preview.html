@@ -1,34 +1,58 @@
 {% extends "base.html" %}
 {% block title %}Предпросмотр ТП{% endblock %}
-{% block page_title %}Сгенерированный ТП{% endblock %}
+{% block page_title %}Предварительный просмотр техпроцесса{% endblock %}
+{% block extra_css %}
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/technologist/process.css') }}">
+{% endblock %}
 {% block content %}
-<h2>Операции технологического процесса</h2>
-{% if operations %}
-  <table class="table">
-    <thead>
-      <tr>
-        <th>Название операции</th>
-        <th>ID операции</th>
-        <th>Время (с)</th>
-        <th>Инструмент</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for op_name, op_id, op_time, tool_id in operations %}
-      <tr>
-        <td>{{ op_name }}</td>
-        <td>{{ op_id }}</td>
-        <td>{{ op_time }}</td>
-        <td>{{ tool_id or '—' }}</td>
-      </tr>
-      {% endfor %}
-    </tbody>
-  </table>
-  <form method="post" action="/expert/create-tp">
-    <button type="submit" class="btn btn-primary">Создать ТП</button>
-  </form>
-{% else %}
-  <p>Нет операций для создания ТП.</p>
-{% endif %}
-<a href="/expert/cancel" class="btn btn-secondary">Отмена</a>
+<main class="tp-preview-page">
+    <section class="process-info-card">
+        <h1>Предварительный просмотр ТП</h1>
+        <p class="process-note">Проверьте операции перед созданием технологического процесса.</p>
+    </section>
+
+    {% if operations %}
+        <section class="operations-section">
+            <div class="section-header">
+                <h2>Операции</h2>
+                <span class="operation-count">Всего: {{ operations|length }}</span>
+            </div>
+            <div class="operations-table">
+                <div class="operations-header">
+                    <div class="col-about">Операция</div>
+                    <div class="col-id">Оборудование</div>
+                    <div class="col-time">Время, с</div>
+                    <div class="col-tool">Номер</div>
+                </div>
+                {% for op in operations %}
+                    <div class="operation-row">
+                        <div class="col-about">{{ op[0] }}</div>
+                        <div class="col-id">{{ op[3] or '—' }}</div>
+                        <div class="col-time">{{ op[2] }}</div>
+                        <div class="col-tool">{{ loop.index * 5 }}</div>
+                    </div>
+                {% endfor %}
+            </div>
+        </section>
+
+        <!-- Форма ввода описания -->
+        <form method="POST" action="/expert/create-tp" class="create-tp-form">
+            <div class="form-group">
+                <label for="process_note">Описание техпроцесса (необязательно):</label>
+                <input type="text" id="process_note" name="process_note"
+                       class="form-control"
+                       placeholder="Например: ТП для сборки блока питания">
+            </div>
+            <div class="action-footer">
+                <button type="submit" class="btn-primary">Создать техпроцесс</button>
+                <a href="/expert/cancel" class="btn-secondary">Отмена</a>
+            </div>
+        </form>
+    {% else %}
+        <p class="empty-message">Нет операций для создания ТП.</p>
+        <div class="action-footer">
+            <a href="/expert/cancel" class="btn-secondary">Вернуться к списку</a>
+        </div>
+    {% endif %}
+</main>
 {% endblock %}
