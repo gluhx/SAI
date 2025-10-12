@@ -1706,6 +1706,48 @@ Synonym created.
 Synonym dropped.
 Synonym created.
 
+Заполняем таблицу слотов экспертной системы
+1 row created.
+1 row created.
+1 row created.
+1 row created.
+1 row created.
+1 row created.
+1 row created.
+1 row created.
+1 row created.
+1 row created.
+1 row created.
+1 row created.
+1 row created.
+Заполняем таблицу значений слотов
+1 row created.
+1 row created.
+1 row created.
+1 row created.
+1 row created.
+1 row created.
+1 row created.
+1 row created.
+1 row created.
+1 row created.
+1 row created.
+1 row created.
+1 row created.
+1 row created.
+1 row created.
+1 row created.
+1 row created.
+1 row created.
+1 row created.
+1 row created.
+1 row created.
+1 row created.
+1 row created.
+1 row created.
+1 row created.
+1 row created.
+1 row created.
 Заполняем таблицу фреймов
 1 row created.
 1 row created.
@@ -1746,637 +1788,6 @@ Synonym created.
 1 row created.
 1 row created.
 Заполняем таблицу связей фреймов и значений слотов
-            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'компоненты берутся' AND sv.Value_Name = 'сразу из транспортных машин'))
-                    *
-ERROR at line 4:
-ORA-01400: cannot insert NULL into
-("ADMIN_USER"."EXPERT_FRAME_VALUES"."SLOT_VALUE_ID")
-Help: https://docs.oracle.com/error-help/db/ora-01400/ 
-            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'входной контроль' AND sv.Value_Name = 'нужен'))
-                    *
-ERROR at line 4:
-ORA-01400: cannot insert NULL into
-("ADMIN_USER"."EXPERT_FRAME_VALUES"."SLOT_VALUE_ID")
-Help: https://docs.oracle.com/error-help/db/ora-01400/ 
-            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'компоненты берутся' AND sv.Value_Name = 'сразу из транспортных машин'))
-                    *
-ERROR at line 4:
-ORA-01400: cannot insert NULL into
-("ADMIN_USER"."EXPERT_FRAME_VALUES"."SLOT_VALUE_ID")
-Help: https://docs.oracle.com/error-help/db/ora-01400/ 
-            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'входной контроль' AND sv.Value_Name = 'не нужен'))
-                    *
-ERROR at line 4:
-ORA-01400: cannot insert NULL into
-("ADMIN_USER"."EXPERT_FRAME_VALUES"."SLOT_VALUE_ID")
-Help: https://docs.oracle.com/error-help/db/ora-01400/ 
-            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'компоненты берутся' AND sv.Value_Name = 'со склада'))
-                    *
-ERROR at line 4:
-ORA-01400: cannot insert NULL into
-("ADMIN_USER"."EXPERT_FRAME_VALUES"."SLOT_VALUE_ID")
-Help: https://docs.oracle.com/error-help/db/ora-01400/ 
-            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'входной контроль' AND sv.Value_Name = 'нужен'))
-                    *
-ERROR at line 4:
-ORA-01400: cannot insert NULL into
-("ADMIN_USER"."EXPERT_FRAME_VALUES"."SLOT_VALUE_ID")
-Help: https://docs.oracle.com/error-help/db/ora-01400/ 
-            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'компоненты берутся' AND sv.Value_Name = 'со склада'))
-                    *
-ERROR at line 4:
-ORA-01400: cannot insert NULL into
-("ADMIN_USER"."EXPERT_FRAME_VALUES"."SLOT_VALUE_ID")
-Help: https://docs.oracle.com/error-help/db/ora-01400/ 
-            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'входной контроль' AND sv.Value_Name = 'не нужен'))
-                    *
-ERROR at line 4:
-ORA-01400: cannot insert NULL into
-("ADMIN_USER"."EXPERT_FRAME_VALUES"."SLOT_VALUE_ID")
-Help: https://docs.oracle.com/error-help/db/ora-01400/ 
-            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'КМО' AND sv.Value_Name = 'нет'))
-                    *
-ERROR at line 4:
-ORA-01400: cannot insert NULL into
-("ADMIN_USER"."EXPERT_FRAME_VALUES"."SLOT_VALUE_ID")
-Help: https://docs.oracle.com/error-help/db/ora-01400/ 
-            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'способ установки компонентов' AND sv.Value_Name = 'автоматизированный'))
-                    *
-ERROR at line 4:
-ORA-01400: cannot insert NULL into
-("ADMIN_USER"."EXPERT_FRAME_VALUES"."SLOT_VALUE_ID")
-Help: https://docs.oracle.com/error-help/db/ora-01400/ 
-            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'пайка КМП' AND sv.Value_Name = 'в печи'))
-                    *
-ERROR at line 4:
-ORA-01400: cannot insert NULL into
-("ADMIN_USER"."EXPERT_FRAME_VALUES"."SLOT_VALUE_ID")
-Help: https://docs.oracle.com/error-help/db/ora-01400/ 
-            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'тип платы' AND sv.Value_Name = 'ОПП'))
-                    *
-ERROR at line 4:
-ORA-01400: cannot insert NULL into
-("ADMIN_USER"."EXPERT_FRAME_VALUES"."SLOT_VALUE_ID")
-Help: https://docs.oracle.com/error-help/db/ora-01400/ 
-            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'КМО' AND sv.Value_Name = 'нет'))
-                    *
-ERROR at line 4:
-ORA-01400: cannot insert NULL into
-("ADMIN_USER"."EXPERT_FRAME_VALUES"."SLOT_VALUE_ID")
-Help: https://docs.oracle.com/error-help/db/ora-01400/ 
-            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'способ установки компонентов' AND sv.Value_Name = 'ручной'))
-                    *
-ERROR at line 4:
-ORA-01400: cannot insert NULL into
-("ADMIN_USER"."EXPERT_FRAME_VALUES"."SLOT_VALUE_ID")
-Help: https://docs.oracle.com/error-help/db/ora-01400/ 
-            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'пайка КМП' AND sv.Value_Name = 'феном'))
-                    *
-ERROR at line 4:
-ORA-01400: cannot insert NULL into
-("ADMIN_USER"."EXPERT_FRAME_VALUES"."SLOT_VALUE_ID")
-Help: https://docs.oracle.com/error-help/db/ora-01400/ 
-            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'тип платы' AND sv.Value_Name = 'ОПП'))
-                    *
-ERROR at line 4:
-ORA-01400: cannot insert NULL into
-("ADMIN_USER"."EXPERT_FRAME_VALUES"."SLOT_VALUE_ID")
-Help: https://docs.oracle.com/error-help/db/ora-01400/ 
-            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'КМО' AND sv.Value_Name = 'нет'))
-                    *
-ERROR at line 4:
-ORA-01400: cannot insert NULL into
-("ADMIN_USER"."EXPERT_FRAME_VALUES"."SLOT_VALUE_ID")
-Help: https://docs.oracle.com/error-help/db/ora-01400/ 
-            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'способ установки компонентов' AND sv.Value_Name = 'ручной'))
-                    *
-ERROR at line 4:
-ORA-01400: cannot insert NULL into
-("ADMIN_USER"."EXPERT_FRAME_VALUES"."SLOT_VALUE_ID")
-Help: https://docs.oracle.com/error-help/db/ora-01400/ 
-            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'пайка КМП' AND sv.Value_Name = 'селективная'))
-                    *
-ERROR at line 4:
-ORA-01400: cannot insert NULL into
-("ADMIN_USER"."EXPERT_FRAME_VALUES"."SLOT_VALUE_ID")
-Help: https://docs.oracle.com/error-help/db/ora-01400/ 
-            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'тип платы' AND sv.Value_Name = 'ОПП'))
-                    *
-ERROR at line 4:
-ORA-01400: cannot insert NULL into
-("ADMIN_USER"."EXPERT_FRAME_VALUES"."SLOT_VALUE_ID")
-Help: https://docs.oracle.com/error-help/db/ora-01400/ 
-            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'КМО' AND sv.Value_Name = 'нет'))
-                    *
-ERROR at line 4:
-ORA-01400: cannot insert NULL into
-("ADMIN_USER"."EXPERT_FRAME_VALUES"."SLOT_VALUE_ID")
-Help: https://docs.oracle.com/error-help/db/ora-01400/ 
-            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'способ установки компонентов' AND sv.Value_Name = 'автоматизированный'))
-                    *
-ERROR at line 4:
-ORA-01400: cannot insert NULL into
-("ADMIN_USER"."EXPERT_FRAME_VALUES"."SLOT_VALUE_ID")
-Help: https://docs.oracle.com/error-help/db/ora-01400/ 
-            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'пайка КМП' AND sv.Value_Name = 'в печи'))
-                    *
-ERROR at line 4:
-ORA-01400: cannot insert NULL into
-("ADMIN_USER"."EXPERT_FRAME_VALUES"."SLOT_VALUE_ID")
-Help: https://docs.oracle.com/error-help/db/ora-01400/ 
-            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'тип платы' AND sv.Value_Name = 'ОПП'))
-                    *
-ERROR at line 4:
-ORA-01400: cannot insert NULL into
-("ADMIN_USER"."EXPERT_FRAME_VALUES"."SLOT_VALUE_ID")
-Help: https://docs.oracle.com/error-help/db/ora-01400/ 
-            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'есть ли компоненты с BGA выводами' AND sv.Value_Name = 'есть'))
-                    *
-ERROR at line 4:
-ORA-01400: cannot insert NULL into
-("ADMIN_USER"."EXPERT_FRAME_VALUES"."SLOT_VALUE_ID")
-Help: https://docs.oracle.com/error-help/db/ora-01400/ 
-            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'КМО' AND sv.Value_Name = 'нет'))
-                    *
-ERROR at line 4:
-ORA-01400: cannot insert NULL into
-("ADMIN_USER"."EXPERT_FRAME_VALUES"."SLOT_VALUE_ID")
-Help: https://docs.oracle.com/error-help/db/ora-01400/ 
-            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'способ установки компонентов' AND sv.Value_Name = 'автоматизированный'))
-                    *
-ERROR at line 4:
-ORA-01400: cannot insert NULL into
-("ADMIN_USER"."EXPERT_FRAME_VALUES"."SLOT_VALUE_ID")
-Help: https://docs.oracle.com/error-help/db/ora-01400/ 
-            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'пайка КМП' AND sv.Value_Name = 'в печи'))
-                    *
-ERROR at line 4:
-ORA-01400: cannot insert NULL into
-("ADMIN_USER"."EXPERT_FRAME_VALUES"."SLOT_VALUE_ID")
-Help: https://docs.oracle.com/error-help/db/ora-01400/ 
-            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'тип платы' AND sv.Value_Name = 'ОПП'))
-                    *
-ERROR at line 4:
-ORA-01400: cannot insert NULL into
-("ADMIN_USER"."EXPERT_FRAME_VALUES"."SLOT_VALUE_ID")
-Help: https://docs.oracle.com/error-help/db/ora-01400/ 
-            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'КМО' AND sv.Value_Name = 'нет'))
-                    *
-ERROR at line 4:
-ORA-01400: cannot insert NULL into
-("ADMIN_USER"."EXPERT_FRAME_VALUES"."SLOT_VALUE_ID")
-Help: https://docs.oracle.com/error-help/db/ora-01400/ 
-            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'способ установки компонентов' AND sv.Value_Name = 'автоматизированный'))
-                    *
-ERROR at line 4:
-ORA-01400: cannot insert NULL into
-("ADMIN_USER"."EXPERT_FRAME_VALUES"."SLOT_VALUE_ID")
-Help: https://docs.oracle.com/error-help/db/ora-01400/ 
-            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'пайка КМП' AND sv.Value_Name = 'селективная'))
-                    *
-ERROR at line 4:
-ORA-01400: cannot insert NULL into
-("ADMIN_USER"."EXPERT_FRAME_VALUES"."SLOT_VALUE_ID")
-Help: https://docs.oracle.com/error-help/db/ora-01400/ 
-            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'тип платы' AND sv.Value_Name = 'ОПП'))
-                    *
-ERROR at line 4:
-ORA-01400: cannot insert NULL into
-("ADMIN_USER"."EXPERT_FRAME_VALUES"."SLOT_VALUE_ID")
-Help: https://docs.oracle.com/error-help/db/ora-01400/ 
-            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'КМО' AND sv.Value_Name = 'нет'))
-                    *
-ERROR at line 4:
-ORA-01400: cannot insert NULL into
-("ADMIN_USER"."EXPERT_FRAME_VALUES"."SLOT_VALUE_ID")
-Help: https://docs.oracle.com/error-help/db/ora-01400/ 
-            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'способ установки компонентов' AND sv.Value_Name = 'ручной'))
-                    *
-ERROR at line 4:
-ORA-01400: cannot insert NULL into
-("ADMIN_USER"."EXPERT_FRAME_VALUES"."SLOT_VALUE_ID")
-Help: https://docs.oracle.com/error-help/db/ora-01400/ 
-            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'пайка КМП' AND sv.Value_Name = 'селективная'))
-                    *
-ERROR at line 4:
-ORA-01400: cannot insert NULL into
-("ADMIN_USER"."EXPERT_FRAME_VALUES"."SLOT_VALUE_ID")
-Help: https://docs.oracle.com/error-help/db/ora-01400/ 
-            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'тип платы' AND sv.Value_Name = 'ОПП'))
-                    *
-ERROR at line 4:
-ORA-01400: cannot insert NULL into
-("ADMIN_USER"."EXPERT_FRAME_VALUES"."SLOT_VALUE_ID")
-Help: https://docs.oracle.com/error-help/db/ora-01400/ 
-            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'КМО' AND sv.Value_Name = 'нет'))
-                    *
-ERROR at line 4:
-ORA-01400: cannot insert NULL into
-("ADMIN_USER"."EXPERT_FRAME_VALUES"."SLOT_VALUE_ID")
-Help: https://docs.oracle.com/error-help/db/ora-01400/ 
-            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'способ установки компонентов' AND sv.Value_Name = 'автоматизированный'))
-                    *
-ERROR at line 4:
-ORA-01400: cannot insert NULL into
-("ADMIN_USER"."EXPERT_FRAME_VALUES"."SLOT_VALUE_ID")
-Help: https://docs.oracle.com/error-help/db/ora-01400/ 
-            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'пайка КМП' AND sv.Value_Name = 'в печи'))
-                    *
-ERROR at line 4:
-ORA-01400: cannot insert NULL into
-("ADMIN_USER"."EXPERT_FRAME_VALUES"."SLOT_VALUE_ID")
-Help: https://docs.oracle.com/error-help/db/ora-01400/ 
-            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'тип платы' AND sv.Value_Name = 'ОПП'))
-                    *
-ERROR at line 4:
-ORA-01400: cannot insert NULL into
-("ADMIN_USER"."EXPERT_FRAME_VALUES"."SLOT_VALUE_ID")
-Help: https://docs.oracle.com/error-help/db/ora-01400/ 
-            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'есть ли компоненты с BGA выводами' AND sv.Value_Name = 'есть'))
-                    *
-ERROR at line 4:
-ORA-01400: cannot insert NULL into
-("ADMIN_USER"."EXPERT_FRAME_VALUES"."SLOT_VALUE_ID")
-Help: https://docs.oracle.com/error-help/db/ora-01400/ 
-            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'КМО' AND sv.Value_Name = 'есть'))
-                    *
-ERROR at line 4:
-ORA-01400: cannot insert NULL into
-("ADMIN_USER"."EXPERT_FRAME_VALUES"."SLOT_VALUE_ID")
-Help: https://docs.oracle.com/error-help/db/ora-01400/ 
-            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'способ установки компонентов' AND sv.Value_Name = 'автоматизированный'))
-                    *
-ERROR at line 4:
-ORA-01400: cannot insert NULL into
-("ADMIN_USER"."EXPERT_FRAME_VALUES"."SLOT_VALUE_ID")
-Help: https://docs.oracle.com/error-help/db/ora-01400/ 
-            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'пайка КМП' AND sv.Value_Name = 'в печи'))
-                    *
-ERROR at line 4:
-ORA-01400: cannot insert NULL into
-("ADMIN_USER"."EXPERT_FRAME_VALUES"."SLOT_VALUE_ID")
-Help: https://docs.oracle.com/error-help/db/ora-01400/ 
-            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'пайка КМО' AND sv.Value_Name = 'волной припоя'))
-                    *
-ERROR at line 4:
-ORA-01400: cannot insert NULL into
-("ADMIN_USER"."EXPERT_FRAME_VALUES"."SLOT_VALUE_ID")
-Help: https://docs.oracle.com/error-help/db/ora-01400/ 
-            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'тип платы' AND sv.Value_Name = 'ОПП'))
-                    *
-ERROR at line 4:
-ORA-01400: cannot insert NULL into
-("ADMIN_USER"."EXPERT_FRAME_VALUES"."SLOT_VALUE_ID")
-Help: https://docs.oracle.com/error-help/db/ora-01400/ 
-            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'КМО' AND sv.Value_Name = 'есть'))
-                    *
-ERROR at line 4:
-ORA-01400: cannot insert NULL into
-("ADMIN_USER"."EXPERT_FRAME_VALUES"."SLOT_VALUE_ID")
-Help: https://docs.oracle.com/error-help/db/ora-01400/ 
-            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'способ установки компонентов' AND sv.Value_Name = 'ручной'))
-                    *
-ERROR at line 4:
-ORA-01400: cannot insert NULL into
-("ADMIN_USER"."EXPERT_FRAME_VALUES"."SLOT_VALUE_ID")
-Help: https://docs.oracle.com/error-help/db/ora-01400/ 
-            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'пайка КМП' AND sv.Value_Name = 'феном'))
-                    *
-ERROR at line 4:
-ORA-01400: cannot insert NULL into
-("ADMIN_USER"."EXPERT_FRAME_VALUES"."SLOT_VALUE_ID")
-Help: https://docs.oracle.com/error-help/db/ora-01400/ 
-            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'пайка КМО' AND sv.Value_Name = 'селективная'))
-                    *
-ERROR at line 4:
-ORA-01400: cannot insert NULL into
-("ADMIN_USER"."EXPERT_FRAME_VALUES"."SLOT_VALUE_ID")
-Help: https://docs.oracle.com/error-help/db/ora-01400/ 
-            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'тип платы' AND sv.Value_Name = 'ОПП'))
-                    *
-ERROR at line 4:
-ORA-01400: cannot insert NULL into
-("ADMIN_USER"."EXPERT_FRAME_VALUES"."SLOT_VALUE_ID")
-Help: https://docs.oracle.com/error-help/db/ora-01400/ 
-            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'КМО' AND sv.Value_Name = 'есть'))
-                    *
-ERROR at line 4:
-ORA-01400: cannot insert NULL into
-("ADMIN_USER"."EXPERT_FRAME_VALUES"."SLOT_VALUE_ID")
-Help: https://docs.oracle.com/error-help/db/ora-01400/ 
-            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'способ установки компонентов' AND sv.Value_Name = 'автоматизированный'))
-                    *
-ERROR at line 4:
-ORA-01400: cannot insert NULL into
-("ADMIN_USER"."EXPERT_FRAME_VALUES"."SLOT_VALUE_ID")
-Help: https://docs.oracle.com/error-help/db/ora-01400/ 
-            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'пайка КМП' AND sv.Value_Name = 'феном'))
-                    *
-ERROR at line 4:
-ORA-01400: cannot insert NULL into
-("ADMIN_USER"."EXPERT_FRAME_VALUES"."SLOT_VALUE_ID")
-Help: https://docs.oracle.com/error-help/db/ora-01400/ 
-            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'пайка КМО' AND sv.Value_Name = 'волной припоя'))
-                    *
-ERROR at line 4:
-ORA-01400: cannot insert NULL into
-("ADMIN_USER"."EXPERT_FRAME_VALUES"."SLOT_VALUE_ID")
-Help: https://docs.oracle.com/error-help/db/ora-01400/ 
-            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'тип платы' AND sv.Value_Name = 'ОПП'))
-                    *
-ERROR at line 4:
-ORA-01400: cannot insert NULL into
-("ADMIN_USER"."EXPERT_FRAME_VALUES"."SLOT_VALUE_ID")
-Help: https://docs.oracle.com/error-help/db/ora-01400/ 
-            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'КМО' AND sv.Value_Name = 'есть'))
-                    *
-ERROR at line 4:
-ORA-01400: cannot insert NULL into
-("ADMIN_USER"."EXPERT_FRAME_VALUES"."SLOT_VALUE_ID")
-Help: https://docs.oracle.com/error-help/db/ora-01400/ 
-            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'способ установки компонентов' AND sv.Value_Name = 'автоматизированный'))
-                    *
-ERROR at line 4:
-ORA-01400: cannot insert NULL into
-("ADMIN_USER"."EXPERT_FRAME_VALUES"."SLOT_VALUE_ID")
-Help: https://docs.oracle.com/error-help/db/ora-01400/ 
-            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'пайка КМО' AND sv.Value_Name = 'селективная'))
-                    *
-ERROR at line 4:
-ORA-01400: cannot insert NULL into
-("ADMIN_USER"."EXPERT_FRAME_VALUES"."SLOT_VALUE_ID")
-Help: https://docs.oracle.com/error-help/db/ora-01400/ 
-            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'тип платы' AND sv.Value_Name = 'ОПП'))
-                    *
-ERROR at line 4:
-ORA-01400: cannot insert NULL into
-("ADMIN_USER"."EXPERT_FRAME_VALUES"."SLOT_VALUE_ID")
-Help: https://docs.oracle.com/error-help/db/ora-01400/ 
-            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'КМО' AND sv.Value_Name = 'есть'))
-                    *
-ERROR at line 4:
-ORA-01400: cannot insert NULL into
-("ADMIN_USER"."EXPERT_FRAME_VALUES"."SLOT_VALUE_ID")
-Help: https://docs.oracle.com/error-help/db/ora-01400/ 
-            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'способ установки компонентов' AND sv.Value_Name = 'ручной'))
-                    *
-ERROR at line 4:
-ORA-01400: cannot insert NULL into
-("ADMIN_USER"."EXPERT_FRAME_VALUES"."SLOT_VALUE_ID")
-Help: https://docs.oracle.com/error-help/db/ora-01400/ 
-            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'пайка КМО' AND sv.Value_Name = 'селективная'))
-                    *
-ERROR at line 4:
-ORA-01400: cannot insert NULL into
-("ADMIN_USER"."EXPERT_FRAME_VALUES"."SLOT_VALUE_ID")
-Help: https://docs.oracle.com/error-help/db/ora-01400/ 
-            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'тип платы' AND sv.Value_Name = 'ОПП'))
-                    *
-ERROR at line 4:
-ORA-01400: cannot insert NULL into
-("ADMIN_USER"."EXPERT_FRAME_VALUES"."SLOT_VALUE_ID")
-Help: https://docs.oracle.com/error-help/db/ora-01400/ 
-            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'КМО' AND sv.Value_Name = 'есть'))
-                    *
-ERROR at line 4:
-ORA-01400: cannot insert NULL into
-("ADMIN_USER"."EXPERT_FRAME_VALUES"."SLOT_VALUE_ID")
-Help: https://docs.oracle.com/error-help/db/ora-01400/ 
-            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'способ установки компонентов' AND sv.Value_Name = 'автоматизированный'))
-                    *
-ERROR at line 4:
-ORA-01400: cannot insert NULL into
-("ADMIN_USER"."EXPERT_FRAME_VALUES"."SLOT_VALUE_ID")
-Help: https://docs.oracle.com/error-help/db/ora-01400/ 
-            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'пайка КМП' AND sv.Value_Name = 'в печи'))
-                    *
-ERROR at line 4:
-ORA-01400: cannot insert NULL into
-("ADMIN_USER"."EXPERT_FRAME_VALUES"."SLOT_VALUE_ID")
-Help: https://docs.oracle.com/error-help/db/ora-01400/ 
-            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'пайка КМО' AND sv.Value_Name = 'волной припоя'))
-                    *
-ERROR at line 4:
-ORA-01400: cannot insert NULL into
-("ADMIN_USER"."EXPERT_FRAME_VALUES"."SLOT_VALUE_ID")
-Help: https://docs.oracle.com/error-help/db/ora-01400/ 
-            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'тип платы' AND sv.Value_Name = 'ОПП'))
-                    *
-ERROR at line 4:
-ORA-01400: cannot insert NULL into
-("ADMIN_USER"."EXPERT_FRAME_VALUES"."SLOT_VALUE_ID")
-Help: https://docs.oracle.com/error-help/db/ora-01400/ 
-            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'есть ли компоненты с BGA выводами' AND sv.Value_Name = 'есть'))
-                    *
-ERROR at line 4:
-ORA-01400: cannot insert NULL into
-("ADMIN_USER"."EXPERT_FRAME_VALUES"."SLOT_VALUE_ID")
-Help: https://docs.oracle.com/error-help/db/ora-01400/ 
-            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'КМО' AND sv.Value_Name = 'есть'))
-                    *
-ERROR at line 4:
-ORA-01400: cannot insert NULL into
-("ADMIN_USER"."EXPERT_FRAME_VALUES"."SLOT_VALUE_ID")
-Help: https://docs.oracle.com/error-help/db/ora-01400/ 
-            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'способ установки компонентов' AND sv.Value_Name = 'автоматизированный'))
-                    *
-ERROR at line 4:
-ORA-01400: cannot insert NULL into
-("ADMIN_USER"."EXPERT_FRAME_VALUES"."SLOT_VALUE_ID")
-Help: https://docs.oracle.com/error-help/db/ora-01400/ 
-            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'пайка КМП' AND sv.Value_Name = 'в печи'))
-                    *
-ERROR at line 4:
-ORA-01400: cannot insert NULL into
-("ADMIN_USER"."EXPERT_FRAME_VALUES"."SLOT_VALUE_ID")
-Help: https://docs.oracle.com/error-help/db/ora-01400/ 
-            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'пайка КМО' AND sv.Value_Name = 'волной припоя'))
-                    *
-ERROR at line 4:
-ORA-01400: cannot insert NULL into
-("ADMIN_USER"."EXPERT_FRAME_VALUES"."SLOT_VALUE_ID")
-Help: https://docs.oracle.com/error-help/db/ora-01400/ 
-            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'тип платы' AND sv.Value_Name = 'ОПП'))
-                    *
-ERROR at line 4:
-ORA-01400: cannot insert NULL into
-("ADMIN_USER"."EXPERT_FRAME_VALUES"."SLOT_VALUE_ID")
-Help: https://docs.oracle.com/error-help/db/ora-01400/ 
-            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'КМО' AND sv.Value_Name = 'есть'))
-                    *
-ERROR at line 4:
-ORA-01400: cannot insert NULL into
-("ADMIN_USER"."EXPERT_FRAME_VALUES"."SLOT_VALUE_ID")
-Help: https://docs.oracle.com/error-help/db/ora-01400/ 
-            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'способ установки компонентов' AND sv.Value_Name = 'автоматизированный'))
-                    *
-ERROR at line 4:
-ORA-01400: cannot insert NULL into
-("ADMIN_USER"."EXPERT_FRAME_VALUES"."SLOT_VALUE_ID")
-Help: https://docs.oracle.com/error-help/db/ora-01400/ 
-            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'пайка КМП' AND sv.Value_Name = 'в печи'))
-                    *
-ERROR at line 4:
-ORA-01400: cannot insert NULL into
-("ADMIN_USER"."EXPERT_FRAME_VALUES"."SLOT_VALUE_ID")
-Help: https://docs.oracle.com/error-help/db/ora-01400/ 
-            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'пайка КМО' AND sv.Value_Name = 'селективная'))
-                    *
-ERROR at line 4:
-ORA-01400: cannot insert NULL into
-("ADMIN_USER"."EXPERT_FRAME_VALUES"."SLOT_VALUE_ID")
-Help: https://docs.oracle.com/error-help/db/ora-01400/ 
-            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'тип платы' AND sv.Value_Name = 'ОПП'))
-                    *
-ERROR at line 4:
-ORA-01400: cannot insert NULL into
-("ADMIN_USER"."EXPERT_FRAME_VALUES"."SLOT_VALUE_ID")
-Help: https://docs.oracle.com/error-help/db/ora-01400/ 
-            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'КМО' AND sv.Value_Name = 'есть'))
-                    *
-ERROR at line 4:
-ORA-01400: cannot insert NULL into
-("ADMIN_USER"."EXPERT_FRAME_VALUES"."SLOT_VALUE_ID")
-Help: https://docs.oracle.com/error-help/db/ora-01400/ 
-            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'способ установки компонентов' AND sv.Value_Name = 'автоматизированный'))
-                    *
-ERROR at line 4:
-ORA-01400: cannot insert NULL into
-("ADMIN_USER"."EXPERT_FRAME_VALUES"."SLOT_VALUE_ID")
-Help: https://docs.oracle.com/error-help/db/ora-01400/ 
-            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'пайка КМП' AND sv.Value_Name = 'в печи'))
-                    *
-ERROR at line 4:
-ORA-01400: cannot insert NULL into
-("ADMIN_USER"."EXPERT_FRAME_VALUES"."SLOT_VALUE_ID")
-Help: https://docs.oracle.com/error-help/db/ora-01400/ 
-            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'пайка КМО' AND sv.Value_Name = 'волной припоя'))
-                    *
-ERROR at line 4:
-ORA-01400: cannot insert NULL into
-("ADMIN_USER"."EXPERT_FRAME_VALUES"."SLOT_VALUE_ID")
-Help: https://docs.oracle.com/error-help/db/ora-01400/ 
-            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'тип платы' AND sv.Value_Name = 'ОПП'))
-                    *
-ERROR at line 4:
-ORA-01400: cannot insert NULL into
-("ADMIN_USER"."EXPERT_FRAME_VALUES"."SLOT_VALUE_ID")
-Help: https://docs.oracle.com/error-help/db/ora-01400/ 
-            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'есть ли компоненты с BGA выводами' AND sv.Value_Name = 'есть'))
-                    *
-ERROR at line 4:
-ORA-01400: cannot insert NULL into
-("ADMIN_USER"."EXPERT_FRAME_VALUES"."SLOT_VALUE_ID")
-Help: https://docs.oracle.com/error-help/db/ora-01400/ 
-            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'способ промывки' AND sv.Value_Name = 'водой'))
-                    *
-ERROR at line 4:
-ORA-01400: cannot insert NULL into
-("ADMIN_USER"."EXPERT_FRAME_VALUES"."SLOT_VALUE_ID")
-Help: https://docs.oracle.com/error-help/db/ora-01400/ 
-            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'защита от влаги' AND sv.Value_Name = 'не нужна'))
-                    *
-ERROR at line 4:
-ORA-01400: cannot insert NULL into
-("ADMIN_USER"."EXPERT_FRAME_VALUES"."SLOT_VALUE_ID")
-Help: https://docs.oracle.com/error-help/db/ora-01400/ 
-            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'способ промывки' AND sv.Value_Name = 'водой'))
-                    *
-ERROR at line 4:
-ORA-01400: cannot insert NULL into
-("ADMIN_USER"."EXPERT_FRAME_VALUES"."SLOT_VALUE_ID")
-Help: https://docs.oracle.com/error-help/db/ora-01400/ 
-            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'защита от влаги' AND sv.Value_Name = 'нужна'))
-                    *
-ERROR at line 4:
-ORA-01400: cannot insert NULL into
-("ADMIN_USER"."EXPERT_FRAME_VALUES"."SLOT_VALUE_ID")
-Help: https://docs.oracle.com/error-help/db/ora-01400/ 
-            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'способ промывки' AND sv.Value_Name = 'в ультразвуковой ванне'))
-                    *
-ERROR at line 4:
-ORA-01400: cannot insert NULL into
-("ADMIN_USER"."EXPERT_FRAME_VALUES"."SLOT_VALUE_ID")
-Help: https://docs.oracle.com/error-help/db/ora-01400/ 
-            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'защита от влаги' AND sv.Value_Name = 'не нужна'))
-                    *
-ERROR at line 4:
-ORA-01400: cannot insert NULL into
-("ADMIN_USER"."EXPERT_FRAME_VALUES"."SLOT_VALUE_ID")
-Help: https://docs.oracle.com/error-help/db/ora-01400/ 
-            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'способ промывки' AND sv.Value_Name = 'в ультразвуковой ванне'))
-                    *
-ERROR at line 4:
-ORA-01400: cannot insert NULL into
-("ADMIN_USER"."EXPERT_FRAME_VALUES"."SLOT_VALUE_ID")
-Help: https://docs.oracle.com/error-help/db/ora-01400/ 
-            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'защита от влаги' AND sv.Value_Name = 'нужна'))
-                    *
-ERROR at line 4:
-ORA-01400: cannot insert NULL into
-("ADMIN_USER"."EXPERT_FRAME_VALUES"."SLOT_VALUE_ID")
-Help: https://docs.oracle.com/error-help/db/ora-01400/ 
-            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'фиксация платы' AND sv.Value_Name = 'защемлением'))
-                    *
-ERROR at line 4:
-ORA-01400: cannot insert NULL into
-("ADMIN_USER"."EXPERT_FRAME_VALUES"."SLOT_VALUE_ID")
-Help: https://docs.oracle.com/error-help/db/ora-01400/ 
-            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'герметизация' AND sv.Value_Name = 'не нужна'))
-                    *
-ERROR at line 4:
-ORA-01400: cannot insert NULL into
-("ADMIN_USER"."EXPERT_FRAME_VALUES"."SLOT_VALUE_ID")
-Help: https://docs.oracle.com/error-help/db/ora-01400/ 
-            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'фиксация платы' AND sv.Value_Name = 'винтами'))
-                    *
-ERROR at line 4:
-ORA-01400: cannot insert NULL into
-("ADMIN_USER"."EXPERT_FRAME_VALUES"."SLOT_VALUE_ID")
-Help: https://docs.oracle.com/error-help/db/ora-01400/ 
-            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'герметизация' AND sv.Value_Name = 'не нужна'))
-                    *
-ERROR at line 4:
-ORA-01400: cannot insert NULL into
-("ADMIN_USER"."EXPERT_FRAME_VALUES"."SLOT_VALUE_ID")
-Help: https://docs.oracle.com/error-help/db/ora-01400/ 
-            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'фиксация платы' AND sv.Value_Name = 'винтами'))
-                    *
-ERROR at line 4:
-ORA-01400: cannot insert NULL into
-("ADMIN_USER"."EXPERT_FRAME_VALUES"."SLOT_VALUE_ID")
-Help: https://docs.oracle.com/error-help/db/ora-01400/ 
-            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'герметизация' AND sv.Value_Name = 'нужна'))
-                    *
-ERROR at line 4:
-ORA-01400: cannot insert NULL into
-("ADMIN_USER"."EXPERT_FRAME_VALUES"."SLOT_VALUE_ID")
-Help: https://docs.oracle.com/error-help/db/ora-01400/ 
-            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'фиксация платы' AND sv.Value_Name = 'защемлением'))
-                    *
-ERROR at line 4:
-ORA-01400: cannot insert NULL into
-("ADMIN_USER"."EXPERT_FRAME_VALUES"."SLOT_VALUE_ID")
-Help: https://docs.oracle.com/error-help/db/ora-01400/ 
-            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'герметизация' AND sv.Value_Name = 'нужна'))
-                    *
-ERROR at line 4:
-ORA-01400: cannot insert NULL into
-("ADMIN_USER"."EXPERT_FRAME_VALUES"."SLOT_VALUE_ID")
-Help: https://docs.oracle.com/error-help/db/ora-01400/ 
-            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'после производства' AND sv.Value_Name = 'на склад'))
-                    *
-ERROR at line 4:
-ORA-01400: cannot insert NULL into
-("ADMIN_USER"."EXPERT_FRAME_VALUES"."SLOT_VALUE_ID")
-Help: https://docs.oracle.com/error-help/db/ora-01400/ 
-            (SELECT sv.Slot_Value_ID FROM EXPERT_SLOT_VALUES sv JOIN EXPERT_SLOTS s ON sv.Slot_ID = s.Slot_ID WHERE s.Slot_Name = 'после производства' AND sv.Value_Name = 'заказчику'))
-                    *
-ERROR at line 4:
-ORA-01400: cannot insert NULL into
-("ADMIN_USER"."EXPERT_FRAME_VALUES"."SLOT_VALUE_ID")
-Help: https://docs.oracle.com/error-help/db/ora-01400/ 
-Заполняем операции для фреймов
 1 row created.
 1 row created.
 1 row created.
@@ -2429,16 +1840,83 @@ Help: https://docs.oracle.com/error-help/db/ora-01400/
 1 row created.
 1 row created.
 1 row created.
-            (SELECT Operation_ID FROM TCHG_OPERATION_LIST WHERE Operation_Number = 225 AND Operation_Group_ID = (SELECT Group_ID FROM TCHG_OPERATION_GROUP WHERE Group_Number = 3)),
-                    *
+1 row created.
+1 row created.
+1 row created.
+1 row created.
+1 row created.
+1 row created.
+1 row created.
+1 row created.
+1 row created.
+1 row created.
+1 row created.
+1 row created.
+1 row created.
+1 row created.
+1 row created.
+1 row created.
+1 row created.
+1 row created.
+1 row created.
+1 row created.
+1 row created.
+1 row created.
+1 row created.
+1 row created.
+1 row created.
+1 row created.
+1 row created.
+1 row created.
+1 row created.
+1 row created.
+1 row created.
+1 row created.
+1 row created.
+1 row created.
+1 row created.
+1 row created.
+1 row created.
+1 row created.
+Заполняем таблицу операций для фреймов
+1 row created.
+1 row created.
+1 row created.
+1 row created.
+1 row created.
+1 row created.
+1 row created.
+1 row created.
+1 row created.
+1 row created.
+1 row created.
+1 row created.
+1 row created.
+1 row created.
+1 row created.
+    (SELECT Operation_ID FROM TCHG_OPERATION_LIST WHERE Operation_Number = 57 AND Operation_Group_ID =
+            *
 ERROR at line 4:
 ORA-01400: cannot insert NULL into
 ("ADMIN_USER"."EXPERT_PROCESS_OPERATIONS"."OPERATION_ID")
 Help: https://docs.oracle.com/error-help/db/ora-01400/ 
 1 row created.
 1 row created.
-            (SELECT Operation_ID FROM TCHG_OPERATION_LIST WHERE Operation_Number = 11 AND Operation_Group_ID = (SELECT Group_ID FROM TCHG_OPERATION_GROUP WHERE Group_Number = 1)),
-                    *
+1 row created.
+1 row created.
+    (SELECT Operation_ID FROM TCHG_OPERATION_LIST WHERE Operation_Number = 57 AND Operation_Group_ID =
+            *
+ERROR at line 4:
+ORA-01400: cannot insert NULL into
+("ADMIN_USER"."EXPERT_PROCESS_OPERATIONS"."OPERATION_ID")
+Help: https://docs.oracle.com/error-help/db/ora-01400/ 
+1 row created.
+1 row created.
+1 row created.
+1 row created.
+1 row created.
+    (SELECT Operation_ID FROM TCHG_OPERATION_LIST WHERE Operation_Number = 57 AND Operation_Group_ID =
+            *
 ERROR at line 4:
 ORA-01400: cannot insert NULL into
 ("ADMIN_USER"."EXPERT_PROCESS_OPERATIONS"."OPERATION_ID")
@@ -2453,19 +1931,8 @@ Help: https://docs.oracle.com/error-help/db/ora-01400/
 1 row created.
 1 row created.
 1 row created.
-1 row created.
-            (SELECT Operation_ID FROM TCHG_OPERATION_LIST WHERE Operation_Number = 11 AND Operation_Group_ID = (SELECT Group_ID FROM TCHG_OPERATION_GROUP WHERE Group_Number = 1)),
-                    *
-ERROR at line 4:
-ORA-01400: cannot insert NULL into
-("ADMIN_USER"."EXPERT_PROCESS_OPERATIONS"."OPERATION_ID")
-Help: https://docs.oracle.com/error-help/db/ora-01400/ 
-1 row created.
-1 row created.
-1 row created.
-1 row created.
-            (SELECT Operation_ID FROM TCHG_OPERATION_LIST WHERE Operation_Number = 225 AND Operation_Group_ID = (SELECT Group_ID FROM TCHG_OPERATION_GROUP WHERE Group_Number = 3)),
-                    *
+    (SELECT Operation_ID FROM TCHG_OPERATION_LIST WHERE Operation_Number = 57 AND Operation_Group_ID =
+            *
 ERROR at line 4:
 ORA-01400: cannot insert NULL into
 ("ADMIN_USER"."EXPERT_PROCESS_OPERATIONS"."OPERATION_ID")
@@ -2476,20 +1943,85 @@ Help: https://docs.oracle.com/error-help/db/ora-01400/
 1 row created.
 1 row created.
 1 row created.
-1 row created.
-1 row created.
-1 row created.
-1 row created.
-1 row created.
-            (SELECT Operation_ID FROM TCHG_OPERATION_LIST WHERE Operation_Number = 225 AND Operation_Group_ID = (SELECT Group_ID FROM TCHG_OPERATION_GROUP WHERE Group_Number = 3)),
-                    *
+    (SELECT Operation_ID FROM TCHG_OPERATION_LIST WHERE Operation_Number = 57 AND Operation_Group_ID =
+            *
 ERROR at line 4:
 ORA-01400: cannot insert NULL into
 ("ADMIN_USER"."EXPERT_PROCESS_OPERATIONS"."OPERATION_ID")
 Help: https://docs.oracle.com/error-help/db/ora-01400/ 
 1 row created.
-            (SELECT Operation_ID FROM TCHG_OPERATION_LIST WHERE Operation_Number = 11 AND Operation_Group_ID = (SELECT Group_ID FROM TCHG_OPERATION_GROUP WHERE Group_Number = 1)),
-                    *
+1 row created.
+1 row created.
+1 row created.
+1 row created.
+1 row created.
+    (SELECT Operation_ID FROM TCHG_OPERATION_LIST WHERE Operation_Number = 57 AND Operation_Group_ID =
+            *
+ERROR at line 4:
+ORA-01400: cannot insert NULL into
+("ADMIN_USER"."EXPERT_PROCESS_OPERATIONS"."OPERATION_ID")
+Help: https://docs.oracle.com/error-help/db/ora-01400/ 
+1 row created.
+1 row created.
+1 row created.
+1 row created.
+    (SELECT Operation_ID FROM TCHG_OPERATION_LIST WHERE Operation_Number = 57 AND Operation_Group_ID =
+            *
+ERROR at line 4:
+ORA-01400: cannot insert NULL into
+("ADMIN_USER"."EXPERT_PROCESS_OPERATIONS"."OPERATION_ID")
+Help: https://docs.oracle.com/error-help/db/ora-01400/ 
+1 row created.
+1 row created.
+1 row created.
+1 row created.
+1 row created.
+1 row created.
+    (SELECT Operation_ID FROM TCHG_OPERATION_LIST WHERE Operation_Number = 57 AND Operation_Group_ID =
+            *
+ERROR at line 4:
+ORA-01400: cannot insert NULL into
+("ADMIN_USER"."EXPERT_PROCESS_OPERATIONS"."OPERATION_ID")
+Help: https://docs.oracle.com/error-help/db/ora-01400/ 
+1 row created.
+1 row created.
+    (SELECT Operation_ID FROM TCHG_OPERATION_LIST WHERE Operation_Number = 57 AND Operation_Group_ID =
+            *
+ERROR at line 4:
+ORA-01400: cannot insert NULL into
+("ADMIN_USER"."EXPERT_PROCESS_OPERATIONS"."OPERATION_ID")
+Help: https://docs.oracle.com/error-help/db/ora-01400/ 
+1 row created.
+1 row created.
+    (SELECT Frame_ID FROM EXPERT_FRAMES WHERE Frame_Name = '2.2.3 Нанесение паяльной пасты - Автомотизированная установка КМП - Пайка феном'),
+            *
+ERROR at line 3:
+ORA-01400: cannot insert NULL into
+("ADMIN_USER"."EXPERT_PROCESS_OPERATIONS"."FRAME_ID")
+Help: https://docs.oracle.com/error-help/db/ora-01400/ 
+    (SELECT Frame_ID FROM EXPERT_FRAMES WHERE Frame_Name = '2.2.3 Нанесение паяльной пасты - Автомотизированная установка КМП - Пайка феном'),
+            *
+ERROR at line 3:
+ORA-01400: cannot insert NULL into
+("ADMIN_USER"."EXPERT_PROCESS_OPERATIONS"."FRAME_ID")
+Help: https://docs.oracle.com/error-help/db/ora-01400/ 
+    (SELECT Frame_ID FROM EXPERT_FRAMES WHERE Frame_Name = '2.2.3 Нанесение паяльной пасты - Автомотизированная установка КМП - Пайка феном'),
+            *
+ERROR at line 3:
+ORA-01400: cannot insert NULL into
+("ADMIN_USER"."EXPERT_PROCESS_OPERATIONS"."FRAME_ID")
+Help: https://docs.oracle.com/error-help/db/ora-01400/ 
+    (SELECT Operation_ID FROM TCHG_OPERATION_LIST WHERE Operation_Number = 57 AND Operation_Group_ID =
+            *
+ERROR at line 4:
+ORA-01400: cannot insert NULL into
+("ADMIN_USER"."EXPERT_PROCESS_OPERATIONS"."OPERATION_ID")
+Help: https://docs.oracle.com/error-help/db/ora-01400/ 
+1 row created.
+1 row created.
+1 row created.
+    (SELECT Operation_ID FROM TCHG_OPERATION_LIST WHERE Operation_Number = 57 AND Operation_Group_ID =
+            *
 ERROR at line 4:
 ORA-01400: cannot insert NULL into
 ("ADMIN_USER"."EXPERT_PROCESS_OPERATIONS"."OPERATION_ID")
@@ -2507,8 +2039,8 @@ Help: https://docs.oracle.com/error-help/db/ora-01400/
 1 row created.
 1 row created.
 1 row created.
-            (SELECT Operation_ID FROM TCHG_OPERATION_LIST WHERE Operation_Number = 11 AND Operation_Group_ID = (SELECT Group_ID FROM TCHG_OPERATION_GROUP WHERE Group_Number = 1)),
-                    *
+    (SELECT Operation_ID FROM TCHG_OPERATION_LIST WHERE Operation_Number = 57 AND Operation_Group_ID =
+            *
 ERROR at line 4:
 ORA-01400: cannot insert NULL into
 ("ADMIN_USER"."EXPERT_PROCESS_OPERATIONS"."OPERATION_ID")
@@ -2517,12 +2049,8 @@ Help: https://docs.oracle.com/error-help/db/ora-01400/
 1 row created.
 1 row created.
 1 row created.
-            (SELECT Operation_ID FROM TCHG_OPERATION_LIST WHERE Operation_Number = 225 AND Operation_Group_ID = (SELECT Group_ID FROM TCHG_OPERATION_GROUP WHERE Group_Number = 3)),
-                    *
-ERROR at line 4:
-ORA-01400: cannot insert NULL into
-("ADMIN_USER"."EXPERT_PROCESS_OPERATIONS"."OPERATION_ID")
-Help: https://docs.oracle.com/error-help/db/ora-01400/ 
+1 row created.
+1 row created.
 1 row created.
 1 row created.
 1 row created.
