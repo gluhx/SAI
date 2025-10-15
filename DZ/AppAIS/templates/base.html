@@ -1,4 +1,3 @@
-<!-- templates/base.html -->
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -9,42 +8,41 @@
     {% block extra_css %}{% endblock %}
 </head>
 <body>
-    <!-- Верхняя панель (шапка) -->
-    {% if role %}
-    <header class="main-header">
-        <div class="header-title"><a href="/" class="site-title-link">ООО "Альбирео"</a></div>
-        <div class="header-nav">
-            {% if role == 'engineer' %}
-                <a href="/all-devices" class="nav-btn">Устройства</a>
-                <a href="/component-lib" class="nav-btn">Компоненты</a>
-                <a href="/engineer-help" class="nav-btn">Помощь</a>
-            {% elif role == 'technologist' %}
-                <a href="/tech-processes" class="nav-btn">Тех. процессы</a>
-                <a href="/tools" class="nav-btn">Оборудование</a>
-                <a href="/technologist-help" class="nav-btn">Помощь</a>
-            {% elif role == 'director' %}
-                <a href="/add-tasks" class="nav-btn">Задачи</a>
-                <a href="/staff" class="nav-btn">Сотрудники</a>
-            {% elif role == 'guest' %}
-                <a href="/all-devices" class="nav-btn">Устройства</a>
-                <a href="/tech-processes" class="nav-btn">Тех. процессы</a>
-            {% elif role == 'expert' %}
-                <a href="/expert/slots" class="nav-btn">Слоты</a>
-                <a href="/expert/frames" class="nav-btn">Фреймы</a>
-                <a href="/expert/frame-slots" class="nav-btn">Назначение</a>
-            {% endif %}
-        </div>
-        <a href="/user" class="user-avatar"></a>
-    </header>
-    {% endif %}
+    <div class="page-wrapper">
+        {% if role %}
+        <header class="main-header">
+            <div class="header-title"><a href="/" class="site-title-link">ООО "Альбирео"</a></div>
+            <div class="header-nav">
+                {% if role == 'engineer' %}
+                    <a href="/all-devices" class="nav-btn">Устройства</a>
+                    <a href="/component-lib" class="nav-btn">Компоненты</a>
+                    <a href="/engineer-help" class="nav-btn">Помощь</a>
+                {% elif role == 'technologist' %}
+                    <a href="/tech-processes" class="nav-btn">Тех. процессы</a>
+                    <a href="/tools" class="nav-btn">Оборудование</a>
+                    <a href="/technologist-help" class="nav-btn">Помощь</a>
+                {% elif role == 'director' %}
+                    <a href="/add-tasks" class="nav-btn">Задачи</a>
+                    <a href="/staff" class="nav-btn">Сотрудники</a>
+                {% elif role == 'guest' %}
+                    <a href="/all-devices" class="nav-btn">Устройства</a>
+                    <a href="/tech-processes" class="nav-btn">Тех. процессы</a>
+                {% elif role == 'expert' %}
+                    <a href="/expert/slots" class="nav-btn">Слоты</a>
+                    <a href="/expert/frames" class="nav-btn">Фреймы</a>
+                    <a href="/expert/frame-slots" class="nav-btn">Назначение</a>
+                {% endif %}
+            </div>
+            <a href="/user" class="user-avatar"></a>
+        </header>
+        {% endif %}
 
-    <!-- Основной контент -->
-    <main class="main-content">
-        {% block content %}{% endblock %}
-    </main>
+        <main class="main-content">
+            {% block content %}{% endblock %}
+        </main>
 
-    <!-- Футер -->
-    <footer class="footer">Хорошего дня!</footer>
+        <footer class="footer">Хорошего дня!</footer>
+    </div>
 
     {% block extra_js %}{% endblock %}
 </body>

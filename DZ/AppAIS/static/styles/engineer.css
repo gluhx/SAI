@@ -1,0 +1,797 @@
+/* ================ Страница: Устройство ================ */
+
+/* Обёртка страницы устройства */
+.device-page {
+    max-width: 1200px;
+    margin: 80px auto 120px;
+    padding: 0 24px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+}
+
+/* Общая карточка (информация, техпроцесс, добавление компонента) */
+.device-info-card,
+.tech-process-card,
+.add-component-card {
+    background: white;
+    border-radius: 16px;
+    padding: 24px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+}
+
+/* Карточка информации об устройстве */
+.device-info-card {
+    grid-column: span 2;
+    border-left: 4px solid #d35400;
+}
+
+/* Заголовок в карточке устройства */
+.device-info-card h1 {
+    color: #2c3e50;
+    margin-bottom: 16px;
+    font-size: 26px;
+}
+
+/* Текст в карточке устройства */
+.device-info-card p {
+    margin-bottom: 8px;
+    color: #34495e;
+    font-size: 17px;
+}
+
+/* Карточка технологического процесса */
+.tech-process-card {
+    text-align: center;
+    border-left: 4px solid #e67e22;
+}
+
+/* Заголовок в карточке техпроцесса */
+.tech-process-card h2 {
+    margin-bottom: 16px;
+    color: #d35400;
+}
+
+/* QR-код */
+.qr-code {
+    width: 160px;
+    height: 160px;
+    border-radius: 12px;
+    margin: 0 auto 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    display: block;
+}
+
+/* Ссылка на QR-код */
+.qr-link {
+    display: inline-block;
+}
+
+/* Название техпроцесса */
+.tp-name {
+    font-weight: 600;
+    color: #d35400;
+    margin-top: 8px;
+}
+
+/* Сообщение об отсутствии техпроцесса */
+.tp-missing {
+    color: #e74c3c;
+    font-style: italic;
+    font-size: 18px;
+}
+
+/* Карточка добавления компонента */
+.add-component-card {
+    border-left: 4px solid #e67e22;
+}
+
+/* Заголовок формы добавления компонента */
+.add-component-card h2 {
+    color: #d35400;
+    margin-bottom: 20px;
+}
+
+/* Группа полей формы */
+.form-group {
+    margin-bottom: 16px;
+}
+
+/* Метка поля формы */
+.form-group label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 500;
+    color: #2c3e50;
+    font-size: 15px;
+}
+
+/* Поля ввода и выпадающие списки */
+.form-group input,
+.form-group select {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #dce4ec;
+    border-radius: 8px;
+    font-size: 16px;
+    font-family: inherit;
+}
+
+/* Фокус на полях формы */
+.form-group input:focus,
+.form-group select:focus {
+    outline: none;
+    border-color: #d35400;
+}
+
+/* Секция компонентов устройства */
+.components-section {
+    grid-column: span 2;
+}
+
+/* Шапка секции компонентов */
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+/* Заголовок секции компонентов */
+.section-header h2 {
+    color: #2c3e50;
+    font-size: 24px;
+}
+
+/* Счётчик количества компонентов */
+.component-count {
+    background: #d35400;
+    color: white;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 14px;
+}
+
+/* Таблица компонентов */
+.components-table {
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+}
+
+/* Заголовок и строки таблицы компонентов */
+.components-header,
+.component-row {
+    display: grid;
+    grid-template-columns: 0.8fr 2fr 1fr 1fr 1.5fr auto;
+    gap: 12px;
+    padding: 14px 20px;
+    align-items: center;
+}
+
+/* Заголовок таблицы компонентов */
+.components-header {
+    background: #fdf5ec;
+    font-weight: 600;
+    color: #d35400;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+/* Строка компонента */
+.component-row {
+    border-bottom: 1px solid #f5f5f5;
+}
+
+/* Последняя строка компонента */
+.component-row:last-child {
+    border-bottom: none;
+}
+
+/* Текстовые колонки компонента */
+.col-nominal, .col-install, .col-manuf {
+    color: #34495e;
+    font-size: 15px;
+}
+
+/* Кнопка удаления компонента */
+.delete-btn {
+    color: #e74c3c;
+    text-decoration: none;
+    font-size: 14px;
+    padding: 4px 10px;
+    border: 1px solid #e74c3c;
+    border-radius: 6px;
+    transition: all 0.2s;
+}
+
+/* Наведение на кнопку удаления */
+.delete-btn:hover {
+    background: #e74c3c;
+    color: white;
+}
+
+/* Сообщение об отсутствии компонентов */
+.empty-message {
+    text-align: center;
+    color: #7f8c8d;
+    font-style: italic;
+    padding: 20px;
+}
+
+/* Футер с кнопкой ПЭ3 */
+.footer-with-action {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 70px;
+    background: linear-gradient(135deg, #2c3e50, #d35400);
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 80;
+}
+
+/* Кнопка генерации ПЭ3 */
+.pe3-btn {
+    background: linear-gradient(to right, #e67e22, #d35400);
+    color: white;
+    border: none;
+    padding: 10px 24px;
+    font-size: 17px;
+    font-weight: 600;
+    border-radius: 10px;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(230, 126, 34, 0.4);
+    transition: transform 0.2s, background 0.3s;
+}
+
+/* Наведение на кнопку ПЭ3 */
+.pe3-btn:hover {
+    background: linear-gradient(to right, #d35400, #c0392b);
+    transform: translateY(-2px);
+}
+
+/* Адаптивность для устройства */
+@media (max-width: 900px) {
+    .device-page {
+        grid-template-columns: 1fr;
+    }
+    .device-info-card,
+    .components-section {
+        grid-column: span 1;
+    }
+}
+
+@media (max-width: 768px) {
+    .components-header,
+    .component-row {
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+        padding: 12px;
+    }
+    .col-partnumber,
+    .col-nominal,
+    .col-install,
+    .col-manuf,
+    .col-actions {
+        display: none;
+    }
+}
+
+
+/* ================ Страница: Список устройств ================ */
+
+/* Обёртка страницы списка устройств */
+.devices-content {
+    max-width: 1200px;
+    margin: 80px auto 100px;
+    padding: 0 24px;
+}
+
+/* Заголовок страницы */
+.page-title {
+    color: #2c3e50;
+    font-size: 28px;
+    margin-bottom: 24px;
+    text-align: center;
+}
+
+/* Таблица устройств */
+.devices-table {
+    background: white;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+    margin-bottom: 40px;
+}
+
+/* Заголовок и строки таблицы устройств */
+.devices-header,
+.device-row {
+    display: grid;
+    grid-template-columns: 2fr 3fr 1.5fr 1fr auto;
+    gap: 16px;
+    padding: 16px 24px;
+    align-items: center;
+}
+
+/* Заголовок таблицы устройств */
+.devices-header {
+    background: #fdf5ec;
+    font-weight: 600;
+    color: #d35400;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+/* Строка устройства */
+.device-row {
+    border-bottom: 1px solid #f0f0f0;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+/* Наведение на строку устройства */
+.device-row:hover {
+    background: #fdf9f5;
+}
+
+/* Последняя строка устройства */
+.device-row:last-child {
+    border-bottom: none;
+}
+
+/* Сообщение об отсутствии техпроцесса в списке */
+.tp-missing {
+    color: #e74c3c;
+    font-style: italic;
+}
+
+/* Колонки таблицы устройств */
+.col-name { font-weight: 600; color: #2c3e50; }
+.col-desc { color: #34495e; }
+.col-tp,
+.col-count { text-align: center; color: #34495e; }
+
+/* Колонка действий */
+.col-actions {
+    display: flex;
+    justify-content: flex-end;
+}
+
+/* Кнопка удаления устройства */
+.delete-btn {
+    color: #e74c3c;
+    text-decoration: none;
+    padding: 6px 12px;
+    border: 1px solid #e74c3c;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.2s;
+}
+
+/* Наведение на кнопку удаления устройства */
+.delete-btn:hover {
+    background: #e74c3c;
+    color: white;
+}
+
+/* Сообщение об отсутствии устройств */
+.empty-message {
+    text-align: center;
+    color: #7f8c8d;
+    font-size: 18px;
+    margin: 40px 0;
+}
+
+/* Карточка добавления устройства */
+.add-device-card {
+    background: white;
+    border-radius: 16px;
+    padding: 28px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+    border-left: 4px solid #e67e22;
+}
+
+/* Заголовок формы добавления устройства */
+.add-device-card h2 {
+    color: #d35400;
+    margin-bottom: 20px;
+    font-size: 22px;
+}
+
+/* Группа полей формы устройства */
+.form-group {
+    margin-bottom: 18px;
+}
+
+/* Метка поля формы устройства */
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: #2c3e50;
+}
+
+/* Поля ввода и текстовые области */
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #dce4ec;
+    border-radius: 10px;
+    font-size: 16px;
+    font-family: inherit;
+    transition: border 0.3s;
+}
+
+/* Фокус на полях формы устройства */
+.form-group input:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: #d35400;
+}
+
+/* Основная кнопка */
+.btn-primary {
+    background: linear-gradient(to right, #e67e22, #d35400);
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    font-size: 17px;
+    font-weight: 600;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.2s;
+}
+
+/* Наведение на основную кнопку */
+.btn-primary:hover {
+    background: linear-gradient(to right, #d35400, #b84f00);
+    transform: translateY(-2px);
+}
+
+/* Адаптивность для списка устройств */
+@media (max-width: 900px) {
+    .devices-header,
+    .device-row {
+        grid-template-columns: 2fr 2fr 1fr auto;
+    }
+    .col-desc { font-size: 14px; }
+}
+
+@media (max-width: 768px) {
+    .devices-header,
+    .device-row {
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+        padding: 14px;
+    }
+    .col-tp, .col-count, .col-actions {
+        display: none;
+    }
+}
+
+
+/* ================ Страница: Библиотека компонентов ================ */
+
+/* Обёртка библиотеки компонентов */
+.lib-content {
+    max-width: 1200px;
+    margin: 80px auto 100px;
+    padding: 0 24px;
+}
+
+/* Информационная секция */
+.lib-info {
+    background: white;
+    border-radius: 16px;
+    padding: 24px;
+    margin-bottom: 32px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+    border-left: 4px solid #d35400;
+    text-align: center;
+}
+
+/* Текст описания библиотеки */
+.lib-info p {
+    color: #2c3e50;
+    font-size: 18px;
+    line-height: 1.6;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+/* Карточка добавления компонента */
+.add-component-card {
+    background: white;
+    border-radius: 16px;
+    padding: 28px;
+    margin-bottom: 40px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+    border-left: 4px solid #e67e22;
+}
+
+/* Заголовок формы добавления компонента */
+.add-component-card h2 {
+    color: #d35400;
+    margin-bottom: 20px;
+    font-size: 22px;
+}
+
+/* Строка формы (горизонтальная) */
+.form-row {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 16px;
+}
+
+/* Группа полей формы */
+.form-group {
+    flex: 1;
+}
+
+/* Метка поля формы */
+.form-group label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 500;
+    color: #2c3e50;
+    font-size: 15px;
+}
+
+/* Поля ввода и выпадающие списки */
+.form-group input,
+.form-group select {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #dce4ec;
+    border-radius: 8px;
+    font-size: 16px;
+    font-family: inherit;
+}
+
+/* Группа радиокнопок */
+.radio-group {
+    display: flex;
+    gap: 24px;
+    margin-top: 6px;
+}
+
+/* Метка радиокнопки */
+.radio-group label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: 500;
+    color: #2c3e50;
+    cursor: pointer;
+}
+
+/* Секция компонентов */
+.components-section {
+    background: white;
+    border-radius: 16px;
+    padding: 28px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+}
+
+/* Шапка секции компонентов */
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+/* Заголовок секции компонентов */
+.section-header h2 {
+    color: #2c3e50;
+    font-size: 24px;
+}
+
+/* Счётчик количества компонентов */
+.component-count {
+    background: #d35400;
+    color: white;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 14px;
+}
+
+/* Таблица компонентов */
+.components-table {
+    overflow-x: auto;
+}
+
+/* Заголовок и строки таблицы компонентов */
+.components-header,
+.component-row {
+    display: grid;
+    grid-template-columns: 2fr 1fr 0.8fr 1.5fr 0.7fr auto;
+    gap: 12px;
+    padding: 14px 16px;
+    align-items: center;
+}
+
+/* Заголовок таблицы компонентов */
+.components-header {
+    background: #fdf5ec;
+    font-weight: 600;
+    color: #d35400;
+    border-radius: 10px;
+    margin-bottom: 8px;
+}
+
+/* Строка компонента */
+.component-row {
+    border-bottom: 1px solid #f0f0f0;
+}
+
+/* Последняя строка компонента */
+.component-row:last-child {
+    border-bottom: none;
+}
+
+/* Текстовые колонки компонента */
+.col-partnumber { font-weight: 600; color: #2c3e50; }
+.col-class, .col-install, .col-manuf, .col-pads {
+    color: #34495e;
+    font-size: 15px;
+}
+
+/* Кнопка удаления компонента */
+.delete-btn {
+    color: #e74c3c;
+    text-decoration: none;
+    font-size: 14px;
+    padding: 6px 12px;
+    border: 1px solid #e74c3c;
+    border-radius: 6px;
+    transition: all 0.2s;
+}
+
+/* Наведение на кнопку удаления */
+.delete-btn:hover {
+    background: #e74c3c;
+    color: white;
+}
+
+/* Сообщение об отсутствии компонентов */
+.empty-message {
+    text-align: center;
+    color: #7f8c8d;
+    font-style: italic;
+    padding: 20px;
+    font-size: 17px;
+}
+
+/* Адаптивность для библиотеки компонентов */
+@media (max-width: 900px) {
+    .form-row {
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    .components-header,
+    .component-row {
+        grid-template-columns: 2fr 1fr 1fr auto;
+    }
+    .col-manuf, .col-pads {
+        display: none;
+    }
+}
+
+@media (max-width: 600px) {
+    .components-header,
+    .component-row {
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+        padding: 12px;
+    }
+    .col-class, .col-install, .col-actions {
+        display: none;
+    }
+}
+
+
+/* ================ Страница: Помощь инженеру ================ */
+
+/* Обёртка помощи инженеру */
+.help-content {
+    max-width: 1000px;
+    margin: 80px auto 100px;
+    padding: 0 24px;
+}
+
+/* Заголовок раздела ГОСТов */
+.gosts-section h1 {
+    color: #2c3e50;
+    font-size: 28px;
+    margin-bottom: 16px;
+    text-align: center;
+}
+
+/* Вводный текст */
+.intro-text {
+    color: #34495e;
+    font-size: 17px;
+    text-align: center;
+    margin-bottom: 32px;
+    line-height: 1.6;
+}
+
+/* Таблица ГОСТов */
+.gosts-table {
+    background: white;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+}
+
+/* Заголовок и строки таблицы ГОСТов */
+.gosts-header,
+.gost-row {
+    display: grid;
+    grid-template-columns: 1fr 3fr;
+    gap: 20px;
+    padding: 16px 24px;
+    align-items: center;
+}
+
+/* Заголовок таблицы ГОСТов */
+.gosts-header {
+    background: #fdf5ec;
+    font-weight: 600;
+    color: #d35400;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+/* Строка ГОСТа */
+.gost-row {
+    border-bottom: 1px solid #f5f5f5;
+}
+
+/* Последняя строка ГОСТа */
+.gost-row:last-child {
+    border-bottom: none;
+}
+
+/* Обозначение ГОСТа */
+.col-designator {
+    font-weight: 600;
+    color: #2c3e50;
+    font-family: 'Courier New', monospace;
+    font-size: 16px;
+}
+
+/* Название ГОСТа */
+.col-name {
+    color: #34495e;
+    font-size: 16px;
+}
+
+/* Сообщение об отсутствии ГОСТов */
+.empty-message {
+    text-align: center;
+    color: #7f8c8d;
+    font-style: italic;
+    padding: 30px 0;
+    font-size: 18px;
+}
+
+/* Адаптивность для помощи инженеру */
+@media (max-width: 600px) {
+    .gosts-header,
+    .gost-row {
+        grid-template-columns: 1fr;
+        gap: 10px;
+        padding: 14px;
+    }
+
+    .gosts-header {
+        display: none;
+    }
+}

@@ -1,25 +1,36 @@
-/* Общие сбросы и настройки */
+/* === Общие сбросы и настройки === */
+
+/* Общий сброс отступов и размеров */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
+/* Обёртка всей страницы для корректного позиционирования футера */
+.page-wrapper {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: #fdf9f5;
+}
+
+/* Общий фон и шрифт */
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #f8f9fa;
     color: #333;
-    min-height: 100vh;
     display: flex;
     flex-direction: column;
 }
 
 /* === Шапка (Header) === */
+
+/* Верхняя панель */
 .main-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background: linear-gradient(135deg, #2c3e50, #4a69bd);
+    background: linear-gradient(135deg, #2c3e50, #d35400);
     color: white;
     padding: 0 24px;
     height: 60px;
@@ -29,6 +40,7 @@ body {
     box-shadow: 0 2px 10px rgba(0,0,0,0.1);
 }
 
+/* Ссылка на название компании */
 .site-title-link {
     color: white;
     text-decoration: none;
@@ -36,20 +48,19 @@ body {
     font-weight: 600;
     display: block;
 }
+
+/* Эффект наведения на название компании */
 .site-title-link:hover {
-    color: #e0e0e0;
+    color: #f8e9d2;
 }
 
-.header-title {
-    font-size: 22px;
-    font-weight: 600;
-}
-
+/* Навигационное меню в шапке */
 .header-nav {
     display: flex;
     gap: 16px;
 }
 
+/* Кнопка навигации */
 .nav-btn {
     color: white;
     text-decoration: none;
@@ -60,10 +71,12 @@ body {
     transition: background 0.2s;
 }
 
+/* Эффект наведения на кнопку навигации */
 .nav-btn:hover {
-    background: rgba(255,255,255,0.25);
+    background: rgba(211, 84, 0, 0.4);
 }
 
+/* Аватар пользователя */
 .user-avatar {
     width: 40px;
     height: 40px;
@@ -75,56 +88,33 @@ body {
     border: 2px solid white;
 }
 
-/* === Боковое меню (Sidebar) === */
-.sidebar {
-    position: fixed;
-    top: 60px;
-    left: 0;
-    bottom: 60px; /* оставляем место под футер */
-    width: 220px;
-    background: #ecf0f1;
-    padding: 20px 0;
-    box-shadow: 2px 0 10px rgba(0,0,0,0.08);
-    overflow-y: auto;
-    z-index: 90;
-}
-
-.sidebar nav a {
-    display: block;
-    padding: 14px 24px;
-    color: #2c3e50;
-    text-decoration: none;
-    font-size: 16px;
-    transition: background 0.2s, color 0.2s;
-}
-
-.sidebar nav a:hover {
-    background: #3498db;
-    color: white;
-}
-
 /* === Основной контент === */
+
+/* Контейнер основного контента */
 .main-content {
     margin-left: 220px;
     margin-top: 20px;
     margin-right: 20px;
-    margin-bottom: 80px; /* место под футер */
     flex: 1;
 }
 
 /* === Задачи === */
+
+/* Заголовок секции задач */
 .tasks-section h2 {
     margin-bottom: 20px;
     color: #2c3e50;
     font-size: 24px;
 }
 
+/* Список задач */
 .tasks-list {
     display: flex;
     flex-direction: column;
     gap: 16px;
 }
 
+/* Карточка задачи */
 .task-card {
     display: flex;
     background: white;
@@ -132,49 +122,69 @@ body {
     padding: 16px 24px;
     box-shadow: 0 4px 12px rgba(0,0,0,0.08);
     align-items: center;
-    border-left: 4px solid #3498db;
+    border-left: 4px solid #d35400;
 }
 
+/* Идентификатор задачи */
 .task-id {
     font-weight: bold;
-    color: #2980b9;
+    color: #d35400;
     min-width: 60px;
     font-size: 18px;
     text-align: center;
 }
 
+/* Описание задачи */
 .task-desc {
     font-size: 17px;
     color: #34495e;
     flex: 1;
 }
 
+/* === Формы и кнопки (общие) === */
+
+/* Основная кнопка */
+.btn-primary {
+    background: linear-gradient(to right, #e67e22, #d35400);
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    font-size: 17px;
+    font-weight: 600;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.2s;
+}
+
+/* Эффект наведения на основную кнопку */
+.btn-primary:hover {
+    background: linear-gradient(to right, #d35400, #b84f00);
+    transform: translateY(-2px);
+}
+
 /* === Футер === */
+
+/* Нижняя панель — теперь в потоке документа */
 .footer {
-    background: linear-gradient(135deg, #2c3e50, #4a69bd);
+    background: linear-gradient(135deg, #2c3e50, #d35400);
     color: white;
     text-align: center;
     padding: 14px;
     font-weight: 600;
     font-size: 18px;
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    z-index: 80;
+    margin-top: auto;
 }
 
 /* === Адаптивность === */
-@media (max-width: 768px) {
-    .sidebar {
-        display: none;
-    }
 
+@media (max-width: 768px) {
+    /* Отступы для контента на мобильных */
     .main-content {
         margin-left: 16px;
         margin-right: 16px;
     }
 
+    /* Адаптация шапки */
     .main-header {
         flex-wrap: wrap;
         padding: 12px;
@@ -192,6 +202,7 @@ body {
         font-size: 14px;
     }
 
+    /* Вертикальное расположение задачи */
     .task-card {
         flex-direction: column;
         text-align: center;
