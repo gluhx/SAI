@@ -45,13 +45,12 @@ def main():
         return redirect('/login')
     role = func.get_role(request.cookies.get('auth_login'))
     tasks = []
-    if role in ['engineer', 'technologist', 'admin']:
-        con_db = func.connect_to_db(role)
-        cursor = con_db.cursor()
-        cursor.execute('SELECT Task_ID, Task_About, Task_Check FROM DIR_TASKS WHERE Task_User_ID = (SELECT User_ID FROM AUTH_USERS WHERE User_Login = \'' + request.cookies.get('auth_login') + '\')')
-        tasks = cursor.fetchall()
-        cursor.close()
-        con_db.close()
+    con_db = func.connect_to_db(role)
+    cursor = con_db.cursor()
+    cursor.execute('SELECT Task_ID, Task_About, Task_Check FROM DIR_TASKS WHERE Task_User_ID = (SELECT User_ID FROM AUTH_USERS WHERE User_Login = \'' + request.cookies.get('auth_login') + '\')')
+    tasks = cursor.fetchall()
+    cursor.close()
+    con_db.close()
     return render_template("main.html", role=role, tasks_data=tasks)
 
 ########### модуль авторизации ############

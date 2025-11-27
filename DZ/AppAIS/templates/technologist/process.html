@@ -118,10 +118,12 @@
             <p class="empty-message">Нет операций в этом процессе.</p>
         {% endif %}
     </section>
+
+    <!-- Кнопка генерации маршрутной карты — перемещена сюда -->
+    <section class="tp-generate-card">
+        <button onclick="window.location.href='/generate-mcard/{{ process_data['id'] }}'" class="mcard-btn">
+            Сгенерировать маршрутную карту
+        </button>
+    </section>
 </main>
-<footer class="footer footer-with-action">
-    <button onclick="window.location.href='/generate-mcard/{{ process_data['id'] }}'" class="mcard-btn">
-        Сгенерировать маршрутную карту
-    </button>
-</footer>
 {% endblock %}

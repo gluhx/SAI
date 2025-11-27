@@ -10,6 +10,7 @@ from flask import redirect
 from flask import make_response
 from flask import send_file
 from flask import session
+import re
 
 #библиотека для работы с Oracle
 import cx_Oracle
@@ -321,96 +322,136 @@ def operation_low(id):
 def mcard(id):
     if request.cookies.get('auth_status') != 'True':
         return redirect('/login')
-    
     con_db = func.connect_to_db(func.get_role(request.cookies.get('auth_login')))
-    cursor  = con_db.cursor()
-
-    cursor.execute('SELECT Process_Operation_ID FROM TCHG_PROCESS_OPERATION WHERE Process_ID = ' + str(id) + ' ORDER BY Process_Operation_ID')
+    cursor = con_db.cursor()
+    cursor.execute('SELECT Process_Operation_ID FROM TCHG_PROCESS_OPERATION WHERE Process_ID = :id ORDER BY Process_Operation_ID', {'id': id})
     operations = cursor.fetchall()
     if len(operations) == 0:
-        return redirect('/process/'+ str(id))
+        cursor.close()
+        con_db.close()
+        return redirect('/process/' + str(id))
     pdf = FPDF()
-    pdf.add_font('DejaVu', '', '/usr/share/fonts/dejavu-serif-fonts/DejaVuSerif.ttf')
-    pdf.set_font(family='DejaVu',size=12)
     pdf.add_page()
-    
-    col_width1 = int(pdf.w / 2.7)
-    col_width2 = int(pdf.w / 10)
-    row_height = pdf.font_size*2
-
-    i=5
-    operations_data = [["Номер", "Операция", "Оборудование", "Время, с"]]
-    count_h = []
-    count_h.append(len(operations_data[0][0]) // 6 + 1)
-    count_h.append(round(len(operations_data[0][1])*(row_height/2)) // col_width1 + 1)
-    count_h.append(round(len(operations_data[0][2])*(row_height/2)) // col_width1 + 1)
-    count_h.append(len(operations_data[0][3]) // 6 + 1)
-
-    operations_data[0].append(count_h)
-    for operation in operations:
-        operation_data = []
-        count_h = []
-        operation_data.append(str(i))
-        count_h.append(len(operation_data[0]) // 6 + 1)
-
-        operation=operation[0]
-
-        cursor.execute('SELECT Operation_About FROM TCHG_PROCESS_OPERATION WHERE Process_Operation_ID = ' + str(operation))
-        operation_data.append(str(cursor.fetchall()[0][0]))
-        count_h.append(round(len(operation_data[1])*(row_height/2)) // col_width1 + 1)
-
-        cursor.execute('SELECT Tool_Name FROM TCHG_TOOLS WHERE Tool_ID = (SELECT Operation_Tools_ID FROM TCHG_PROCESS_OPERATION WHERE Process_Operation_ID = ' + str(operation)+')')
-        operation_data.append(str(cursor.fetchall()[0][0]))
-        count_h.append(round(len(operation_data[2])*(row_height/2)) // col_width1 + 1)
-
-        cursor.execute('SELECT Operation_Time FROM TCHG_PROCESS_OPERATION WHERE Process_Operation_ID = ' + str(operation))
-        operation_data.append(str(cursor.fetchall()[0][0]))
-        count_h.append(len(operation_data[3]) // 6 + 1)
-
-        operation_data.append(count_h)
-
-        i+=5
-        operations_data.append(operation_data)
-    
-
+    # Попытка подключить DejaVu (для поддержки кириллицы)
+    try:
+        pdf.add_font('DejaVu', '', '/usr/share/fonts/dejavu-serif-fonts/DejaVuSerif.ttf')
+        pdf.set_font('DejaVu', size=10)
+    except Exception:
+        pdf.set_font('helvetica', size=10)
+    if pdf.font_size <= 0:
+        pdf.set_font_size(10)
+    line_h = pdf.font_size * 1.5
+    if line_h <= 0:
+        line_h = 6  # fallback минимальной высоты строки
+    margin_lr = 10
+    usable_w = pdf.w - 2 * margin_lr
+    cw_num = int(usable_w * 0.15)   # №
+    cw_op  = int(usable_w * 0.35)   # Операция
+    cw_eq  = int(usable_w * 0.35)   # Оборудование
+    cw_t   = int(usable_w * 0.15)   # Время
+    col_widths = [cw_num, cw_op, cw_eq, cw_t]
+    margin_top = 20
+    margin_bottom = 20
+    header = ["Номер", "Операция", "Оборудование", "Время, с"]
+    rows = []
+    i = 5
+    for op_id, in operations:
+        cursor.execute('''
+            SELECT Operation_About, Operation_Tools_ID, Operation_Time
+            FROM TCHG_PROCESS_OPERATION
+            WHERE Process_Operation_ID = :op_id
+        ''', {'op_id': op_id})
+        op_about, tool_id, op_time = cursor.fetchone()
+        tool_name = ""
+        if tool_id:
+            cursor.execute('SELECT Tool_Name FROM TCHG_TOOLS WHERE Tool_ID = :tool_id', {'tool_id': tool_id})
+            res = cursor.fetchone()
+            tool_name = res[0] if res else ""
+        op_about_clean = str(op_about or "").replace('<br>', '\n').replace('<br/>', '\n').replace('<br />', '\n')
+        tool_clean     = str(tool_name or "").replace('<br>', '\n').replace('<br/>', '\n').replace('<br />', '\n')
+        time_clean     = str(op_time or "0")
+        rows.append([str(i), op_about_clean.strip(), tool_clean.strip(), time_clean])
+        i += 5
     cursor.close()
     con_db.close()
-    xbegin = pdf.get_x()
-    j=0
-    for j in range(len(operations_data)):
-        row = operations_data[j]
-        y = pdf.get_y()
-        pdf.set_xy(int(xbegin), int(y))
-        for i in range(len(row) - 1):
-            if j == len(operations_data) - 1:
-                if i == 0:
-                    y = pdf.get_y()
-                    pdf.multi_cell(col_width2, row_height*(max(row[4]) - row[4][i] + 1), txt=row[i], border=1)
-                    x = pdf.get_x()
-                    pdf.set_xy(int(x), int(y))
-                elif i == 3:
-                    pdf.multi_cell(col_width2, row_height*(max(row[4]) - row[4][i] + 1), txt=row[i], border=1)
-                else:
-                    y = pdf.get_y()
-                    pdf.multi_cell(col_width1, row_height*(max(row[4]) - row[4][i] + 1), txt=row[i], border=1)
-                    x = pdf.get_x()
-                    pdf.set_xy(int(x), int(y))
-            else:
-                if i == 0:
-                    y = pdf.get_y()
-                    pdf.multi_cell(col_width2, row_height*(max(row[4]) - row[4][i] + 1), txt=row[i], border="LTR")
-                    x = pdf.get_x()
-                    pdf.set_xy(int(x), int(y))
-                elif i == 3:
-                    pdf.multi_cell(col_width2, row_height*(max(row[4]) - row[4][i] + 1), txt=row[i], border="LTR")
-                else:
-                    y = pdf.get_y()
-                    pdf.multi_cell(col_width1, row_height*(max(row[4]) - row[4][i] + 1), txt=row[i], border="LTR")
-                    x = pdf.get_x()
-                    pdf.set_xy(int(x), int(y))
-    pdf.output('temp/mcard.pdf')
+    pdf.set_auto_page_break(auto=False)
+    y = margin_top
+    x = margin_lr
+    pdf.set_y(y)
+    for idx, txt in enumerate(header):
+        pdf.set_xy(x, y)
+        pdf.multi_cell(col_widths[idx], line_h, txt, border=1, align='C', max_line_height=line_h)
+        x += col_widths[idx]
+    y += line_h
+    for num, op, eq, tm in rows:
 
-    return send_file('temp/mcard.pdf', as_attachment=True)
+        def estimate_cell_height(text, w, h):
+            temp_pdf = FPDF()
+            temp_pdf.add_page()
+            try:
+                temp_pdf.add_font('DejaVu', '', '/usr/share/fonts/dejavu-serif-fonts/DejaVuSerif.ttf')
+                temp_pdf.set_font('DejaVu', size=pdf.font_size)
+            except Exception:
+                temp_pdf.set_font('helvetica', size=pdf.font_size)
+            return temp_pdf.get_string_width(text) // w * h + h if temp_pdf.get_string_width(text) > w else h
+
+        def count_lines(text, w_mm):
+            if not text:
+                return 1
+            lines = text.split('\n')
+            total = 0
+            for line in lines:
+                line = line.strip()
+                if not line:
+                    total += 1
+                    continue
+                text_w = pdf.get_string_width(line)
+                if text_w <= w_mm:
+                    total += 1
+                else:
+                    needed = int(text_w / w_mm) + 1
+                    total += needed
+            return total
+
+        ln1 = count_lines(num, col_widths[0] * 0.9)
+        ln2 = count_lines(op,  col_widths[1] * 0.9)
+        ln3 = count_lines(eq,  col_widths[2] * 0.9)
+        ln4 = count_lines(tm,  col_widths[3] * 0.9)
+        max_lines = max(ln1, ln2, ln3, ln4)
+
+        row_h = max_lines * line_h
+
+        if y + row_h > pdf.h - margin_bottom:
+            pdf.add_page()
+            y = margin_top
+            # Повтор шапки
+            x = margin_lr
+            pdf.set_y(y)
+            for idx, txt in enumerate(header):
+                pdf.set_xy(x, y)
+                pdf.multi_cell(col_widths[idx], line_h, txt, border=1, align='C', max_line_height=line_h)
+                x += col_widths[idx]
+            y += line_h
+        x0 = margin_lr
+        pdf.set_xy(x0, y)
+        pdf.multi_cell(col_widths[0], line_h * (max_lines / ln1), num, border=1, align='C', max_line_height=line_h)
+        pdf.set_xy(x0 + col_widths[0], y)
+        pdf.multi_cell(col_widths[1], line_h * (max_lines / ln2), op, border=1, max_line_height=line_h)
+        pdf.set_xy(x0 + col_widths[0] + col_widths[1], y)
+        pdf.multi_cell(col_widths[2], line_h * (max_lines / ln3), eq, border=1, max_line_height=line_h)
+        pdf.set_xy(x0 + col_widths[0] + col_widths[1] + col_widths[2], y)
+        pdf.multi_cell(col_widths[3], line_h * (max_lines / ln4), tm, border=1, align='C', max_line_height=line_h)
+        y += row_h
+    # === Возврат PDF ===
+    pdf_data = pdf.output()
+    if isinstance(pdf_data, str):
+        pdf_data = pdf_data.encode('latin1')
+    elif isinstance(pdf_data, bytearray):
+        pdf_data = bytes(pdf_data)
+    response = make_response(pdf_data)
+    response.headers['Content-Type'] = 'application/pdf'
+    response.headers['Content-Disposition'] = f'inline; filename=mcard_{id}.pdf'
+    return response
 
 #страница оборудования
 def tools():
@@ -616,58 +657,43 @@ def expert_generate_tp():
 
 def expert_dialog():
     if request.cookies.get('auth_status') != 'True':
-        print(">>> [expert_dialog] Пользователь не авторизован — редирект на /login")
         return redirect('/login')
     role = func.get_role(request.cookies.get('auth_login'))
     if role not in ['technologist', 'admin']:
-        print(f">>> [expert_dialog] Недостаточно прав (роль: {role}) — редирект на /")
         return redirect('/')
     
     user_id = session.get('expert_user_id')
     if not user_id:
-        print(">>> [expert_dialog] Нет user_id в сессии — редирект на /tech-processes")
         return redirect('/tech-processes')
     
     con_db = func.connect_to_db('technologist')
-    print(f"\n{'='*60}")
-    print(f">>> [expert_dialog] НАЧАЛО ДИАЛОГА | user_id={user_id}")
     
     root_frames = session.get('expert_root_frames', [])
     frame_index = session.get('expert_frame_index', 0)
-    print(f">>> Корневые фреймы: {root_frames}")
-    print(f">>> Текущий индекс фрейма: {frame_index}")
 
     if frame_index >= len(root_frames):
-        print(">>> Все корневые фреймы обработаны — генерация ТП")
         solution_frame_ids = [fid for fid, name in root_frames]
         operations = get_operations_for_preview(con_db, solution_frame_ids)  # ← только для отображения!
         con_db.close()
         return render_template("technologist/tp_preview.html", operations=operations, role=role)
 
     current_root_id, current_root_name = root_frames[frame_index]
-    print(f">>> Работаем с корневым фреймом: ID={current_root_id}, имя='{current_root_name}'")
 
     if 'current_prototype_id' not in session:
-        print(">>> Инициализация: выбор первого прототипа")
         first_proto_id = find_first_prototype(con_db, current_root_id)
         if not first_proto_id:
-            print(">>> ОШИБКА: не найдено ни одного прототипа для корневого фрейма!")
             session['expert_frame_index'] = frame_index + 1
             con_db.close()
             return redirect('/expert/dialog')
         session['current_prototype_id'] = first_proto_id
         session['slot_idx'] = 0
-        print(f">>> Выбран первый прототип: {first_proto_id}")
 
     current_proto_id = session['current_prototype_id']
     slot_idx = session['slot_idx']
-    print(f">>> Текущий прототип: {current_proto_id}, слот индекс: {slot_idx}")
 
     proto_slots = get_frame_slots_values(con_db, current_proto_id)
-    print(f">>> Слоты текущего прототипа: {proto_slots}")
 
     if not proto_slots:
-        print(">>> У прототипа нет слотов — принимаем как решение")
         root_frames[frame_index] = (current_proto_id, "Решение")
         session['expert_root_frames'] = root_frames
         session['expert_frame_index'] = frame_index + 1
@@ -677,7 +703,6 @@ def expert_dialog():
         return redirect('/expert/dialog')
 
     if slot_idx >= len(proto_slots):
-        print(">>> Все слоты прототипа пройдены — ищем однозначное решение по ответам 'да'")
         answers = get_session_answers(con_db, user_id, current_root_id)
         yes_answers = {k: v for k, v in answers.items() if v == 1}
         all_prototypes = get_all_prototypes(con_db, current_root_id)
@@ -689,10 +714,8 @@ def expert_dialog():
                 matching.append((fid, fname))
         if len(matching) == 1:
             solution_fid, solution_name = matching[0]
-            print(f">>> Найдено однозначное решение: Frame_ID={solution_fid}")
             root_frames[frame_index] = (solution_fid, "Решение")
         else:
-            print(f">>> Неоднозначность ({len(matching)} решений). Используем текущий прототип как решение.")
             root_frames[frame_index] = (current_proto_id, "Решение (неоднозначно)")
         session['expert_root_frames'] = root_frames
         session['expert_frame_index'] = frame_index + 1
@@ -702,32 +725,24 @@ def expert_dialog():
         return redirect('/expert/dialog')
 
     slot_id, slot_name, value_id, value_name = proto_slots[slot_idx]
-    print(f">>> Текущий вопрос: Слот='{slot_name}', Значение='{value_name}' (slot_id={slot_id}, value_id={value_id})")
 
     if request.method == 'POST':
         answer_str = request.form.get('answer', 'unknown')
         answer_val = 1 if answer_str == 'yes' else 0
-        print(f">>> Получен ответ: '{answer_str}' → числовое значение: {answer_val}")
 
         # Сохраняем ответ в сессии БД
         save_answer(con_db, user_id, current_root_id, slot_id, value_id, answer_val)
 
         if answer_val == 1:
-            print(">>> Ответ 'Да' — переходим к следующему слоту")
             session['slot_idx'] = slot_idx + 1
         else:
-            print(">>> Ответ 'Нет' — фильтруем прототипы по всем ответам")
             answers = get_session_answers(con_db, user_id, current_root_id)
             compatible_prototypes = filter_prototypes_by_answers(con_db, current_root_id, answers)
-            # Исключаем текущий прототип
             compatible_prototypes = [p for p in compatible_prototypes if p[0] != current_proto_id]
 
             if compatible_prototypes:
                 session['current_prototype_id'] = compatible_prototypes[0][0]
-                # slot_idx остаётся прежним — задаём тот же слот, но с новым значением
-                print(f">>> Переключились на совместимый прототип: {compatible_prototypes[0][0]}")
             else:
-                print(">>> Нет совместимых прототипов — пропускаем фрейм")
                 session['expert_frame_index'] = frame_index + 1
                 session.pop('current_prototype_id', None)
                 session.pop('slot_idx', None)

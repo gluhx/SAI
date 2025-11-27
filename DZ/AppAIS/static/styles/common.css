@@ -80,7 +80,7 @@ body {
     position: fixed;
     top: 60px;
     left: 0;
-    bottom: 60px; /* оставляем место под футер */
+    bottom: 0; /* ← убрали отступ под футер — теперь footer не fixed */
     width: 220px;
     background: #ecf0f1;
     padding: 20px 0;
@@ -108,8 +108,8 @@ body {
     margin-left: 220px;
     margin-top: 20px;
     margin-right: 20px;
-    margin-bottom: 80px; /* место под футер */
-    flex: 1;
+    /* ↓ УДАЛЕНО: margin-bottom: 80px; */
+    flex: 1; /* растягивается, чтобы вытолкнуть footer вниз */
 }
 
 /* === Задачи === */
@@ -157,11 +157,6 @@ body {
     padding: 14px;
     font-weight: 600;
     font-size: 18px;
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    z-index: 80;
 }
 
 /* === Адаптивность === */

@@ -231,7 +231,7 @@
 }
 
 /* Футер с маршрутной картой */
-.footer-with-action {
+.tp-generate {
     display: flex;
     justify-content: center;
     align-items: center;

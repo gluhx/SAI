@@ -18,20 +18,27 @@
                 <span class="operation-count">Всего: {{ operations|length }}</span>
             </div>
             <div class="operations-table">
-                <div class="operations-header">
-                    <div class="col-about">Операция</div>
-                    <div class="col-id">Оборудование</div>
-                    <div class="col-time">Время, с</div>
-                    <div class="col-tool">Номер</div>
-                </div>
-                {% for op in operations %}
-                    <div class="operation-row">
-                        <div class="col-about">{{ op[0] }}</div>
-                        <div class="col-id">{{ op[3] or '—' }}</div>
-                        <div class="col-time">{{ op[2] }}</div>
-                        <div class="col-tool">{{ loop.index * 5 }}</div>
-                    </div>
-                {% endfor %}
+                <table>
+                    <thead>
+                        <tr>
+                            <th class="col-tool">Номер</th>
+                            <th class="col-about">Операция</th>
+                            <th class="col-id">Оборудование</th>
+                            <th class="col-time">Время, с</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for op in operations %}
+                        {% set tool_number = loop.index * 5 %}
+                        <tr>
+                            <td class="col-tool" data-number="{{ tool_number }}">{{ tool_number }}</td>
+                            <td class="col-about" data-label="Операция">{{ op[0] }}</td>
+                            <td class="col-id" data-label="Оборудование">{{ op[3] or '—' }}</td>
+                            <td class="col-time" data-label="Время">{{ op[2] }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
             </div>
         </section>
 
