@@ -2047,7 +2047,21 @@ Synonym created.
 1 row created.
 1 row created.
 \n
-11-communication
+11-expert-triggers
+Триггер для EXPERT_SLOTS
+Trigger created.
+Триггер для EXPERT_SLOT_VALUES
+Trigger created.
+Триггер для EXPERT_FRAMES
+Trigger created.
+Триггер для EXPERT_FRAME_VALUES
+Trigger created.
+Триггер для EXPERT_PROCESS_OPERATIONS
+Trigger created.
+Триггер для EXPERT_SESSION
+Trigger created.
+\n
+12-communication
 Таблицы для связи между модулями
 Создаём таблицу связи ТП и устройств
 Table created.
@@ -2061,7 +2075,7 @@ Synonym created.
 Synonym dropped.
 Synonym created.
 \n
-12-create-users
+13-create-users
 Создаём пользователя для пользовательского общения с БД
 User dropped.
 User created.

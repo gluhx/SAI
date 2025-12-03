@@ -54,13 +54,18 @@ sqlplus admin_user/root1@//localhost:1521/FREE @10-expert-filling.sql
 grep . log_temp.txt >> installing_log.txt
 echo '\n' >> installing_log.txt
 
-echo "11-communication" >> installing_log.txt
-sqlplus admin_user/root1@//localhost:1521/FREE @11-communication.sql
+echo "11-expert-triggers" >> installing_log.txt
+sqlplus admin_user/root1@//localhost:1521/FREE @11-expert-triggers.sql
 grep . log_temp.txt >> installing_log.txt
 echo '\n' >> installing_log.txt
 
-echo "12-create-users" >> installing_log.txt
-sqlplus SYS/root@//localhost:1521/FREE as SYSDBA @12-create-users.sql
+echo "12-communication" >> installing_log.txt
+sqlplus admin_user/root1@//localhost:1521/FREE @12-communication.sql
+grep . log_temp.txt >> installing_log.txt
+echo '\n' >> installing_log.txt
+
+echo "13-create-users" >> installing_log.txt
+sqlplus SYS/root@//localhost:1521/FREE as SYSDBA @13-create-users.sql
 grep . log_temp.txt >> installing_log.txt
 echo '\n' >> installing_log.txt
 
